@@ -198,7 +198,7 @@ fun AstrologerDashboardScreen(
                 // Determine API URL based on context/config, using hardcoded for now matching other files
                 val client = okhttp3.OkHttpClient()
                 val request = okhttp3.Request.Builder()
-                    .url("https://astro5star.com/api/user/${sessionId}") // Assuming ID is userId
+                    .url("https://astroluna.in/api/user/${sessionId}") // Assuming ID is userId
                     .build()
                 val response = client.newCall(request).execute()
                 if (response.isSuccessful) {

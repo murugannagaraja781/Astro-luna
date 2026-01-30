@@ -43,7 +43,7 @@ class PaymentActivity : AppCompatActivity() {
         private const val MERCHANT_ID = "M22LBBWEJKI6A"
         private const val B2B_PG_REQUEST_CODE = 777
         private const val USE_NATIVE_SDK = false // Toggle this to switch between Native and Web
-        private const val SERVER_URL = "https://astro5star.com"
+        private const val SERVER_URL = "https://astroluna.in"
     }
 
     private lateinit var tokenManager: TokenManager
@@ -327,7 +327,7 @@ class PaymentActivity : AppCompatActivity() {
     private fun handleDeepLink(url: String): Boolean {
         Log.d(TAG, "DeepLink Check: $url")
 
-        if (url.startsWith("astro5://payment-failed") || url.contains("/wallet?status=failure")) {
+        if (url.startsWith("astroluna://payment-failed") || url.contains("/wallet?status=failure")) {
              showError("Payment Failed")
              return true
         }
