@@ -52,6 +52,7 @@ if [ -d ".git" ]; then
 
     echo "Detected branch: $BRANCH"
     git checkout $BRANCH || git checkout -b $BRANCH
+    git branch --set-upstream-to=origin/$BRANCH $BRANCH || true
     git reset --hard origin/$BRANCH
 else
     echo "Cloning repository..."
@@ -104,7 +105,7 @@ pm2 save
 
 echo ""
 echo "=========================================="
-echo "    Deployment Complete!11"
+echo "    Deployment Complete!"
 echo "=========================================="
 echo ""
 echo "App running on port 3000"
