@@ -30,7 +30,7 @@ const { GoogleAuth } = require('google-auth-library');
 const fs = require('fs');
 
 // FCM v1 Configuration
-const FCM_PROJECT_ID = 'astro5star-d487c';
+const FCM_PROJECT_ID = 'astroluna-76da1';
 let fcmAuth = null;
 
 // Initialize FCM v1 Auth
