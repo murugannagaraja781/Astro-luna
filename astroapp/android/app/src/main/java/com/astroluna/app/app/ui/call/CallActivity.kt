@@ -69,11 +69,11 @@ class CallActivity : AppCompatActivity() {
 
     private val iceServers = listOf(
         PeerConnection.IceServer.builder("stun:stun.l.google.com:19302").createIceServer(),
-        PeerConnection.IceServer.builder("turn:turn.astroluna.in:3478?transport=udp")
+        PeerConnection.IceServer.builder("turn:64.227.168.247:3478?transport=udp")
             .setUsername("webrtcuser").setPassword("strongpassword123").createIceServer(),
-        PeerConnection.IceServer.builder("turn:turn.astroluna.in:3478?transport=tcp")
+        PeerConnection.IceServer.builder("turn:64.227.168.247:3478?transport=tcp")
             .setUsername("webrtcuser").setPassword("strongpassword123").createIceServer(),
-        PeerConnection.IceServer.builder("turns:turn.astroluna.in:5349")
+        PeerConnection.IceServer.builder("turns:64.227.168.247:5349")
             .setUsername("webrtcuser").setPassword("strongpassword123").createIceServer()
     )
 
