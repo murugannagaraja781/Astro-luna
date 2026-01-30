@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.astro5star.app-mergeReleaseResources-74:/values-v26/values-v26.xml",
+            "outputFile": "com.astroluna.app-mergeReleaseResources-74:/values-v26/values-v26.xml",
             "map": [
                 {
                     "source": "/Users/wohozo/.gradle/caches/8.12/transforms/ceb38f94e2e04890f6ab9cd6eaed03c7/transformed/appcompat-1.6.1/res/values-v26/values-v26.xml",

@@ -1,6 +1,6 @@
 <variant
     name="release"
-    package="com.astro5star.app"
+    package="com.astroluna.app"
     minSdkVersion="24"
     targetSdkVersion="34"
     mergedManifest="build/intermediates/merged_manifest/release/AndroidManifest.xml"
@@ -24,7 +24,7 @@
   <artifact
       classOutputs="build/intermediates/javac/release/classes:build/tmp/kotlin-classes/release:build/tmp/kapt3/classes/release:build/kotlinToolingMetadata:build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/R.jar"
       type="MAIN"
-      applicationId="com.astro5star.app"
+      applicationId="com.astroluna.app"
       generatedSourceFolders="build/generated/source/kapt/release:build/generated/ap_generated_sources/release/out:build/generated/data_binding_base_class_source_out/release/out"
       generatedResourceFolders="build/generated/res/resValues/release"
       desugaredMethodsFiles="/Users/wohozo/.gradle/caches/8.12/transforms/431815a0e244c60e93b0de08c0415898/transformed/D8BackportedDesugaredMethods.txt">

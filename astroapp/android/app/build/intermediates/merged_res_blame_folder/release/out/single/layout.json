@@ -1,118 +1,118 @@
 [
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_astrologer_profile.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_astrologer_profile.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_match_display.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_match_display.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/item_rasipalan.xml",
-        "source": "com.astro5star.app-main-77:/layout/item_rasipalan.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_rasipalan.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_rasipalan.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_video_call.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_video_call.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_wallet.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_wallet.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/dialog_intake_edit.xml",
-        "source": "com.astro5star.app-main-77:/layout/dialog_intake_edit.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/item_message_sent.xml",
+        "source": "com.astroluna.app-main-77:/layout/item_message_sent.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_match_display.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_match_display.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_call.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_call.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_main.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_main.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_astrologer_dashboard.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_astrologer_dashboard.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_rasipalan.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_rasipalan.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_incoming_call.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_incoming_call.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_home.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_home.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/dialog_call_summary.xml",
+        "source": "com.astroluna.app-main-77:/layout/dialog_call_summary.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/dialog_call_summary.xml",
-        "source": "com.astro5star.app-main-77:/layout/dialog_call_summary.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_astrologer_profile.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_astrologer_profile.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_astrologer_dashboard.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_astrologer_dashboard.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_home.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_home.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_chat.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_chat.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_payment_status.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_payment_status.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_otp_verification.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_otp_verification.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/item_rasipalan.xml",
+        "source": "com.astroluna.app-main-77:/layout/item_rasipalan.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/item_history.xml",
-        "source": "com.astro5star.app-main-77:/layout/item_history.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_guest.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_guest.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_login.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_login.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_otp_verification.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_otp_verification.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_wallet.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_wallet.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_intake.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_intake.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/item_message_sent.xml",
-        "source": "com.astro5star.app-main-77:/layout/item_message_sent.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_guest_dashboard.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_guest_dashboard.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/dialog_waiting_for_astrologer.xml",
-        "source": "com.astro5star.app-main-77:/layout/dialog_waiting_for_astrologer.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/item_banner.xml",
+        "source": "com.astroluna.app-main-77:/layout/item_banner.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_intake.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_intake.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_chat.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_chat.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/item_rasi.xml",
-        "source": "com.astro5star.app-main-77:/layout/item_rasi.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/dialog_intake_edit.xml",
+        "source": "com.astroluna.app-main-77:/layout/dialog_intake_edit.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_call.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_call.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_login.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_login.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_guest.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_guest.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_main.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_main.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/item_message_received.xml",
-        "source": "com.astro5star.app-main-77:/layout/item_message_received.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_chart_display.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_chart_display.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_chart_display.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_chart_display.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/dialog_waiting_for_astrologer.xml",
+        "source": "com.astroluna.app-main-77:/layout/dialog_waiting_for_astrologer.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_incoming_call.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_incoming_call.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/item_guest_astrologer.xml",
+        "source": "com.astroluna.app-main-77:/layout/item_guest_astrologer.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/item_astrologer.xml",
-        "source": "com.astro5star.app-main-77:/layout/item_astrologer.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/item_history.xml",
+        "source": "com.astroluna.app-main-77:/layout/item_history.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_guest_dashboard.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_guest_dashboard.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/item_rasi.xml",
+        "source": "com.astroluna.app-main-77:/layout/item_rasi.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/item_banner.xml",
-        "source": "com.astro5star.app-main-77:/layout/item_banner.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/item_message_received.xml",
+        "source": "com.astroluna.app-main-77:/layout/item_message_received.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/item_guest_astrologer.xml",
-        "source": "com.astro5star.app-main-77:/layout/item_guest_astrologer.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/item_astrologer.xml",
+        "source": "com.astroluna.app-main-77:/layout/item_astrologer.xml"
     },
     {
-        "merged": "com.astro5star.app-mergeReleaseResources-75:/layout/activity_payment_status.xml",
-        "source": "com.astro5star.app-main-77:/layout/activity_payment_status.xml"
+        "merged": "com.astroluna.app-mergeReleaseResources-75:/layout/activity_video_call.xml",
+        "source": "com.astroluna.app-main-77:/layout/activity_video_call.xml"
     }
 ]

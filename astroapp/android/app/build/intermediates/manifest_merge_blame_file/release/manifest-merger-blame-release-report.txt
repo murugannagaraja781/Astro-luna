@@ -13,7 +13,7 @@
 13    - RECEIVE_BOOT_COMPLETED: Optional - re-register FCM token after device reboot
 14-->
 15<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-16    package="com.astro5star.app"
+16    package="com.astroluna.app"
 17    android:versionCode="1"
 18    android:versionName="1.0.0" >
 19
@@ -196,18 +196,18 @@
 110
 111    <permission
 111-->[androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
-112        android:name="com.astro5star.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+112        android:name="com.astroluna.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
 112-->[androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
 113        android:protectionLevel="signature" />
 113-->[androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
 114
-115    <uses-permission android:name="com.astro5star.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+115    <uses-permission android:name="com.astroluna.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 115-->[androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
 115-->[androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
 116
 117    <application
 117-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:74:5-205:19
-118        android:name="com.astro5star.app.AstrologerApp"
+118        android:name="com.astroluna.app.AstrologerApp"
 118-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:81:9-38
 119        android:allowBackup="true"
 119-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:75:9-35
@@ -234,7 +234,7 @@
 133        -->
 134        <activity
 134-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:90:9-98:20
-135            android:name="com.astro5star.app.MainActivity"
+135            android:name="com.astroluna.app.MainActivity"
 135-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:91:13-41
 136            android:exported="true"
 136-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:92:13-36
@@ -251,62 +251,62 @@
 141-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:96:27-74
 142            </intent-filter>
 143        </activity>
-144        <activity android:name="com.astro5star.app.ui.guest.GuestDashboardActivity" />
+144        <activity android:name="com.astroluna.app.ui.guest.GuestDashboardActivity" />
 144-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:100:9-69
 144-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:100:19-66
-145        <activity android:name="com.astro5star.app.ui.astro.AstrologerDashboardActivity" />
+145        <activity android:name="com.astroluna.app.ui.astro.AstrologerDashboardActivity" />
 145-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:101:9-74
 145-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:101:19-71
 146        <activity
 146-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:102:9-143
-147            android:name="com.astro5star.app.ui.admin.SuperPowerAdminDashboardActivity"
+147            android:name="com.astroluna.app.ui.admin.SuperPowerAdminDashboardActivity"
 147-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:102:19-76
 148            android:exported="false"
 148-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:102:77-101
 149            android:theme="@style/Theme.FCMCallApp" />
 149-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:102:102-141
-150        <activity android:name="com.astro5star.app.ui.settings.SettingsActivity" />
+150        <activity android:name="com.astroluna.app.ui.settings.SettingsActivity" />
 150-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:103:9-66
 150-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:103:19-63
-151        <activity android:name="com.astro5star.app.ui.settings.ThemeSettingsActivity" />
+151        <activity android:name="com.astroluna.app.ui.settings.ThemeSettingsActivity" />
 151-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:104:9-71
 151-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:104:19-68
-152        <activity android:name="com.astro5star.app.ui.rasipalan.RasipalanActivity" />
+152        <activity android:name="com.astroluna.app.ui.rasipalan.RasipalanActivity" />
 152-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:105:9-68
 152-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:105:19-65
-153        <activity android:name="com.astro5star.app.ui.dashboard.GuestActivity" />
+153        <activity android:name="com.astroluna.app.ui.dashboard.GuestActivity" />
 153-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:106:9-64
 153-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:106:19-61
-154        <activity android:name="com.astro5star.app.ui.payment.PaymentActivity" />
+154        <activity android:name="com.astroluna.app.ui.payment.PaymentActivity" />
 154-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:107:9-64
 154-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:107:19-61
-155        <activity android:name="com.astro5star.app.ui.auth.LoginActivity" />
+155        <activity android:name="com.astroluna.app.ui.auth.LoginActivity" />
 155-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:108:9-59
 155-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:108:19-56
-156        <activity android:name="com.astro5star.app.ui.auth.OtpVerificationActivity" />
+156        <activity android:name="com.astroluna.app.ui.auth.OtpVerificationActivity" />
 156-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:109:9-69
 156-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:109:19-66
-157        <activity android:name="com.astro5star.app.ui.home.HomeActivity" />
+157        <activity android:name="com.astroluna.app.ui.home.HomeActivity" />
 157-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:110:9-58
 157-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:110:19-55
-158        <activity android:name="com.astro5star.app.ui.wallet.WalletActivity" />
+158        <activity android:name="com.astroluna.app.ui.wallet.WalletActivity" />
 158-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:111:9-62
 158-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:111:19-59
 159        <activity
 159-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:112:9-100
-160            android:name="com.astro5star.app.ui.chat.ChatActivity"
+160            android:name="com.astroluna.app.ui.chat.ChatActivity"
 160-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:112:19-55
 161            android:windowSoftInputMode="adjustResize" />
 161-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:112:56-98
 162        <activity
 162-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:113:9-94
-163            android:name="com.astro5star.app.ui.call.CallActivity"
+163            android:name="com.astroluna.app.ui.call.CallActivity"
 163-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:113:19-55
 164            android:screenOrientation="portrait" />
 164-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:113:56-92
 165        <activity
 165-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:114:9-142
-166            android:name="com.astro5star.app.ui.intake.IntakeActivity"
+166            android:name="com.astroluna.app.ui.intake.IntakeActivity"
 166-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:114:19-59
 167            android:screenOrientation="portrait"
 167-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:114:60-96
@@ -314,7 +314,7 @@
 168-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:114:97-139
 169        <activity
 169-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:115:9-118:58
-170            android:name="com.astro5star.app.ui.chart.ChartDisplayActivity"
+170            android:name="com.astroluna.app.ui.chart.ChartDisplayActivity"
 170-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:115:19-64
 171            android:screenOrientation="portrait"
 171-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:117:13-49
@@ -324,7 +324,7 @@
 173-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:118:13-55
 174        <activity
 174-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:120:9-122:51
-175            android:name="com.astro5star.app.ui.chart.MatchDisplayActivity"
+175            android:name="com.astroluna.app.ui.chart.MatchDisplayActivity"
 175-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:120:19-64
 176            android:screenOrientation="portrait"
 176-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:122:13-49
@@ -332,13 +332,13 @@
 177-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:121:13-69
 178        <activity
 178-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:124:9-125:55
-179            android:name="com.astro5star.app.ui.city.CitySearchActivity"
+179            android:name="com.astroluna.app.ui.city.CitySearchActivity"
 179-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:124:19-61
 180            android:theme="@style/Theme.FCMCallApp" />
 180-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:125:13-52
 181        <activity
 181-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:127:9-138:20
-182            android:name="com.astro5star.app.ui.wallet.PaymentStatusActivity"
+182            android:name="com.astroluna.app.ui.wallet.PaymentStatusActivity"
 182-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:128:13-60
 183            android:exported="true"
 183-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:129:13-36
@@ -379,7 +379,7 @@
 207        -->
 208        <activity
 208-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:152:9-161:66
-209            android:name="com.astro5star.app.IncomingCallActivity"
+209            android:name="com.astroluna.app.IncomingCallActivity"
 209-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:153:13-49
 210            android:excludeFromRecents="true"
 210-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:157:13-46
@@ -410,7 +410,7 @@
 228        -->
 229        <service
 229-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:173:9-179:19
-230            android:name="com.astro5star.app.FCMService"
+230            android:name="com.astroluna.app.FCMService"
 230-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:174:13-39
 231            android:exported="false" >
 231-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:175:13-37
@@ -433,7 +433,7 @@
 245        -->
 246        <service
 246-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:190:9-193:57
-247            android:name="com.astro5star.app.CallForegroundService"
+247            android:name="com.astroluna.app.CallForegroundService"
 247-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:191:13-50
 248            android:exported="false"
 248-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:192:13-37
@@ -450,7 +450,7 @@
 255
 256        <activity
 256-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:200:9-204:54
-257            android:name="com.astro5star.app.ui.profile.AstrologerProfileActivity"
+257            android:name="com.astroluna.app.ui.profile.AstrologerProfileActivity"
 257-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:201:13-65
 258            android:exported="false"
 258-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:203:13-37
@@ -593,7 +593,7 @@
 333-->[com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:23:9-28:39
 334            android:name="com.google.firebase.provider.FirebaseInitProvider"
 334-->[com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:24:13-77
-335            android:authorities="com.astro5star.app.firebaseinitprovider"
+335            android:authorities="com.astroluna.app.firebaseinitprovider"
 335-->[com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:25:13-72
 336            android:directBootAware="true"
 336-->[com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:26:13-43
@@ -615,7 +615,7 @@
 345-->[androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
 346            android:name="androidx.startup.InitializationProvider"
 346-->[androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:25:13-67
-347            android:authorities="com.astro5star.app.androidx-startup"
+347            android:authorities="com.astroluna.app.androidx-startup"
 347-->[androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:26:13-68
 348            android:exported="false" >
 348-->[androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:27:13-37

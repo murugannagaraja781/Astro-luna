@@ -13,7 +13,7 @@
     - RECEIVE_BOOT_COMPLETED: Optional - re-register FCM token after device reboot
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.astro5star.app"
+    package="com.astroluna.app"
     android:versionCode="1"
     android:versionName="1.0.0" >
 
@@ -109,13 +109,13 @@
     <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" />
 
     <permission
-        android:name="com.astro5star.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:name="com.astroluna.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.astro5star.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+    <uses-permission android:name="com.astroluna.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
-        android:name="com.astro5star.app.AstrologerApp"
+        android:name="com.astroluna.app.AstrologerApp"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:extractNativeLibs="false"
@@ -132,7 +132,7 @@
             - Shown in launcher
         -->
         <activity
-            android:name="com.astro5star.app.MainActivity"
+            android:name="com.astroluna.app.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.FCMCallApp" >
             <intent-filter>
@@ -141,45 +141,45 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.astro5star.app.ui.guest.GuestDashboardActivity" />
-        <activity android:name="com.astro5star.app.ui.astro.AstrologerDashboardActivity" />
+        <activity android:name="com.astroluna.app.ui.guest.GuestDashboardActivity" />
+        <activity android:name="com.astroluna.app.ui.astro.AstrologerDashboardActivity" />
         <activity
-            android:name="com.astro5star.app.ui.admin.SuperPowerAdminDashboardActivity"
+            android:name="com.astroluna.app.ui.admin.SuperPowerAdminDashboardActivity"
             android:exported="false"
             android:theme="@style/Theme.FCMCallApp" />
-        <activity android:name="com.astro5star.app.ui.settings.SettingsActivity" />
-        <activity android:name="com.astro5star.app.ui.settings.ThemeSettingsActivity" />
-        <activity android:name="com.astro5star.app.ui.rasipalan.RasipalanActivity" />
-        <activity android:name="com.astro5star.app.ui.dashboard.GuestActivity" />
-        <activity android:name="com.astro5star.app.ui.payment.PaymentActivity" />
-        <activity android:name="com.astro5star.app.ui.auth.LoginActivity" />
-        <activity android:name="com.astro5star.app.ui.auth.OtpVerificationActivity" />
-        <activity android:name="com.astro5star.app.ui.home.HomeActivity" />
-        <activity android:name="com.astro5star.app.ui.wallet.WalletActivity" />
+        <activity android:name="com.astroluna.app.ui.settings.SettingsActivity" />
+        <activity android:name="com.astroluna.app.ui.settings.ThemeSettingsActivity" />
+        <activity android:name="com.astroluna.app.ui.rasipalan.RasipalanActivity" />
+        <activity android:name="com.astroluna.app.ui.dashboard.GuestActivity" />
+        <activity android:name="com.astroluna.app.ui.payment.PaymentActivity" />
+        <activity android:name="com.astroluna.app.ui.auth.LoginActivity" />
+        <activity android:name="com.astroluna.app.ui.auth.OtpVerificationActivity" />
+        <activity android:name="com.astroluna.app.ui.home.HomeActivity" />
+        <activity android:name="com.astroluna.app.ui.wallet.WalletActivity" />
         <activity
-            android:name="com.astro5star.app.ui.chat.ChatActivity"
+            android:name="com.astroluna.app.ui.chat.ChatActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.astro5star.app.ui.call.CallActivity"
+            android:name="com.astroluna.app.ui.call.CallActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.astro5star.app.ui.intake.IntakeActivity"
+            android:name="com.astroluna.app.ui.intake.IntakeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.astro5star.app.ui.chart.ChartDisplayActivity"
+            android:name="com.astroluna.app.ui.chart.ChartDisplayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.astro5star.app.ui.chart.MatchDisplayActivity"
+            android:name="com.astroluna.app.ui.chart.MatchDisplayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.astro5star.app.ui.city.CitySearchActivity"
+            android:name="com.astroluna.app.ui.city.CitySearchActivity"
             android:theme="@style/Theme.FCMCallApp" />
         <activity
-            android:name="com.astro5star.app.ui.wallet.PaymentStatusActivity"
+            android:name="com.astroluna.app.ui.wallet.PaymentStatusActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:theme="@style/Theme.FCMCallApp" >
@@ -206,7 +206,7 @@
             Without these flags, the incoming call UI won't show on locked devices!
         -->
         <activity
-            android:name="com.astro5star.app.IncomingCallActivity"
+            android:name="com.astroluna.app.IncomingCallActivity"
             android:excludeFromRecents="true"
             android:exported="false"
             android:launchMode="singleInstance"
@@ -227,7 +227,7 @@
             The exported="false" with MESSAGING_EVENT filter is the correct pattern.
         -->
         <service
-            android:name="com.astro5star.app.FCMService"
+            android:name="com.astroluna.app.FCMService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -244,7 +244,7 @@
             - Without this, your call handling might be killed mid-process
         -->
         <service
-            android:name="com.astro5star.app.CallForegroundService"
+            android:name="com.astroluna.app.CallForegroundService"
             android:exported="false"
             android:foregroundServiceType="phoneCall" />
 
@@ -254,7 +254,7 @@
             android:value="incoming_calls" />
 
         <activity
-            android:name="com.astro5star.app.ui.profile.AstrologerProfileActivity"
+            android:name="com.astroluna.app.ui.profile.AstrologerProfileActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.FCMCallApp" />
@@ -332,7 +332,7 @@
 
         <provider
             android:name="com.google.firebase.provider.FirebaseInitProvider"
-            android:authorities="com.astro5star.app.firebaseinitprovider"
+            android:authorities="com.astroluna.app.firebaseinitprovider"
             android:directBootAware="true"
             android:exported="false"
             android:initOrder="100" />
@@ -344,7 +344,7 @@
 
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.astro5star.app.androidx-startup"
+            android:authorities="com.astroluna.app.androidx-startup"
             android:exported="false" >
             <meta-data
                 android:name="androidx.emoji2.text.EmojiCompatInitializer"

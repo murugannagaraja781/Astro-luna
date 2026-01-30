@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.astro5star.app-mergeReleaseResources-74:/values-pt-rBR/values-pt-rBR.xml",
+            "outputFile": "com.astroluna.app-mergeReleaseResources-74:/values-pt-rBR/values-pt-rBR.xml",
             "map": [
                 {
                     "source": "/Users/wohozo/.gradle/caches/8.12/transforms/63bd70249cbf62c9bc20ab987eca0019/transformed/jetified-play-services-basement-18.5.0/res/values-pt-rBR/values.xml",

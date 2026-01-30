@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.astro5star.app-mergeReleaseResources-74:/values-en-rCA/values-en-rCA.xml",
+            "outputFile": "com.astroluna.app-mergeReleaseResources-74:/values-en-rCA/values-en-rCA.xml",
             "map": [
                 {
                     "source": "/Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/res/values-en-rCA/values-en-rCA.xml",
