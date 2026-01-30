@@ -84,7 +84,7 @@
     <color name="text_white">#FFFFFF</color>
     <color name="void_black">#1C1F26</color>
     <color name="white">#FFFFFF</color>
-    <string name="app_name">Astro Luna</string>
+    <string name="app_name">Astro luna</string>
     <string name="gcm_defaultSenderId" translatable="false">210523768022</string>
     <string name="google_api_key" translatable="false">AIzaSyDGCg6OQnWyERiPQVSTrFDkXYlgCyl2BJ8</string>
     <string name="google_app_id" translatable="false">1:210523768022:android:b4de7ccacb56fa3d32b577</string>

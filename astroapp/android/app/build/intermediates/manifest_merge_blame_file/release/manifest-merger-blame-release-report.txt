@@ -358,7 +358,7 @@
 190                <category android:name="android.intent.category.BROWSABLE" />
 190-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:135:17-78
 190-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:135:27-75
-191136:                 
+191
 192                <data android:scheme="astroluna" />
 192-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:58:13-42
 192-->/Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:58:19-39

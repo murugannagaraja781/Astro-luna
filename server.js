@@ -265,7 +265,7 @@ app.get('/wallet', (req, res) => {
   // Construct Deep Link
   const scheme = status === 'success' ? 'astroluna://payment-success' : 'astroluna://payment-failed';
   const deepLink = `${scheme}?status=${status}&reason=${reason}`;
-  const intentUrl = `intent://payment-${status === 'success' ? 'success' : 'failed'}?status=${status}#Intent;scheme=astroluna;package=com.astro5star.app;end`;
+  const intentUrl = `intent://payment-${status === 'success' ? 'success' : 'failed'}?status=${status}#Intent;scheme=astroluna;package=com.astroluna.app;end`;
 
   res.send(`
     <html>
@@ -3118,7 +3118,7 @@ app.post('/api/payment/callback', async (req, res) => {
 
       // AUTO-REDIRECT TO APP IF DETECTED (Even if isApp param is missing)
       if (isAndroidApp) {
-        const intentUrl = `intent://payment-failed?reason=no_response#Intent;scheme=astroluna;package=com.astro5star.app;end`;
+        const intentUrl = `intent://payment-failed?reason=no_response#Intent;scheme=astroluna;package=com.astroluna.app;end`;
         const customScheme = `astroluna://payment-failed?reason=no_response`;
 
         return res.send(`
@@ -3212,7 +3212,7 @@ app.post('/api/payment/callback', async (req, res) => {
 
         // Intent URL with S.browser=1 fallback (Chrome will stay in browser if app not installed)
         const webFallback = encodeURIComponent('https://astroluna.in/?payment=success');
-        const intentUrl = `intent://payment-success?status=success&txnId=${txnId}#Intent;scheme=astroluna;package=com.astro5star.app;S.browser_fallback_url=${webFallback};end`;
+        const intentUrl = `intent://payment-success?status=success&txnId=${txnId}#Intent;scheme=astroluna;package=com.astroluna.app;S.browser_fallback_url=${webFallback};end`;
         const customSchemeUrl = `astroluna://payment-success?status=success&txnId=${txnId}`;
 
         const html = `
@@ -3346,7 +3346,7 @@ app.post('/api/payment/callback', async (req, res) => {
 
       if (req.query.isApp === 'true') {
         // Android Intent URL format for Chrome
-        const intentUrl = `intent://payment-failed?status=failed#Intent;scheme=astroluna;package=com.astro5star.app;end`;
+        const intentUrl = `intent://payment-failed?status=failed#Intent;scheme=astroluna;package=com.astroluna.app;end`;
         const fallbackUrl = `astroluna://payment-failed?status=failed`;
 
         const html = `

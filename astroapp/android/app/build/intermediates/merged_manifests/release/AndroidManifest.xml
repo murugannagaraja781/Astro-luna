@@ -188,7 +188,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-136:                 
+
                 <data android:scheme="astroluna" />
             </intent-filter>
         </activity>

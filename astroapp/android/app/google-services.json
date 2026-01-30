@@ -9,26 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:210523768022:android:b4de7ccacb56fa3d32b577",
         "android_client_info": {
-          "package_name": "com.astro5star.app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDGCg6OQnWyERiPQVSTrFDkXYlgCyl2BJ8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:210523768022:android:3ef7a7a4fbe7f36a32b577",
-        "android_client_info": {
-          "package_name": "com1.astro5star.com"
+          "package_name": "com.astroluna.app"
         }
       },
       "oauth_client": [],

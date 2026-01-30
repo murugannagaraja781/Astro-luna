@@ -19,7 +19,7 @@ const FALLBACK_DATA = [
 ];
 
 // External Source URL
-const API_URL = "https://astro5star.com/api/horoscope/rasi-palan";
+const API_URL = "https://astroluna.in/api/horoscope/rasi-palan";
 
 router.get('/', async (req, res) => {
     try {
@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
             }));
 
             console.log("Fetched and mapped external Rasipalan data successfully.");
-            return res.json({ ok: true, source: 'astro5star', data: mappedData });
+            return res.json({ ok: true, source: 'astroluna', data: mappedData });
         } else {
             console.warn(`External API fetch failed: ${response.status}. Using fallback.`);
             return res.json({ ok: true, source: 'fallback', message: 'Live data unavailable', data: FALLBACK_DATA });
