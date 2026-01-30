@@ -1,0 +1,490 @@
+[
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_sagittarius_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_sagittarius_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_double_check_blue.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_double_check_blue.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_item_message_sent.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/item_message_sent.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_bg_circle_soft.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/bg_circle_soft.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.astro5star.app-main-77:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_dialog_waiting_for_astrologer.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/dialog_waiting_for_astrologer.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "com.astro5star.app-main-77:/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.astro5star.app-main-77:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "com.astro5star.app-main-77:/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_bg_chat_bubble_sent.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/bg_chat_bubble_sent.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_otp_verification.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_otp_verification.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_rounded_button_red.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/rounded_button_red.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_banner_offer_4.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/banner_offer_4.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_btn_rounded_action.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/btn_rounded_action.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_wallet_bg.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/wallet_bg.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_wallet.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_wallet.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_home.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_home.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_item_astrologer.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/item_astrologer.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_btn_video_bg.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/btn_video_bg.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_capricorn_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_capricorn_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_item_message_received.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/item_message_received.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_7.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_7.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_banner_offer_3.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/banner_offer_3.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_video_call.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_video_call.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/anim_slide_in_up.xml.flat",
+        "source": "com.astro5star.app-main-77:/anim/slide_in_up.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_app_icon_final.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/app_icon_final.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_virgo_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_virgo_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_video_white.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_video_white.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_aquarius_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_aquarius_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_double_check.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_double_check.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_bg_button_primary.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/bg_button_primary.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_leo_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_leo_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_circle_button_reject.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/circle_button_reject.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_btn_rounded_action_green.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/btn_rounded_action_green.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_guest_dashboard.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_guest_dashboard.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_taurus_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_taurus_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/mipmap-anydpi-v26_ic_launcher_round.png.flat",
+        "source": "com.astro5star.app-main-77:/mipmap-anydpi-v26/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_guest.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_guest.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_bg_ring_green.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/bg_ring_green.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_chart_display.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_chart_display.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_libra_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_libra_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_call_white.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_call_white.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_star_filled.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_star_filled.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_circle_button_accept.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/circle_button_accept.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_banner_offer_1.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/banner_offer_1.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_taurus_premium_copy.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_taurus_premium_copy.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_dialog_intake_edit.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/dialog_intake_edit.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_circle_avatar_placeholder.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/circle_avatar_placeholder.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_9.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_9.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_item_rasi.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/item_rasi.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_11.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_11.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_bg_button_secondary.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/bg_button_secondary.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_cancer_premium_copy.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_cancer_premium_copy.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_circle_bg_light_green.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/circle_bg_light_green.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_chat.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_chat.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_6.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_6.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_logo.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/logo.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_capricorn_premium_copy.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_capricorn_premium_copy.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_circle_bg.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/circle_bg.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_payment_status.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_payment_status.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_bg_gradient_header_dark.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/bg_gradient_header_dark.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/xml_network_security_config.xml.flat",
+        "source": "com.astro5star.app-main-77:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_bg_input_rounded.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/bg_input_rounded.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "com.astro5star.app-main-77:/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_12.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_12.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_logo_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/logo_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_chart.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_chart.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_3.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_3.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_astrologer_dashboard.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_astrologer_dashboard.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_edit.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_edit.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_rounded_button_bg.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/rounded_button_bg.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_rasipalan.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_rasipalan.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.astro5star.app-main-77:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_pisces_premium_copy.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_pisces_premium_copy.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "com.astro5star.app-main-77:/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_cancer_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_cancer_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_check.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_check.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_back.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_back.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_btn_rounded_action_orange.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/btn_rounded_action_orange.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_scorpio_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_scorpio_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_bg_rounded_sheet_top.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/bg_rounded_sheet_top.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_app_logo.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/app_logo.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_match.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_match.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.astro5star.app-main-77:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_4.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_4.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_bg_chat_bubble_received.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/bg_chat_bubble_received.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "com.astro5star.app-main-77:/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_1.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_1.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_astrologer_profile.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_astrologer_profile.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_incoming_call.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_incoming_call.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_bg_gradient_header.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/bg_gradient_header.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_8.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_8.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_btn_chat_bg.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/btn_chat_bg.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.astro5star.app-main-77:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_btn_audio_bg.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/btn_audio_bg.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_banner_offer_2.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/banner_offer_2.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_login.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_btn_rounded_action_red.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/btn_rounded_action_red.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_gemini_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_gemini_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_item_guest_astrologer.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/item_guest_astrologer.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_dialog_call_summary.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/dialog_call_summary.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_logo_mayil.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/logo_mayil.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_pisces_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_pisces_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_status_offline.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/status_offline.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_gemini_premium_copy.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_gemini_premium_copy.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_item_rasipalan.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/item_rasipalan.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_5.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_5.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_10.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_10.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/mipmap-anydpi-v26_ic_launcher.png.flat",
+        "source": "com.astro5star.app-main-77:/mipmap-anydpi-v26/ic_launcher.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_main.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_bg_status_online.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/bg_status_online.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_aries_premium.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_aries_premium.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_2.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_2.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_bg_card_premium.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/bg_card_premium.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_call.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_call.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_person_placeholder.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_person_placeholder.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_intake.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_intake.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_activity_match_display.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/activity_match_display.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_status_online.xml.flat",
+        "source": "com.astro5star.app-main-77:/drawable/status_online.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/drawable_ic_rasi_libra_premium_copy.png.flat",
+        "source": "com.astro5star.app-main-77:/drawable/ic_rasi_libra_premium_copy.png"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_item_history.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/item_history.xml"
+    },
+    {
+        "merged": "com.astro5star.app-merged_res-76:/layout_item_banner.xml.flat",
+        "source": "com.astro5star.app-main-77:/layout/item_banner.xml"
+    }
+]

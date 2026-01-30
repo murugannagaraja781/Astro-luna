@@ -1,0 +1,1120 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:15:1-207:12
+INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:15:1-207:12
+INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:15:1-207:12
+INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:15:1-207:12
+MERGED from [androidx.databinding:viewbinding:8.2.2] /Users/wohozo/.gradle/caches/8.12/transforms/c4082af1004b2a7f341ab30f916adba5/transformed/jetified-viewbinding-8.2.2/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.material:material:1.11.0] /Users/wohozo/.gradle/caches/8.12/transforms/314d7f3541b6ff8c1d6c2e90d9c225a7/transformed/material-1.11.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /Users/wohozo/.gradle/caches/8.12/transforms/a06df58186f45cc8720fccc1c0599776/transformed/constraintlayout-2.1.4/AndroidManifest.xml:2:1-11:12
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:2:1-41:12
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/wohozo/.gradle/caches/8.12/transforms/a8322e735ef1c9aba412f91a96833b5f/transformed/jetified-appcompat-resources-1.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/wohozo/.gradle/caches/8.12/transforms/ceb38f94e2e04890f6ab9cd6eaed03c7/transformed/appcompat-1.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.bumptech.glide:glide:4.16.0] /Users/wohozo/.gradle/caches/8.12/transforms/65b18b0b37046a9efc096519c3c8fb24/transformed/jetified-glide-4.16.0/AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/edeff25260013dcc7936efd0ac905b49/transformed/jetified-viewpager2-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:17:1-66:12
+MERGED from [com.google.firebase:firebase-analytics:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/23cadbdf80da6c7c50b6b6dac4b47c96/transformed/jetified-firebase-analytics-23.0.0/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:17:1-46:12
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:17:1-39:12
+MERGED from [com.google.android.gms:play-services-measurement-sdk:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/4329261782c32e4ce4163b0b6cc3cd2e/transformed/jetified-play-services-measurement-sdk-23.0.0/AndroidManifest.xml:17:1-25:12
+MERGED from [com.google.firebase:firebase-iid-interop:17.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/fbacfb4866d4f190779720049936feaf/transformed/jetified-firebase-iid-interop-17.1.0/AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/ed9bd3e6604fb2e132e86da2a272d90c/transformed/jetified-firebase-measurement-connector-19.0.0/AndroidManifest.xml:17:1-25:12
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/e8f623ce998728b219526c98f58857ab/transformed/jetified-play-services-cloud-messaging-17.2.0/AndroidManifest.xml:2:1-13:12
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:17:1-32:12
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] /Users/wohozo/.gradle/caches/8.12/transforms/04400c28bc32efb906770ac22377eee6/transformed/jetified-play-services-stats-17.0.2/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:2:1-24:12
+MERGED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:15:1-41:12
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/2013a50df55e42960ca3c1cdbd2aae4b/transformed/jetified-play-services-ads-identifier-18.0.0/AndroidManifest.xml:17:1-27:12
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:17:1-30:12
+MERGED from [com.google.android.gms:play-services-measurement-base:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b9696814b92071ef6ec0f8c24c2e0b84/transformed/jetified-play-services-measurement-base-23.0.0/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-installations-interop:17.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/342f41e0512b379d0437b15b85e08fb2/transformed/jetified-firebase-installations-interop-17.1.1/AndroidManifest.xml:15:1-19:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/5e61dc64aa008c4be9c5ffe4ba0b3daf/transformed/drawerlayout-1.1.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/c9d59277ed7105fcc7606e7d5211ac4f/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/1b6cd15dbccc02b523ae0b0675389c77/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.transition:transition:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/96623e5de7eb62e7d1b378684bd97703/transformed/transition-1.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/7304240b026e3786abc16cf75c20e808/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/b90e5900751d95185984940d2e0f9016/transformed/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.compose.material3:material3-android:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/89ede3d3581890f9e8908e49b4eaf30e/transformed/jetified-material3-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.material:material-icons-core-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/97fff63567bf293fb0338d258275ee70/transformed/jetified-material-icons-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/897e43328a79d41e4a3af7e26298dd80/transformed/jetified-material-icons-extended-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-ripple-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/1036ea97eeb46d224a4f1170ffb39f86/transformed/jetified-material-ripple-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-core-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/0e1b9e62fe71ea437043ef342079338c/transformed/jetified-animation-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/9ad9cd31a3caeddd5bceabd26ea583b1/transformed/jetified-animation-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/b31c6fdd875e8c3786b9620b315556ba/transformed/jetified-foundation-layout-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/3efad3e63ef077ace26b91bb29900de6/transformed/jetified-foundation-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-unit-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/d126163cb5941187ac3909b53a2d65d8/transformed/jetified-ui-unit-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-geometry-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/5f86e60ab4d363dabe54e6c693002f25/transformed/jetified-ui-geometry-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-util-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/b48a1b96f24feb30d62c054fe47ebd63/transformed/jetified-ui-util-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-text-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/bc087dea1f7fae0a3e7bb7af6bcbbcbd/transformed/jetified-ui-text-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/1f830af92e001220776de4706246cc78/transformed/jetified-ui-tooling-preview-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-graphics-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/59945311f9b3ba175856a62be38d8daa/transformed/jetified-ui-graphics-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/c03a2d99fba6722db01a82e31131f7ff/transformed/jetified-ui-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/7255ea107f722cad11d326ca9eca65a3/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/d8b2eb71b268ea456b3427c193abef55/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/27ad58d57ed4449908ae082bfa1f81f5/transformed/loader-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/cd44535e1305f22f621de2525d5e1be7/transformed/recyclerview-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/49f4e107ee1869f1d2df49dc7403c8d5/transformed/customview-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.autofill:autofill:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/eb5bfbba0877d94d3744bfe11ea5b158/transformed/jetified-autofill-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/5d6968cda86fccd0e333c98c80e9f90d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/e08863df3fa368dde08cf61fe34576f0/transformed/jetified-emoji2-views-helper-1.3.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /Users/wohozo/.gradle/caches/8.12/transforms/72a2cf7a76f8e38d86db612cd5627997/transformed/jetified-savedstate-ktx-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/wohozo/.gradle/caches/8.12/transforms/08ea5c2d693e66d54ac17788e5fca1bf/transformed/jetified-savedstate-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/6109b03eb87970436c07874490b4750c/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/0a7f536afc78fe454758b3402ccbfacf/transformed/jetified-lifecycle-livedata-core-ktx-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/31b6f1c8bf6d04423073d8e78400cb25/transformed/lifecycle-livedata-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/ccf1292b80bdb20f65a3784699d10355/transformed/lifecycle-livedata-core-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/438bbd4ff9d5857a531cdf4919e55c3a/transformed/jetified-lifecycle-viewmodel-savedstate-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/0f03bf6f8097c1efbb22c8f1aa805885/transformed/jetified-lifecycle-viewmodel-ktx-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/f09d5025d5fc04a48ced1b225c6e57dc/transformed/lifecycle-viewmodel-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/399ecf08fd42613c1f750bca4dd74966/transformed/lifecycle-runtime-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/2449db20ceb2c8d58deee616336be59e/transformed/jetified-lifecycle-runtime-compose-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/ff1542d0966203e0b3da03eec300ae0e/transformed/jetified-lifecycle-viewmodel-compose-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/81bcd22f2ddc7e4a8f75786db5973e20/transformed/jetified-lifecycle-runtime-ktx-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.room:room-runtime-android:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/cf91b71d81208414abc58c47a38f52e1/transformed/jetified-room-runtime-release/AndroidManifest.xml:17:1-31:12
+MERGED from [androidx.room:room-ktx:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/a2b689cebba892da26d575d887ec54d8/transformed/jetified-room-ktx-2.7.0-alpha01/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/6de744d22042fc6e3967134b4c631554/transformed/jetified-runtime-saveable-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/f8dd5055fb021b7f914a0463e5f7026f/transformed/jetified-runtime-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.privacysandbox.ads:ads-adservices-java:1.1.0-beta11] /Users/wohozo/.gradle/caches/8.12/transforms/96b168204f8fff75fac5a83db91b212c/transformed/jetified-ads-adservices-java-1.1.0-beta11/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /Users/wohozo/.gradle/caches/8.12/transforms/bee0685e8d0ca85b194c4d2fd95fbd28/transformed/jetified-ads-adservices-1.1.0-beta11/AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.datastore:datastore-core-android:1.1.7] /Users/wohozo/.gradle/caches/8.12/transforms/b07152d2a4a4193d456f3b5cae09662c/transformed/jetified-datastore-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-preferences-core-android:1.1.7] /Users/wohozo/.gradle/caches/8.12/transforms/97f2df2d712084e9e0c837f8910510cf/transformed/jetified-datastore-preferences-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-android:1.1.7] /Users/wohozo/.gradle/caches/8.12/transforms/beb6f77803fb445131d5ceff87e25ebb/transformed/jetified-datastore-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.7] /Users/wohozo/.gradle/caches/8.12/transforms/51c56ffa110c48cfc8be63346d318ab5/transformed/jetified-datastore-preferences-release/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/dd85153d67d8bfd1d168f6ab7839304f/transformed/jetified-play-services-tasks-18.2.0/AndroidManifest.xml:2:1-5:12
+MERGED from [com.google.android.gms:play-services-basement:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/63bd70249cbf62c9bc20ab987eca0019/transformed/jetified-play-services-basement-18.5.0/AndroidManifest.xml:16:1-26:12
+MERGED from [androidx.fragment:fragment:1.3.6] /Users/wohozo/.gradle/caches/8.12/transforms/12e3e8726b183d768addb3e656a2dc68/transformed/fragment-1.3.6/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity:1.8.2] /Users/wohozo/.gradle/caches/8.12/transforms/48ad5c01d4af5d4bfefe8ee738f003ce/transformed/jetified-activity-1.8.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity-compose:1.8.2] /Users/wohozo/.gradle/caches/8.12/transforms/3dc5e1eae23d7862e69c790cc58c370b/transformed/jetified-activity-compose-1.8.2/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity-ktx:1.8.2] /Users/wohozo/.gradle/caches/8.12/transforms/31900b92a6f2aab95fd8afb3dd4f54a5/transformed/jetified-activity-ktx-1.8.2/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/034f5e83d0981da41e50191e9478cc47/transformed/jetified-customview-poolingcontainer-1.0.0/AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.core:core-ktx:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/b15b53faa4d92dad13127a4c5e942482/transformed/jetified-core-ktx-1.12.0/AndroidManifest.xml:2:1-7:12
+MERGED from [io.getstream:stream-webrtc-android:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/1023f8fa67d9572e1a1c9d77b6e5b755/transformed/jetified-stream-webrtc-android-1.2.0/AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.security:security-crypto:1.1.0-alpha06] /Users/wohozo/.gradle/caches/8.12/transforms/fd4f3ffa3a43e9e42a13f0d25259b93c/transformed/jetified-security-crypto-1.1.0-alpha06/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/3164227103f87ccb604d277bd6e2d96b/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/0e085c474f25cb4213c70bb63fb68520/transformed/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.bumptech.glide:gifdecoder:4.16.0] /Users/wohozo/.gradle/caches/8.12/transforms/0c22d250489e8744766aa5749e18e9f2/transformed/jetified-gifdecoder-4.16.0/AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.6] /Users/wohozo/.gradle/caches/8.12/transforms/f60067239198aff5da25285fb765892c/transformed/exifinterface-1.3.6/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/2647820f04d8108e3c16898fbda6f098/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/8d0e879e04941c92accd49b444a23e0d/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.firebase:firebase-components:19.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/7a6226cfc39565b8cf0139369ce31358/transformed/jetified-firebase-components-19.0.0/AndroidManifest.xml:15:1-20:12
+MERGED from [com.google.firebase:firebase-datatransport:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/111e2c54032de61677d0cad88a0e4475/transformed/jetified-firebase-datatransport-18.2.0/AndroidManifest.xml:15:1-31:12
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:15:1-37:12
+MERGED from [com.google.firebase:firebase-encoders-json:18.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/1f4ac5ffd8c97daaf7f0bd660bb678e1/transformed/jetified-firebase-encoders-json-18.0.0/AndroidManifest.xml:15:1-23:12
+MERGED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:15:1-41:12
+MERGED from [com.google.android.datatransport:transport-api:3.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/f60f83ab9659f7b29061c416559b748a/transformed/jetified-transport-api-3.1.0/AndroidManifest.xml:15:1-20:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/29c2d7df91d8d72272e381d68b11f2a7/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/c799a183862fda8a8dac13cc3bb724a3/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/0be725cbbbf66f43471e936faf6d32a2/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/779bd9ef7aec430c6124e32e28ef5ed1/transformed/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/0743e6ee42c73ae923685bc5d65fa592/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/f8518fe3c740a5dc405cdcdae505f5a0/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite-framework-android:2.5.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/46fb40c43414cafbbeb897e91f9308a5/transformed/jetified-sqlite-framework-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite-android:2.5.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/e2956f0e3e52ccd7a8d67b3c1250844d/transformed/jetified-sqlite-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] /Users/wohozo/.gradle/caches/8.12/transforms/a1200b44c80616728951d01a58cf7c15/transformed/jetified-annotation-experimental-1.4.1/AndroidManifest.xml:2:1-7:12
+MERGED from [de.hdodenhof:circleimageview:3.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/e64e0e1931b5b589e3cdd7efab4fd808/transformed/jetified-circleimageview-3.1.0/AndroidManifest.xml:2:1-11:12
+	package
+		INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml
+	xmlns:tools
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:16:5-51
+	android:versionCode
+		INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:15:11-69
+uses-permission#android.permission.INTERNET
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:19:5-67
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:28:5-67
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:28:5-67
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:22:5-67
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:22:5-67
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/e8f623ce998728b219526c98f58857ab/transformed/jetified-play-services-cloud-messaging-17.2.0/AndroidManifest.xml:8:5-67
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/e8f623ce998728b219526c98f58857ab/transformed/jetified-play-services-cloud-messaging-17.2.0/AndroidManifest.xml:8:5-67
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:8:5-67
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:8:5-67
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:23:5-67
+MERGED from [io.getstream:stream-webrtc-android:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/1023f8fa67d9572e1a1c9d77b6e5b755/transformed/jetified-stream-webrtc-android-1.2.0/AndroidManifest.xml:22:5-67
+MERGED from [io.getstream:stream-webrtc-android:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/1023f8fa67d9572e1a1c9d77b6e5b755/transformed/jetified-stream-webrtc-android-1.2.0/AndroidManifest.xml:22:5-67
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:25:5-67
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:25:5-67
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:19:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:20:5-79
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:27:5-79
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:27:5-79
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:22:5-79
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:22:5-79
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/e8f623ce998728b219526c98f58857ab/transformed/jetified-play-services-cloud-messaging-17.2.0/AndroidManifest.xml:7:5-79
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/e8f623ce998728b219526c98f58857ab/transformed/jetified-play-services-cloud-messaging-17.2.0/AndroidManifest.xml:7:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:24:5-79
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:7:5-79
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:7:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:24:5-79
+MERGED from [io.getstream:stream-webrtc-android:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/1023f8fa67d9572e1a1c9d77b6e5b755/transformed/jetified-stream-webrtc-android-1.2.0/AndroidManifest.xml:23:5-79
+MERGED from [io.getstream:stream-webrtc-android:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/1023f8fa67d9572e1a1c9d77b6e5b755/transformed/jetified-stream-webrtc-android-1.2.0/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:22:5-79
+MERGED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:22:5-79
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:20:22-76
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:23:5-77
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:23:5-77
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:23:5-77
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:23:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:26:5-77
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:26:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_PHONE_CALL
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:27:5-88
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:27:22-85
+uses-permission#android.permission.MANAGE_OWN_CALLS
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:28:5-75
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:28:22-72
+uses-permission#android.permission.SYSTEM_ALERT_WINDOW
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:29:5-78
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:29:22-75
+uses-permission#android.permission.USE_FULL_SCREEN_INTENT
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:32:5-81
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:32:22-78
+uses-permission#android.permission.VIBRATE
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:35:5-66
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:35:22-63
+uses-permission#android.permission.WAKE_LOCK
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:38:5-68
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:24:5-68
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:24:5-68
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:24:5-68
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:24:5-68
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/e8f623ce998728b219526c98f58857ab/transformed/jetified-play-services-cloud-messaging-17.2.0/AndroidManifest.xml:9:5-68
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/e8f623ce998728b219526c98f58857ab/transformed/jetified-play-services-cloud-messaging-17.2.0/AndroidManifest.xml:9:5-68
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:25:5-68
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:38:22-65
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:41:5-81
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:41:22-78
+uses-permission#android.permission.CAMERA
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:44:5-65
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:44:22-62
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:45:5-71
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:45:22-68
+uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:46:5-80
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:46:22-77
+queries
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:49:5-72:15
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:7:5-25:15
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:7:5-25:15
+package#com.phonepe.app
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:50:9-51
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:8:9-51
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:8:9-51
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:50:18-48
+package#com.phonepe.app.business
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:51:9-60
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:51:18-57
+package#com.google.android.apps.nbu.paisa.user
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:52:9-74
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:52:18-71
+package#net.one97.paytm
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:53:9-51
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:53:18-48
+package#in.org.npci.upiapp
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:54:9-54
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:54:18-51
+package#com.whatsapp
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:55:9-48
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:55:18-45
+intent#action:name:android.intent.action.VIEW+data:scheme:upi
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:56:9-59:18
+action#android.intent.action.VIEW
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:57:13-65
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:57:21-62
+data
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:58:13-42
+	android:scheme
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:58:19-39
+intent#action:name:android.intent.action.VIEW+data:scheme:paytmmp
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:60:9-63:18
+intent#action:name:android.intent.action.VIEW+data:scheme:phonepe
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:64:9-67:18
+intent#action:name:android.intent.action.VIEW+data:scheme:tez
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:68:9-71:18
+application
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:74:5-205:19
+INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:74:5-205:19
+MERGED from [com.google.android.material:material:1.11.0] /Users/wohozo/.gradle/caches/8.12/transforms/314d7f3541b6ff8c1d6c2e90d9c225a7/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.11.0] /Users/wohozo/.gradle/caches/8.12/transforms/314d7f3541b6ff8c1d6c2e90d9c225a7/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /Users/wohozo/.gradle/caches/8.12/transforms/a06df58186f45cc8720fccc1c0599776/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /Users/wohozo/.gradle/caches/8.12/transforms/a06df58186f45cc8720fccc1c0599776/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:34:5-39:19
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:34:5-39:19
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:28:5-64:19
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:28:5-64:19
+MERGED from [com.google.firebase:firebase-analytics:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/23cadbdf80da6c7c50b6b6dac4b47c96/transformed/jetified-firebase-analytics-23.0.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-analytics:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/23cadbdf80da6c7c50b6b6dac4b47c96/transformed/jetified-firebase-analytics-23.0.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:28:5-44:19
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:28:5-44:19
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:29:5-37:19
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:29:5-37:19
+MERGED from [com.google.android.gms:play-services-measurement-sdk:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/4329261782c32e4ce4163b0b6cc3cd2e/transformed/jetified-play-services-measurement-sdk-23.0.0/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.gms:play-services-measurement-sdk:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/4329261782c32e4ce4163b0b6cc3cd2e/transformed/jetified-play-services-measurement-sdk-23.0.0/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.firebase:firebase-iid-interop:17.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/fbacfb4866d4f190779720049936feaf/transformed/jetified-firebase-iid-interop-17.1.0/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-iid-interop:17.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/fbacfb4866d4f190779720049936feaf/transformed/jetified-firebase-iid-interop-17.1.0/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/ed9bd3e6604fb2e132e86da2a272d90c/transformed/jetified-firebase-measurement-connector-19.0.0/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/ed9bd3e6604fb2e132e86da2a272d90c/transformed/jetified-firebase-measurement-connector-19.0.0/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:29:5-30:19
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:29:5-30:19
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] /Users/wohozo/.gradle/caches/8.12/transforms/04400c28bc32efb906770ac22377eee6/transformed/jetified-play-services-stats-17.0.2/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] /Users/wohozo/.gradle/caches/8.12/transforms/04400c28bc32efb906770ac22377eee6/transformed/jetified-play-services-stats-17.0.2/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:11:5-22:19
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:11:5-22:19
+MERGED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/2013a50df55e42960ca3c1cdbd2aae4b/transformed/jetified-play-services-ads-identifier-18.0.0/AndroidManifest.xml:25:5-20
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/2013a50df55e42960ca3c1cdbd2aae4b/transformed/jetified-play-services-ads-identifier-18.0.0/AndroidManifest.xml:25:5-20
+MERGED from [com.google.android.gms:play-services-measurement-base:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b9696814b92071ef6ec0f8c24c2e0b84/transformed/jetified-play-services-measurement-base-23.0.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-measurement-base:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b9696814b92071ef6ec0f8c24c2e0b84/transformed/jetified-play-services-measurement-base-23.0.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/5d6968cda86fccd0e333c98c80e9f90d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:4:5-6:19
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/5d6968cda86fccd0e333c98c80e9f90d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:4:5-6:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:28:5-89
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/6109b03eb87970436c07874490b4750c/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/6109b03eb87970436c07874490b4750c/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.room:room-runtime-android:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/cf91b71d81208414abc58c47a38f52e1/transformed/jetified-room-runtime-release/AndroidManifest.xml:23:5-29:19
+MERGED from [androidx.room:room-runtime-android:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/cf91b71d81208414abc58c47a38f52e1/transformed/jetified-room-runtime-release/AndroidManifest.xml:23:5-29:19
+MERGED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /Users/wohozo/.gradle/caches/8.12/transforms/bee0685e8d0ca85b194c4d2fd95fbd28/transformed/jetified-ads-adservices-1.1.0-beta11/AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /Users/wohozo/.gradle/caches/8.12/transforms/bee0685e8d0ca85b194c4d2fd95fbd28/transformed/jetified-ads-adservices-1.1.0-beta11/AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/dd85153d67d8bfd1d168f6ab7839304f/transformed/jetified-play-services-tasks-18.2.0/AndroidManifest.xml:4:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/dd85153d67d8bfd1d168f6ab7839304f/transformed/jetified-play-services-tasks-18.2.0/AndroidManifest.xml:4:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/63bd70249cbf62c9bc20ab987eca0019/transformed/jetified-play-services-basement-18.5.0/AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/63bd70249cbf62c9bc20ab987eca0019/transformed/jetified-play-services-basement-18.5.0/AndroidManifest.xml:20:5-24:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/2647820f04d8108e3c16898fbda6f098/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/2647820f04d8108e3c16898fbda6f098/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [com.google.firebase:firebase-datatransport:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/111e2c54032de61677d0cad88a0e4475/transformed/jetified-firebase-datatransport-18.2.0/AndroidManifest.xml:21:5-29:19
+MERGED from [com.google.firebase:firebase-datatransport:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/111e2c54032de61677d0cad88a0e4475/transformed/jetified-firebase-datatransport-18.2.0/AndroidManifest.xml:21:5-29:19
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:27:5-35:19
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:27:5-35:19
+MERGED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:25:5-39:19
+MERGED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:25:5-39:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/c799a183862fda8a8dac13cc3bb724a3/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/c799a183862fda8a8dac13cc3bb724a3/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [de.hdodenhof:circleimageview:3.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/e64e0e1931b5b589e3cdd7efab4fd808/transformed/jetified-circleimageview-3.1.0/AndroidManifest.xml:9:5-20
+MERGED from [de.hdodenhof:circleimageview:3.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/e64e0e1931b5b589e3cdd7efab4fd808/transformed/jetified-circleimageview-3.1.0/AndroidManifest.xml:9:5-20
+	android:extractNativeLibs
+		INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
+	android:supportsRtl
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:79:9-35
+	android:label
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:77:9-41
+	android:roundIcon
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:78:9-54
+	tools:targetApi
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:83:9-29
+	android:icon
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:76:9-43
+	android:allowBackup
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:75:9-35
+	android:theme
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:80:9-48
+	android:networkSecurityConfig
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:82:9-69
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:81:9-38
+activity#com.astro5star.app.MainActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:90:9-98:20
+	android:exported
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:92:13-36
+	android:theme
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:93:13-52
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:91:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:94:13-97:29
+action#android.intent.action.MAIN
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:95:17-69
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:95:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:96:17-77
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:96:27-74
+activity#com.astro5star.app.ui.guest.GuestDashboardActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:100:9-69
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:100:19-66
+activity#com.astro5star.app.ui.astro.AstrologerDashboardActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:101:9-74
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:101:19-71
+activity#com.astro5star.app.ui.admin.SuperPowerAdminDashboardActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:102:9-143
+	android:exported
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:102:77-101
+	android:theme
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:102:102-141
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:102:19-76
+activity#com.astro5star.app.ui.settings.SettingsActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:103:9-66
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:103:19-63
+activity#com.astro5star.app.ui.settings.ThemeSettingsActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:104:9-71
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:104:19-68
+activity#com.astro5star.app.ui.rasipalan.RasipalanActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:105:9-68
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:105:19-65
+activity#com.astro5star.app.ui.dashboard.GuestActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:106:9-64
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:106:19-61
+activity#com.astro5star.app.ui.payment.PaymentActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:107:9-64
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:107:19-61
+activity#com.astro5star.app.ui.auth.LoginActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:108:9-59
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:108:19-56
+activity#com.astro5star.app.ui.auth.OtpVerificationActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:109:9-69
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:109:19-66
+activity#com.astro5star.app.ui.home.HomeActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:110:9-58
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:110:19-55
+activity#com.astro5star.app.ui.wallet.WalletActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:111:9-62
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:111:19-59
+activity#com.astro5star.app.ui.chat.ChatActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:112:9-100
+	android:windowSoftInputMode
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:112:56-98
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:112:19-55
+activity#com.astro5star.app.ui.call.CallActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:113:9-94
+	android:screenOrientation
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:113:56-92
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:113:19-55
+activity#com.astro5star.app.ui.intake.IntakeActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:114:9-142
+	android:screenOrientation
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:114:60-96
+	android:windowSoftInputMode
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:114:97-139
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:114:19-59
+activity#com.astro5star.app.ui.chart.ChartDisplayActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:115:9-118:58
+	android:screenOrientation
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:117:13-49
+	android:windowSoftInputMode
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:118:13-55
+	android:theme
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:116:13-69
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:115:19-64
+activity#com.astro5star.app.ui.chart.MatchDisplayActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:120:9-122:51
+	android:screenOrientation
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:122:13-49
+	android:theme
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:121:13-69
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:120:19-64
+activity#com.astro5star.app.ui.city.CitySearchActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:124:9-125:55
+	android:theme
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:125:13-52
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:124:19-61
+activity#com.astro5star.app.ui.wallet.PaymentStatusActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:127:9-138:20
+	android:launchMode
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:130:13-44
+	android:exported
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:129:13-36
+	android:theme
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:131:13-52
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:128:13-60
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:scheme:astroluna
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:132:13-137:29
+category#android.intent.category.DEFAULT
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:134:17-76
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:134:27-73
+category#android.intent.category.BROWSABLE
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:135:17-78
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:135:27-75
+activity#com.astro5star.app.IncomingCallActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:152:9-161:66
+	android:turnScreenOn
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:156:13-40
+	android:excludeFromRecents
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:157:13-46
+	android:showWhenLocked
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:155:13-42
+	android:launchMode
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:159:13-48
+	android:noHistory
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:158:13-37
+	android:exported
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:154:13-37
+	android:theme
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:161:13-63
+	android:taskAffinity
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:160:13-36
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:153:13-49
+service#com.astro5star.app.FCMService
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:173:9-179:19
+	android:exported
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:175:13-37
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:174:13-39
+intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:176:13-178:29
+action#com.google.firebase.MESSAGING_EVENT
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:177:17-78
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:177:25-75
+service#com.astro5star.app.CallForegroundService
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:190:9-193:57
+	android:exported
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:192:13-37
+	android:foregroundServiceType
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:193:13-54
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:191:13-50
+meta-data#com.google.firebase.messaging.default_notification_channel_id
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:196:9-198:46
+	android:value
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:198:13-43
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:197:13-89
+activity#com.astro5star.app.ui.profile.AstrologerProfileActivity
+ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:200:9-204:54
+	android:screenOrientation
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:202:13-49
+	android:exported
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:203:13-37
+	android:theme
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:204:13-52
+	android:name
+		ADDED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml:201:13-65
+uses-sdk
+INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml
+MERGED from [androidx.databinding:viewbinding:8.2.2] /Users/wohozo/.gradle/caches/8.12/transforms/c4082af1004b2a7f341ab30f916adba5/transformed/jetified-viewbinding-8.2.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.databinding:viewbinding:8.2.2] /Users/wohozo/.gradle/caches/8.12/transforms/c4082af1004b2a7f341ab30f916adba5/transformed/jetified-viewbinding-8.2.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.material:material:1.11.0] /Users/wohozo/.gradle/caches/8.12/transforms/314d7f3541b6ff8c1d6c2e90d9c225a7/transformed/material-1.11.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.11.0] /Users/wohozo/.gradle/caches/8.12/transforms/314d7f3541b6ff8c1d6c2e90d9c225a7/transformed/material-1.11.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /Users/wohozo/.gradle/caches/8.12/transforms/a06df58186f45cc8720fccc1c0599776/transformed/constraintlayout-2.1.4/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /Users/wohozo/.gradle/caches/8.12/transforms/a06df58186f45cc8720fccc1c0599776/transformed/constraintlayout-2.1.4/AndroidManifest.xml:5:5-7:41
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:5:5-44
+MERGED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/wohozo/.gradle/caches/8.12/transforms/a8322e735ef1c9aba412f91a96833b5f/transformed/jetified-appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/wohozo/.gradle/caches/8.12/transforms/a8322e735ef1c9aba412f91a96833b5f/transformed/jetified-appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/wohozo/.gradle/caches/8.12/transforms/ceb38f94e2e04890f6ab9cd6eaed03c7/transformed/appcompat-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/wohozo/.gradle/caches/8.12/transforms/ceb38f94e2e04890f6ab9cd6eaed03c7/transformed/appcompat-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [com.github.bumptech.glide:glide:4.16.0] /Users/wohozo/.gradle/caches/8.12/transforms/65b18b0b37046a9efc096519c3c8fb24/transformed/jetified-glide-4.16.0/AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:glide:4.16.0] /Users/wohozo/.gradle/caches/8.12/transforms/65b18b0b37046a9efc096519c3c8fb24/transformed/jetified-glide-4.16.0/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/edeff25260013dcc7936efd0ac905b49/transformed/jetified-viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/edeff25260013dcc7936efd0ac905b49/transformed/jetified-viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-analytics:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/23cadbdf80da6c7c50b6b6dac4b47c96/transformed/jetified-firebase-analytics-23.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-analytics:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/23cadbdf80da6c7c50b6b6dac4b47c96/transformed/jetified-firebase-analytics-23.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/4329261782c32e4ce4163b0b6cc3cd2e/transformed/jetified-play-services-measurement-sdk-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/4329261782c32e4ce4163b0b6cc3cd2e/transformed/jetified-play-services-measurement-sdk-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-iid-interop:17.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/fbacfb4866d4f190779720049936feaf/transformed/jetified-firebase-iid-interop-17.1.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-iid-interop:17.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/fbacfb4866d4f190779720049936feaf/transformed/jetified-firebase-iid-interop-17.1.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/ed9bd3e6604fb2e132e86da2a272d90c/transformed/jetified-firebase-measurement-connector-19.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/ed9bd3e6604fb2e132e86da2a272d90c/transformed/jetified-firebase-measurement-connector-19.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/e8f623ce998728b219526c98f58857ab/transformed/jetified-play-services-cloud-messaging-17.2.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/e8f623ce998728b219526c98f58857ab/transformed/jetified-play-services-cloud-messaging-17.2.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] /Users/wohozo/.gradle/caches/8.12/transforms/04400c28bc32efb906770ac22377eee6/transformed/jetified-play-services-stats-17.0.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] /Users/wohozo/.gradle/caches/8.12/transforms/04400c28bc32efb906770ac22377eee6/transformed/jetified-play-services-stats-17.0.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:19:5-44
+MERGED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:19:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/2013a50df55e42960ca3c1cdbd2aae4b/transformed/jetified-play-services-ads-identifier-18.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/2013a50df55e42960ca3c1cdbd2aae4b/transformed/jetified-play-services-ads-identifier-18.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b9696814b92071ef6ec0f8c24c2e0b84/transformed/jetified-play-services-measurement-base-23.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b9696814b92071ef6ec0f8c24c2e0b84/transformed/jetified-play-services-measurement-base-23.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-installations-interop:17.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/342f41e0512b379d0437b15b85e08fb2/transformed/jetified-firebase-installations-interop-17.1.1/AndroidManifest.xml:17:5-44
+MERGED from [com.google.firebase:firebase-installations-interop:17.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/342f41e0512b379d0437b15b85e08fb2/transformed/jetified-firebase-installations-interop-17.1.1/AndroidManifest.xml:17:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/5e61dc64aa008c4be9c5ffe4ba0b3daf/transformed/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/5e61dc64aa008c4be9c5ffe4ba0b3daf/transformed/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/c9d59277ed7105fcc7606e7d5211ac4f/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/c9d59277ed7105fcc7606e7d5211ac4f/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/1b6cd15dbccc02b523ae0b0675389c77/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/1b6cd15dbccc02b523ae0b0675389c77/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/96623e5de7eb62e7d1b378684bd97703/transformed/transition-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/96623e5de7eb62e7d1b378684bd97703/transformed/transition-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/7304240b026e3786abc16cf75c20e808/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/7304240b026e3786abc16cf75c20e808/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/b90e5900751d95185984940d2e0f9016/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/b90e5900751d95185984940d2e0f9016/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.compose.material3:material3-android:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/89ede3d3581890f9e8908e49b4eaf30e/transformed/jetified-material3-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material3:material3-android:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/89ede3d3581890f9e8908e49b4eaf30e/transformed/jetified-material3-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/97fff63567bf293fb0338d258275ee70/transformed/jetified-material-icons-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/97fff63567bf293fb0338d258275ee70/transformed/jetified-material-icons-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/897e43328a79d41e4a3af7e26298dd80/transformed/jetified-material-icons-extended-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/897e43328a79d41e4a3af7e26298dd80/transformed/jetified-material-icons-extended-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/1036ea97eeb46d224a4f1170ffb39f86/transformed/jetified-material-ripple-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/1036ea97eeb46d224a4f1170ffb39f86/transformed/jetified-material-ripple-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/0e1b9e62fe71ea437043ef342079338c/transformed/jetified-animation-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/0e1b9e62fe71ea437043ef342079338c/transformed/jetified-animation-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/9ad9cd31a3caeddd5bceabd26ea583b1/transformed/jetified-animation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/9ad9cd31a3caeddd5bceabd26ea583b1/transformed/jetified-animation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/b31c6fdd875e8c3786b9620b315556ba/transformed/jetified-foundation-layout-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/b31c6fdd875e8c3786b9620b315556ba/transformed/jetified-foundation-layout-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/3efad3e63ef077ace26b91bb29900de6/transformed/jetified-foundation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/3efad3e63ef077ace26b91bb29900de6/transformed/jetified-foundation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/d126163cb5941187ac3909b53a2d65d8/transformed/jetified-ui-unit-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/d126163cb5941187ac3909b53a2d65d8/transformed/jetified-ui-unit-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/5f86e60ab4d363dabe54e6c693002f25/transformed/jetified-ui-geometry-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/5f86e60ab4d363dabe54e6c693002f25/transformed/jetified-ui-geometry-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/b48a1b96f24feb30d62c054fe47ebd63/transformed/jetified-ui-util-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/b48a1b96f24feb30d62c054fe47ebd63/transformed/jetified-ui-util-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/bc087dea1f7fae0a3e7bb7af6bcbbcbd/transformed/jetified-ui-text-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/bc087dea1f7fae0a3e7bb7af6bcbbcbd/transformed/jetified-ui-text-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/1f830af92e001220776de4706246cc78/transformed/jetified-ui-tooling-preview-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/1f830af92e001220776de4706246cc78/transformed/jetified-ui-tooling-preview-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/59945311f9b3ba175856a62be38d8daa/transformed/jetified-ui-graphics-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/59945311f9b3ba175856a62be38d8daa/transformed/jetified-ui-graphics-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/c03a2d99fba6722db01a82e31131f7ff/transformed/jetified-ui-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/c03a2d99fba6722db01a82e31131f7ff/transformed/jetified-ui-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/7255ea107f722cad11d326ca9eca65a3/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/7255ea107f722cad11d326ca9eca65a3/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/d8b2eb71b268ea456b3427c193abef55/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/d8b2eb71b268ea456b3427c193abef55/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/27ad58d57ed4449908ae082bfa1f81f5/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/27ad58d57ed4449908ae082bfa1f81f5/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/cd44535e1305f22f621de2525d5e1be7/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/cd44535e1305f22f621de2525d5e1be7/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/49f4e107ee1869f1d2df49dc7403c8d5/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/49f4e107ee1869f1d2df49dc7403c8d5/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.autofill:autofill:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/eb5bfbba0877d94d3744bfe11ea5b158/transformed/jetified-autofill-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.autofill:autofill:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/eb5bfbba0877d94d3744bfe11ea5b158/transformed/jetified-autofill-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/5d6968cda86fccd0e333c98c80e9f90d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/5d6968cda86fccd0e333c98c80e9f90d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:3:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/e08863df3fa368dde08cf61fe34576f0/transformed/jetified-emoji2-views-helper-1.3.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/e08863df3fa368dde08cf61fe34576f0/transformed/jetified-emoji2-views-helper-1.3.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /Users/wohozo/.gradle/caches/8.12/transforms/72a2cf7a76f8e38d86db612cd5627997/transformed/jetified-savedstate-ktx-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /Users/wohozo/.gradle/caches/8.12/transforms/72a2cf7a76f8e38d86db612cd5627997/transformed/jetified-savedstate-ktx-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/wohozo/.gradle/caches/8.12/transforms/08ea5c2d693e66d54ac17788e5fca1bf/transformed/jetified-savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/wohozo/.gradle/caches/8.12/transforms/08ea5c2d693e66d54ac17788e5fca1bf/transformed/jetified-savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/6109b03eb87970436c07874490b4750c/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/6109b03eb87970436c07874490b4750c/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/0a7f536afc78fe454758b3402ccbfacf/transformed/jetified-lifecycle-livedata-core-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/0a7f536afc78fe454758b3402ccbfacf/transformed/jetified-lifecycle-livedata-core-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/31b6f1c8bf6d04423073d8e78400cb25/transformed/lifecycle-livedata-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/31b6f1c8bf6d04423073d8e78400cb25/transformed/lifecycle-livedata-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/ccf1292b80bdb20f65a3784699d10355/transformed/lifecycle-livedata-core-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/ccf1292b80bdb20f65a3784699d10355/transformed/lifecycle-livedata-core-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/438bbd4ff9d5857a531cdf4919e55c3a/transformed/jetified-lifecycle-viewmodel-savedstate-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/438bbd4ff9d5857a531cdf4919e55c3a/transformed/jetified-lifecycle-viewmodel-savedstate-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/0f03bf6f8097c1efbb22c8f1aa805885/transformed/jetified-lifecycle-viewmodel-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/0f03bf6f8097c1efbb22c8f1aa805885/transformed/jetified-lifecycle-viewmodel-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/f09d5025d5fc04a48ced1b225c6e57dc/transformed/lifecycle-viewmodel-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/f09d5025d5fc04a48ced1b225c6e57dc/transformed/lifecycle-viewmodel-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/399ecf08fd42613c1f750bca4dd74966/transformed/lifecycle-runtime-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/399ecf08fd42613c1f750bca4dd74966/transformed/lifecycle-runtime-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/2449db20ceb2c8d58deee616336be59e/transformed/jetified-lifecycle-runtime-compose-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/2449db20ceb2c8d58deee616336be59e/transformed/jetified-lifecycle-runtime-compose-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/ff1542d0966203e0b3da03eec300ae0e/transformed/jetified-lifecycle-viewmodel-compose-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/ff1542d0966203e0b3da03eec300ae0e/transformed/jetified-lifecycle-viewmodel-compose-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/81bcd22f2ddc7e4a8f75786db5973e20/transformed/jetified-lifecycle-runtime-ktx-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/81bcd22f2ddc7e4a8f75786db5973e20/transformed/jetified-lifecycle-runtime-ktx-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-runtime-android:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/cf91b71d81208414abc58c47a38f52e1/transformed/jetified-room-runtime-release/AndroidManifest.xml:21:5-44
+MERGED from [androidx.room:room-runtime-android:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/cf91b71d81208414abc58c47a38f52e1/transformed/jetified-room-runtime-release/AndroidManifest.xml:21:5-44
+MERGED from [androidx.room:room-ktx:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/a2b689cebba892da26d575d887ec54d8/transformed/jetified-room-ktx-2.7.0-alpha01/AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-ktx:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/a2b689cebba892da26d575d887ec54d8/transformed/jetified-room-ktx-2.7.0-alpha01/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/6de744d22042fc6e3967134b4c631554/transformed/jetified-runtime-saveable-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/6de744d22042fc6e3967134b4c631554/transformed/jetified-runtime-saveable-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/f8dd5055fb021b7f914a0463e5f7026f/transformed/jetified-runtime-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.6.2] /Users/wohozo/.gradle/caches/8.12/transforms/f8dd5055fb021b7f914a0463e5f7026f/transformed/jetified-runtime-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.privacysandbox.ads:ads-adservices-java:1.1.0-beta11] /Users/wohozo/.gradle/caches/8.12/transforms/96b168204f8fff75fac5a83db91b212c/transformed/jetified-ads-adservices-java-1.1.0-beta11/AndroidManifest.xml:5:5-44
+MERGED from [androidx.privacysandbox.ads:ads-adservices-java:1.1.0-beta11] /Users/wohozo/.gradle/caches/8.12/transforms/96b168204f8fff75fac5a83db91b212c/transformed/jetified-ads-adservices-java-1.1.0-beta11/AndroidManifest.xml:5:5-44
+MERGED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /Users/wohozo/.gradle/caches/8.12/transforms/bee0685e8d0ca85b194c4d2fd95fbd28/transformed/jetified-ads-adservices-1.1.0-beta11/AndroidManifest.xml:20:5-44
+MERGED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /Users/wohozo/.gradle/caches/8.12/transforms/bee0685e8d0ca85b194c4d2fd95fbd28/transformed/jetified-ads-adservices-1.1.0-beta11/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.7] /Users/wohozo/.gradle/caches/8.12/transforms/b07152d2a4a4193d456f3b5cae09662c/transformed/jetified-datastore-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.7] /Users/wohozo/.gradle/caches/8.12/transforms/b07152d2a4a4193d456f3b5cae09662c/transformed/jetified-datastore-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-preferences-core-android:1.1.7] /Users/wohozo/.gradle/caches/8.12/transforms/97f2df2d712084e9e0c837f8910510cf/transformed/jetified-datastore-preferences-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-preferences-core-android:1.1.7] /Users/wohozo/.gradle/caches/8.12/transforms/97f2df2d712084e9e0c837f8910510cf/transformed/jetified-datastore-preferences-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.7] /Users/wohozo/.gradle/caches/8.12/transforms/beb6f77803fb445131d5ceff87e25ebb/transformed/jetified-datastore-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.7] /Users/wohozo/.gradle/caches/8.12/transforms/beb6f77803fb445131d5ceff87e25ebb/transformed/jetified-datastore-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.7] /Users/wohozo/.gradle/caches/8.12/transforms/51c56ffa110c48cfc8be63346d318ab5/transformed/jetified-datastore-preferences-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.7] /Users/wohozo/.gradle/caches/8.12/transforms/51c56ffa110c48cfc8be63346d318ab5/transformed/jetified-datastore-preferences-release/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/dd85153d67d8bfd1d168f6ab7839304f/transformed/jetified-play-services-tasks-18.2.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/dd85153d67d8bfd1d168f6ab7839304f/transformed/jetified-play-services-tasks-18.2.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-basement:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/63bd70249cbf62c9bc20ab987eca0019/transformed/jetified-play-services-basement-18.5.0/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/63bd70249cbf62c9bc20ab987eca0019/transformed/jetified-play-services-basement-18.5.0/AndroidManifest.xml:18:5-43
+MERGED from [androidx.fragment:fragment:1.3.6] /Users/wohozo/.gradle/caches/8.12/transforms/12e3e8726b183d768addb3e656a2dc68/transformed/fragment-1.3.6/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.3.6] /Users/wohozo/.gradle/caches/8.12/transforms/12e3e8726b183d768addb3e656a2dc68/transformed/fragment-1.3.6/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.8.2] /Users/wohozo/.gradle/caches/8.12/transforms/48ad5c01d4af5d4bfefe8ee738f003ce/transformed/jetified-activity-1.8.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.8.2] /Users/wohozo/.gradle/caches/8.12/transforms/48ad5c01d4af5d4bfefe8ee738f003ce/transformed/jetified-activity-1.8.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity-compose:1.8.2] /Users/wohozo/.gradle/caches/8.12/transforms/3dc5e1eae23d7862e69c790cc58c370b/transformed/jetified-activity-compose-1.8.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-compose:1.8.2] /Users/wohozo/.gradle/caches/8.12/transforms/3dc5e1eae23d7862e69c790cc58c370b/transformed/jetified-activity-compose-1.8.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-ktx:1.8.2] /Users/wohozo/.gradle/caches/8.12/transforms/31900b92a6f2aab95fd8afb3dd4f54a5/transformed/jetified-activity-ktx-1.8.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-ktx:1.8.2] /Users/wohozo/.gradle/caches/8.12/transforms/31900b92a6f2aab95fd8afb3dd4f54a5/transformed/jetified-activity-ktx-1.8.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/034f5e83d0981da41e50191e9478cc47/transformed/jetified-customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/034f5e83d0981da41e50191e9478cc47/transformed/jetified-customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.core:core-ktx:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/b15b53faa4d92dad13127a4c5e942482/transformed/jetified-core-ktx-1.12.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/b15b53faa4d92dad13127a4c5e942482/transformed/jetified-core-ktx-1.12.0/AndroidManifest.xml:5:5-44
+MERGED from [io.getstream:stream-webrtc-android:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/1023f8fa67d9572e1a1c9d77b6e5b755/transformed/jetified-stream-webrtc-android-1.2.0/AndroidManifest.xml:20:5-44
+MERGED from [io.getstream:stream-webrtc-android:1.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/1023f8fa67d9572e1a1c9d77b6e5b755/transformed/jetified-stream-webrtc-android-1.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.security:security-crypto:1.1.0-alpha06] /Users/wohozo/.gradle/caches/8.12/transforms/fd4f3ffa3a43e9e42a13f0d25259b93c/transformed/jetified-security-crypto-1.1.0-alpha06/AndroidManifest.xml:20:5-44
+MERGED from [androidx.security:security-crypto:1.1.0-alpha06] /Users/wohozo/.gradle/caches/8.12/transforms/fd4f3ffa3a43e9e42a13f0d25259b93c/transformed/jetified-security-crypto-1.1.0-alpha06/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/3164227103f87ccb604d277bd6e2d96b/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/3164227103f87ccb604d277bd6e2d96b/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/0e085c474f25cb4213c70bb63fb68520/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/0e085c474f25cb4213c70bb63fb68520/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.github.bumptech.glide:gifdecoder:4.16.0] /Users/wohozo/.gradle/caches/8.12/transforms/0c22d250489e8744766aa5749e18e9f2/transformed/jetified-gifdecoder-4.16.0/AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:gifdecoder:4.16.0] /Users/wohozo/.gradle/caches/8.12/transforms/0c22d250489e8744766aa5749e18e9f2/transformed/jetified-gifdecoder-4.16.0/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.6] /Users/wohozo/.gradle/caches/8.12/transforms/f60067239198aff5da25285fb765892c/transformed/exifinterface-1.3.6/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.6] /Users/wohozo/.gradle/caches/8.12/transforms/f60067239198aff5da25285fb765892c/transformed/exifinterface-1.3.6/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/2647820f04d8108e3c16898fbda6f098/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/2647820f04d8108e3c16898fbda6f098/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/8d0e879e04941c92accd49b444a23e0d/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/8d0e879e04941c92accd49b444a23e0d/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-components:19.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/7a6226cfc39565b8cf0139369ce31358/transformed/jetified-firebase-components-19.0.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-components:19.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/7a6226cfc39565b8cf0139369ce31358/transformed/jetified-firebase-components-19.0.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-datatransport:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/111e2c54032de61677d0cad88a0e4475/transformed/jetified-firebase-datatransport-18.2.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-datatransport:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/111e2c54032de61677d0cad88a0e4475/transformed/jetified-firebase-datatransport-18.2.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.firebase:firebase-encoders-json:18.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/1f4ac5ffd8c97daaf7f0bd660bb678e1/transformed/jetified-firebase-encoders-json-18.0.0/AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.firebase:firebase-encoders-json:18.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/1f4ac5ffd8c97daaf7f0bd660bb678e1/transformed/jetified-firebase-encoders-json-18.0.0/AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.android.datatransport:transport-api:3.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/f60f83ab9659f7b29061c416559b748a/transformed/jetified-transport-api-3.1.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.android.datatransport:transport-api:3.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/f60f83ab9659f7b29061c416559b748a/transformed/jetified-transport-api-3.1.0/AndroidManifest.xml:18:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/29c2d7df91d8d72272e381d68b11f2a7/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/29c2d7df91d8d72272e381d68b11f2a7/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/c799a183862fda8a8dac13cc3bb724a3/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/c799a183862fda8a8dac13cc3bb724a3/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/0be725cbbbf66f43471e936faf6d32a2/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/0be725cbbbf66f43471e936faf6d32a2/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/779bd9ef7aec430c6124e32e28ef5ed1/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/779bd9ef7aec430c6124e32e28ef5ed1/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/0743e6ee42c73ae923685bc5d65fa592/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/0743e6ee42c73ae923685bc5d65fa592/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/f8518fe3c740a5dc405cdcdae505f5a0/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/f8518fe3c740a5dc405cdcdae505f5a0/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework-android:2.5.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/46fb40c43414cafbbeb897e91f9308a5/transformed/jetified-sqlite-framework-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework-android:2.5.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/46fb40c43414cafbbeb897e91f9308a5/transformed/jetified-sqlite-framework-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-android:2.5.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/e2956f0e3e52ccd7a8d67b3c1250844d/transformed/jetified-sqlite-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-android:2.5.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/e2956f0e3e52ccd7a8d67b3c1250844d/transformed/jetified-sqlite-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] /Users/wohozo/.gradle/caches/8.12/transforms/a1200b44c80616728951d01a58cf7c15/transformed/jetified-annotation-experimental-1.4.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] /Users/wohozo/.gradle/caches/8.12/transforms/a1200b44c80616728951d01a58cf7c15/transformed/jetified-annotation-experimental-1.4.1/AndroidManifest.xml:5:5-44
+MERGED from [de.hdodenhof:circleimageview:3.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/e64e0e1931b5b589e3cdd7efab4fd808/transformed/jetified-circleimageview-3.1.0/AndroidManifest.xml:5:5-7:41
+MERGED from [de.hdodenhof:circleimageview:3.1.0] /Users/wohozo/.gradle/caches/8.12/transforms/e64e0e1931b5b589e3cdd7efab4fd808/transformed/jetified-circleimageview-3.1.0/AndroidManifest.xml:5:5-7:41
+	android:targetSdkVersion
+		INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/AndroidManifest.xml
+package#com.phonepe.simulator
+ADDED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:9:9-57
+	android:name
+		ADDED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:9:18-54
+intent#action:name:android.intent.action.VIEW+data:host:pay+data:scheme:upi
+ADDED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:11:9-17:18
+intent#action:name:android.intent.action.VIEW+data:host:upi+data:scheme:mandate
+ADDED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:18:9-24:18
+meta-data#android.webkit.WebView.EnableSafeBrowsing
+ADDED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:30:5-32:32
+	android:value
+		ADDED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:32:9-29
+	android:name
+		ADDED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:31:9-65
+activity#com.phonepe.intent.sdk.ui.b2bPg.B2bPgActivity
+ADDED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:35:9-38:66
+	android:exported
+		ADDED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:37:13-37
+	android:theme
+		ADDED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:38:13-63
+	android:name
+		ADDED from [phonepe.intentsdk.android.release:IntentSDK:5.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/d4bc296dbf75cba62aaf6a9453402272/transformed/jetified-IntentSDK-5.3.0/AndroidManifest.xml:36:13-73
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:26:5-82
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/e8f623ce998728b219526c98f58857ab/transformed/jetified-play-services-cloud-messaging-17.2.0/AndroidManifest.xml:11:5-82
+MERGED from [com.google.android.gms:play-services-cloud-messaging:17.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/e8f623ce998728b219526c98f58857ab/transformed/jetified-play-services-cloud-messaging-17.2.0/AndroidManifest.xml:11:5-82
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:26:22-79
+receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:29:9-40:20
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:31:13-36
+	android:permission
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:32:13-73
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:30:13-78
+intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:33:13-35:29
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:34:17-81
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:34:25-78
+meta-data#com.google.android.gms.cloudmessaging.FINISHED_AFTER_HANDLED
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:37:13-39:40
+	android:value
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:39:17-37
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:38:17-92
+service#com.google.firebase.messaging.FirebaseMessagingService
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:46:9-53:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:49:13-37
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:48:13-43
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:47:13-82
+service#com.google.firebase.components.ComponentDiscoveryService
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:54:9-63:19
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:30:9-36:19
+MERGED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:30:9-36:19
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:12:9-21:19
+MERGED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:12:9-21:19
+MERGED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:30:9-38:19
+MERGED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:30:9-38:19
+MERGED from [com.google.firebase:firebase-datatransport:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/111e2c54032de61677d0cad88a0e4475/transformed/jetified-firebase-datatransport-18.2.0/AndroidManifest.xml:22:9-28:19
+MERGED from [com.google.firebase:firebase-datatransport:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/111e2c54032de61677d0cad88a0e4475/transformed/jetified-firebase-datatransport-18.2.0/AndroidManifest.xml:22:9-28:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:56:13-37
+	tools:targetApi
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:34:13-32
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:32:13-43
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:55:13-84
+meta-data#com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingKtxRegistrar
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:57:13-59:85
+	android:value
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:59:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:58:17-122
+meta-data#com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar
+ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:60:13-62:85
+	android:value
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:62:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:25.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/afa4ec4fce90adc4b4a25aa2e3a70fb9/transformed/jetified-firebase-messaging-25.0.1/AndroidManifest.xml:61:17-119
+uses-permission#com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE
+ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:26:5-110
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:26:5-110
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:26:5-110
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:26:22-107
+receiver#com.google.android.gms.measurement.AppMeasurementReceiver
+ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:29:9-33:20
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:31:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:32:13-37
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:30:13-85
+service#com.google.android.gms.measurement.AppMeasurementService
+ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:35:9-38:40
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:38:13-37
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:36:13-84
+service#com.google.android.gms.measurement.AppMeasurementJobService
+ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:39:9-43:72
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:41:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:42:13-37
+	android:permission
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:43:13-69
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/9715f02fa317799315d794b5155cb67f/transformed/jetified-play-services-measurement-23.0.0/AndroidManifest.xml:40:13-87
+uses-permission#com.google.android.gms.permission.AD_ID
+ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:25:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:27:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b4ebfd650fedea8a3c3a0a3330f4e1d1/transformed/jetified-play-services-measurement-impl-23.0.0/AndroidManifest.xml:27:5-79
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/2013a50df55e42960ca3c1cdbd2aae4b/transformed/jetified-play-services-ads-identifier-18.0.0/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/2013a50df55e42960ca3c1cdbd2aae4b/transformed/jetified-play-services-ads-identifier-18.0.0/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:26:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:26:5-79
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:25:22-76
+uses-permission#android.permission.ACCESS_ADSERVICES_ATTRIBUTION
+ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:26:5-88
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:27:5-88
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:27:5-88
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:26:22-85
+uses-permission#android.permission.ACCESS_ADSERVICES_AD_ID
+ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:27:5-82
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:28:5-82
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/b1fd1e69fb969cfba3ea253f5dcdcea9/transformed/jetified-play-services-measurement-sdk-api-23.0.0/AndroidManifest.xml:28:5-82
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:27:22-79
+meta-data#com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar
+ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:33:13-35:85
+	android:value
+		ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:35:17-82
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:23.0.0] /Users/wohozo/.gradle/caches/8.12/transforms/6f5c84b2ecc5a8e493179be64f41729c/transformed/jetified-play-services-measurement-api-23.0.0/AndroidManifest.xml:34:17-139
+meta-data#com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar
+ADDED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:15:13-17:85
+	android:value
+		ADDED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:17:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:16:17-130
+meta-data#com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar
+ADDED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:18:13-20:85
+	android:value
+		ADDED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:20:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-installations:19.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/ec3ec9c97e7ea7feb4a2fc8eee58689a/transformed/jetified-firebase-installations-19.0.1/AndroidManifest.xml:19:17-127
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:23:9-28:39
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:25:13-72
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:27:13-37
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:26:13-43
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:28:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:24:13-77
+meta-data#com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar
+ADDED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:35:13-37:85
+	android:value
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:37:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-common:22.0.1] /Users/wohozo/.gradle/caches/8.12/transforms/9ead2186a2c95eb3b04b41ecc7e07e18/transformed/jetified-firebase-common-22.0.1/AndroidManifest.xml:36:17-109
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/5d6968cda86fccd0e333c98c80e9f90d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:9-173
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/5d6968cda86fccd0e333c98c80e9f90d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:146-170
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/5d6968cda86fccd0e333c98c80e9f90d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:86-145
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/5d6968cda86fccd0e333c98c80e9f90d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:19-85
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/6109b03eb87970436c07874490b4750c/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/6109b03eb87970436c07874490b4750c/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/2647820f04d8108e3c16898fbda6f098/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/wohozo/.gradle/caches/8.12/transforms/2647820f04d8108e3c16898fbda6f098/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:28:13-31
+	android:authorities
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:26:13-68
+	android:exported
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:25:13-67
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/c7da30ad19e97c5b18264e0cd56a97fd/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:30:17-75
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+permission#com.astro5star.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+uses-permission#com.astro5star.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /Users/wohozo/.gradle/caches/8.12/transforms/11ae80f4a5764399c2553541a7c59a6b/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/6109b03eb87970436c07874490b4750c/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/6109b03eb87970436c07874490b4750c/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/wohozo/.gradle/caches/8.12/transforms/6109b03eb87970436c07874490b4750c/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:30:17-78
+service#androidx.room.MultiInstanceInvalidationService
+ADDED from [androidx.room:room-runtime-android:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/cf91b71d81208414abc58c47a38f52e1/transformed/jetified-room-runtime-release/AndroidManifest.xml:24:9-28:63
+	android:exported
+		ADDED from [androidx.room:room-runtime-android:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/cf91b71d81208414abc58c47a38f52e1/transformed/jetified-room-runtime-release/AndroidManifest.xml:27:13-37
+	tools:ignore
+		ADDED from [androidx.room:room-runtime-android:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/cf91b71d81208414abc58c47a38f52e1/transformed/jetified-room-runtime-release/AndroidManifest.xml:28:13-60
+	android:directBootAware
+		ADDED from [androidx.room:room-runtime-android:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/cf91b71d81208414abc58c47a38f52e1/transformed/jetified-room-runtime-release/AndroidManifest.xml:26:13-43
+	android:name
+		ADDED from [androidx.room:room-runtime-android:2.7.0-alpha01] /Users/wohozo/.gradle/caches/8.12/transforms/cf91b71d81208414abc58c47a38f52e1/transformed/jetified-room-runtime-release/AndroidManifest.xml:25:13-74
+uses-library#android.ext.adservices
+ADDED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /Users/wohozo/.gradle/caches/8.12/transforms/bee0685e8d0ca85b194c4d2fd95fbd28/transformed/jetified-ads-adservices-1.1.0-beta11/AndroidManifest.xml:23:9-25:40
+	android:required
+		ADDED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /Users/wohozo/.gradle/caches/8.12/transforms/bee0685e8d0ca85b194c4d2fd95fbd28/transformed/jetified-ads-adservices-1.1.0-beta11/AndroidManifest.xml:25:13-37
+	android:name
+		ADDED from [androidx.privacysandbox.ads:ads-adservices:1.1.0-beta11] /Users/wohozo/.gradle/caches/8.12/transforms/bee0685e8d0ca85b194c4d2fd95fbd28/transformed/jetified-ads-adservices-1.1.0-beta11/AndroidManifest.xml:24:13-50
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/63bd70249cbf62c9bc20ab987eca0019/transformed/jetified-play-services-basement-18.5.0/AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/63bd70249cbf62c9bc20ab987eca0019/transformed/jetified-play-services-basement-18.5.0/AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.5.0] /Users/wohozo/.gradle/caches/8.12/transforms/63bd70249cbf62c9bc20ab987eca0019/transformed/jetified-play-services-basement-18.5.0/AndroidManifest.xml:22:13-58
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/wohozo/.gradle/caches/8.12/transforms/f4fdc26f78badc606b1e5cc2358d954a/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
+meta-data#com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar
+ADDED from [com.google.firebase:firebase-datatransport:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/111e2c54032de61677d0cad88a0e4475/transformed/jetified-firebase-datatransport-18.2.0/AndroidManifest.xml:25:13-27:85
+	android:value
+		ADDED from [com.google.firebase:firebase-datatransport:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/111e2c54032de61677d0cad88a0e4475/transformed/jetified-firebase-datatransport-18.2.0/AndroidManifest.xml:27:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-datatransport:18.2.0] /Users/wohozo/.gradle/caches/8.12/transforms/111e2c54032de61677d0cad88a0e4475/transformed/jetified-firebase-datatransport-18.2.0/AndroidManifest.xml:26:17-115
+service#com.google.android.datatransport.runtime.backends.TransportBackendDiscovery
+ADDED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:28:9-34:19
+MERGED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:36:9-38:40
+MERGED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:36:9-38:40
+	android:exported
+		ADDED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:30:13-37
+	android:name
+		ADDED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:29:13-103
+meta-data#backend:com.google.android.datatransport.cct.CctBackendFactory
+ADDED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:31:13-33:39
+	android:value
+		ADDED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:33:17-36
+	android:name
+		ADDED from [com.google.android.datatransport:transport-backend-cct:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/88e74fe319fabad72720b8acf07f63ee/transformed/jetified-transport-backend-cct-3.1.9/AndroidManifest.xml:32:17-94
+service#com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService
+ADDED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:26:9-30:19
+	android:exported
+		ADDED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:28:13-37
+	android:permission
+		ADDED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:29:13-69
+	android:name
+		ADDED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:27:13-117
+receiver#com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver
+ADDED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:32:9-34:40
+	android:exported
+		ADDED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:34:13-37
+	android:name
+		ADDED from [com.google.android.datatransport:transport-runtime:3.1.9] /Users/wohozo/.gradle/caches/8.12/transforms/d67ff382112cec0e796b11b3a7479a83/transformed/jetified-transport-runtime-3.1.9/AndroidManifest.xml:33:13-132

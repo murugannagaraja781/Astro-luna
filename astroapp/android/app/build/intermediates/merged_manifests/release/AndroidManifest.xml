@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    AndroidManifest.xml for FCM Incoming Call App
+
+    WHY THESE PERMISSIONS EXIST:
+    - INTERNET: Required for FCM and API calls
+    - POST_NOTIFICATIONS: Required for Android 13+ to show any notifications
+    - FOREGROUND_SERVICE: Required to keep call handling alive
+    - FOREGROUND_SERVICE_PHONE_CALL: Android 14+ requires specific foreground service types
+    - USE_FULL_SCREEN_INTENT: Allows full-screen intent on lock screen
+    - VIBRATE: Vibrate device on incoming call
+    - WAKE_LOCK: Keep CPU awake during call processing
+    - RECEIVE_BOOT_COMPLETED: Optional - re-register FCM token after device reboot
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.astro5star.app"
+    android:versionCode="1"
+    android:versionName="1.0.0" >
+
+    <uses-sdk
+        android:minSdkVersion="24"
+        android:targetSdkVersion="34" />
+
+    <!-- Network permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Notification permission (Android 13+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Foreground service permissions -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
+    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- Full screen intent for lock screen (incoming call UI) -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+
+    <!-- Ringtone and vibration -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Keep CPU awake during call processing -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Optional: Re-register after reboot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- WebRTC Permissions -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <!-- Queries required for Android 11+ to open external UPI apps -->
+    <queries>
+        <package android:name="com.phonepe.app" />
+        <package android:name="com.phonepe.app.business" />
+        <package android:name="com.google.android.apps.nbu.paisa.user" />
+        <package android:name="net.one97.paytm" />
+        <package android:name="in.org.npci.upiapp" />
+        <package android:name="com.whatsapp" />
+
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="upi" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="paytmmp" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="phonepe" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="tez" />
+        </intent>
+
+        <package android:name="com.phonepe.simulator" />
+
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data
+                android:host="pay"
+                android:scheme="upi" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data
+                android:host="upi"
+                android:scheme="mandate" />
+        </intent>
+    </queries>
+
+    <meta-data
+        android:name="android.webkit.WebView.EnableSafeBrowsing"
+        android:value="true" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" />
+    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" />
+
+    <permission
+        android:name="com.astro5star.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.astro5star.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+
+    <application
+        android:name="com.astro5star.app.AstrologerApp"
+        android:allowBackup="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:extractNativeLibs="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.FCMCallApp" >
+
+        <!--
+            MainActivity: Entry point for user registration
+            - Standard launch mode
+            - Shown in launcher
+        -->
+        <activity
+            android:name="com.astro5star.app.MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.FCMCallApp" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.astro5star.app.ui.guest.GuestDashboardActivity" />
+        <activity android:name="com.astro5star.app.ui.astro.AstrologerDashboardActivity" />
+        <activity
+            android:name="com.astro5star.app.ui.admin.SuperPowerAdminDashboardActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FCMCallApp" />
+        <activity android:name="com.astro5star.app.ui.settings.SettingsActivity" />
+        <activity android:name="com.astro5star.app.ui.settings.ThemeSettingsActivity" />
+        <activity android:name="com.astro5star.app.ui.rasipalan.RasipalanActivity" />
+        <activity android:name="com.astro5star.app.ui.dashboard.GuestActivity" />
+        <activity android:name="com.astro5star.app.ui.payment.PaymentActivity" />
+        <activity android:name="com.astro5star.app.ui.auth.LoginActivity" />
+        <activity android:name="com.astro5star.app.ui.auth.OtpVerificationActivity" />
+        <activity android:name="com.astro5star.app.ui.home.HomeActivity" />
+        <activity android:name="com.astro5star.app.ui.wallet.WalletActivity" />
+        <activity
+            android:name="com.astro5star.app.ui.chat.ChatActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.astro5star.app.ui.call.CallActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.astro5star.app.ui.intake.IntakeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.astro5star.app.ui.chart.ChartDisplayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.astro5star.app.ui.chart.MatchDisplayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="com.astro5star.app.ui.city.CitySearchActivity"
+            android:theme="@style/Theme.FCMCallApp" />
+        <activity
+            android:name="com.astro5star.app.ui.wallet.PaymentStatusActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.FCMCallApp" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+136:                 
+                <data android:scheme="astroluna" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            IncomingCallActivity: Full-screen incoming call UI
+
+            WHY THESE FLAGS ARE CRITICAL:
+            - showWhenLocked: Shows activity even when device is locked
+            - turnScreenOn: Turns on the screen when activity starts
+            - excludeFromRecents: Don't show in recent apps (it's a transient UI)
+            - noHistory: Don't keep in activity stack
+            - launchMode="singleInstance": Only one instance, brings existing to front
+
+            Without these flags, the incoming call UI won't show on locked devices!
+        -->
+        <activity
+            android:name="com.astro5star.app.IncomingCallActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:showWhenLocked="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.FCMCallApp.FullScreen"
+            android:turnScreenOn="true" />
+
+        <!--
+            FCMService: Handles incoming FCM messages
+
+            WHY THIS IS THE KEY COMPONENT:
+            - This service receives FCM messages even when app is killed
+            - Android's FCM infrastructure has special permission to wake apps
+            - Without this, you cannot receive calls when app is not running
+
+            The exported="false" with MESSAGING_EVENT filter is the correct pattern.
+        -->
+        <service
+            android:name="com.astro5star.app.FCMService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!--
+            CallForegroundService: Keeps call processing alive
+
+            WHY THIS MATTERS:
+            - Android can kill any activity/service at any time
+            - Foreground services have higher priority and show persistent notification
+            - foregroundServiceType="phoneCall" tells Android this is a call
+            - Without this, your call handling might be killed mid-process
+        -->
+        <service
+            android:name="com.astro5star.app.CallForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="phoneCall" />
+
+        <!-- Required meta-data for FCM default notification channel -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="incoming_calls" />
+
+        <activity
+            android:name="com.astro5star.app.ui.profile.AstrologerProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.FCMCallApp" />
+        <activity
+            android:name="com.phonepe.intent.sdk.ui.b2bPg.B2bPgActivity"
+            android:exported="false"
+            android:theme="@style/phonepeThemeInvisibleCompat" />
+
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.google.android.gms.cloudmessaging.FINISHED_AFTER_HANDLED"
+                android:value="true" />
+        </receiver>
+        <!--
+             FirebaseMessagingService performs security checks at runtime,
+             but set to not exported to explicitly avoid allowing another app to call it.
+        -->
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:directBootAware="true"
+            android:exported="false" >
+            <intent-filter android:priority="-500" >
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:directBootAware="true"
+            android:exported="false" >
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+        </service>
+
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="com.astro5star.app.firebaseinitprovider"
+            android:directBootAware="true"
+            android:exported="false"
+            android:initOrder="100" />
+
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="com.astro5star.app.androidx-startup"
+            android:exported="false" >
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+                android:value="androidx.startup" />
+        </provider>
+
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:directBootAware="true"
+            android:exported="false" />
+
+        <uses-library
+            android:name="android.ext.adservices"
+            android:required="false" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <receiver
+            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+            android:directBootAware="false"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.DUMP" >
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false" >
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct" />
+        </service>
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" >
+        </service>
+
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false" />
+    </application>
+
+</manifest>

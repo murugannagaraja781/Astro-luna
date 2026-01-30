@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.astro5star.app-mergeReleaseResources-74:/values-v25/values-v25.xml",
+            "map": [
+                {
+                    "source": "/Users/wohozo/.gradle/caches/8.12/transforms/ceb38f94e2e04890f6ab9cd6eaed03c7/transformed/appcompat-1.6.1/res/values-v25/values-v25.xml",
+                    "from": {
+                        "startLines": "2,3,4,6",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,126,209,308",
+                        "endLines": "2,3,5,7",
+                        "endColumns": "70,82,12,12",
+                        "endOffsets": "121,204,303,414"
+                    }
+                }
+            ]
+        }
+    ]
+}

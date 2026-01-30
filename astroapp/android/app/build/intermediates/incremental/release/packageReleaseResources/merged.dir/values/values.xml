@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#000000</color>
+    <color name="action_call">#7C3AED</color>
+    <color name="action_chat">#7C3AED</color>
+    <color name="avatar_background">#EEEEEE</color>
+    <color name="background">#FFFFFF</color>
+    <color name="bg_surface_variant">@color/peacock_teal</color>
+    <color name="black">#1C1F26</color>
+    <color name="border_color">#7C3AED</color>
+    <color name="brand_avocado">#7C3AED</color>
+    <color name="brand_bg_soft">#FAF9F6</color>
+    <color name="brand_card_white">#FFFFFF</color>
+    <color name="brand_emerald_dark">#7C3AED</color>
+    <color name="brand_emerald_royal">#7C3AED</color>
+    <color name="brand_gold">#7C3AED</color>
+    <color name="brand_gold_dark">#7C3AED</color>
+    <color name="brand_orange">#7C3AED</color>
+    <color name="brand_purple">#7C3AED</color>
+    <color name="brand_ripple">#EEEEEE</color>
+    <color name="brand_status_online">#7C3AED</color>
+    <color name="brand_true_red">@color/peacock_teal</color>
+    <color name="brand_true_red_dark">@color/royal_midnight_blue</color>
+    <color name="call_accept">#8B5CF6</color>
+    <color name="call_reject">#EF4444</color>
+    <color name="card_shadow">#1A000000</color>
+    <color name="color4">#5B21B6</color>
+    <color name="colorAccent">@color/peacock_green</color>
+    <color name="colorPrimary">@color/peacock_teal</color>
+    <color name="colorPrimaryDark">@color/royal_midnight_blue</color>
+    <color name="divider">#E2E8F0</color>
+    <color name="divider_cream">#EEEEEE</color>
+    <color name="divider_gold">#EEEEEE</color>
+    <color name="error">@color/error_red</color>
+    <color name="error_red">#DC2626</color>
+    <color name="galaxy_blue">#000000</color>
+    <color name="gradient_center">#B71C1C</color>
+    <color name="gradient_end">#D32F2F</color>
+    <color name="gradient_start">#8E0000</color>
+    <color name="kuber_gold">#000000</color>
+    <color name="luxury_gold">#C9A227</color>
+    <color name="marketplace_bg">#F5F5F5</color>
+    <color name="marketplace_red">#D32F2F</color>
+    <color name="marketplace_yellow">#FFC107</color>
+    <color name="milk_white">#FAF9F6</color>
+    <color name="muted_gold">#757575</color>
+    <color name="nebula_blue">#000000</color>
+    <color name="nebula_purple">#000000</color>
+    <color name="neuro_indigo">#FFFFFF</color>
+    <color name="on_background">#1C1F26</color>
+    <color name="on_error">@color/void_black</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_secondary">@color/royal_midnight_blue</color>
+    <color name="on_surface">#1C1F26</color>
+    <color name="peacock_green">#7C3AED</color>
+    <color name="peacock_teal">#5B21B6</color>
+    <color name="primary">@color/peacock_teal</color>
+    <color name="primary_variant">@color/royal_midnight_blue</color>
+    <color name="purple_200">#FF8A80</color>
+    <color name="purple_500">@color/peacock_teal</color>
+    <color name="purple_700">@color/royal_midnight_blue</color>
+    <color name="royal_gold">#C9A227</color>
+    <color name="royal_midnight_blue">#FAF9F6</color>
+    <color name="sacred_emerald_glow">#1A7C3AED</color>
+    <color name="secondary">@color/royal_gold</color>
+    <color name="secondary_variant">@color/peacock_green</color>
+    <color name="soft_ivory">#1C1F26</color>
+    <color name="starlight_white">#FFFFFF</color>
+    <color name="status_busy">@color/status_red</color>
+    <color name="status_green">#7C3AED</color>
+    <color name="status_online">#7C3AED</color>
+    <color name="status_red">#DC2626</color>
+    <color name="support_blue">#3A4F7A</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_border">#E8ECF2</color>
+    <color name="teal_200">@color/peacock_green</color>
+    <color name="teal_700">@color/peacock_green</color>
+    <color name="text_muted">#9CA3AF</color>
+    <color name="text_on_card">#1C1F26</color>
+    <color name="text_on_primary">#FFFFFF</color>
+    <color name="text_on_red">#FFFFFF</color>
+    <color name="text_primary">#1C1F26</color>
+    <color name="text_secondary">#6B7280</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="void_black">#1C1F26</color>
+    <color name="white">#FFFFFF</color>
+    <string name="app_name">Astro Luna</string>
+    <string name="gcm_defaultSenderId" translatable="false">210523768022</string>
+    <string name="google_api_key" translatable="false">AIzaSyDGCg6OQnWyERiPQVSTrFDkXYlgCyl2BJ8</string>
+    <string name="google_app_id" translatable="false">1:210523768022:android:b4de7ccacb56fa3d32b577</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDGCg6OQnWyERiPQVSTrFDkXYlgCyl2BJ8</string>
+    <string name="google_storage_bucket" translatable="false">astro5star-d487c.firebasestorage.app</string>
+    <string name="project_id" translatable="false">astro5star-d487c</string>
+    <style name="ButtonStyle.Primary" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/primary</item>
+        <item name="android:textColor">@color/text_on_primary</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+    <style name="CardStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardBackgroundColor">@color/surface</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+    <style name="InputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/primary_variant</item> 
+        <item name="hintTextColor">@color/primary_variant</item>
+        <item name="android:textColorHint">@color/text_muted</item>
+        <item name="boxBackgroundColor">@color/surface</item> 
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+    </style>
+    <style name="TextStyle.Header" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextStyle.SubHeader" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+    <style name="Theme.FCMCallApp" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_variant</item>
+        <item name="colorOnPrimary">@color/text_on_primary</item>
+
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryVariant">@color/accent</item>
+        <item name="colorOnSecondary">@color/text_on_primary</item>
+
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:windowLightStatusBar">true</item> 
+        <item name="android:navigationBarColor">@color/background</item>
+
+        <item name="android:windowBackground">@color/background</item>
+        
+        <item name="android:textColorPrimary">@color/text_primary</item>
+    </style>
+    <style name="Theme.FCMCallApp.Cosmic" parent="Theme.FCMCallApp">
+        <item name="colorPrimary">#00E5FF</item>
+        <item name="colorOnPrimary">#000000</item>
+        <item name="android:windowBackground">#050510</item>
+        <item name="android:statusBarColor">#050510</item>
+        <item name="android:navigationBarColor">#050510</item>
+    </style>
+    <style name="Theme.FCMCallApp.Forest" parent="Theme.FCMCallApp">
+        <item name="colorPrimary">#C6FF00</item>
+        <item name="colorOnPrimary">#000000</item>
+        <item name="android:windowBackground">#1B5E20</item>
+        <item name="android:statusBarColor">#1B5E20</item>
+        <item name="android:navigationBarColor">#1B5E20</item>
+    </style>
+    <style name="Theme.FCMCallApp.FullScreen" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:navigationBarColor">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
+    </style>
+    <style name="Theme.FCMCallApp.Lunar" parent="Theme.FCMCallApp">
+        <item name="colorPrimary">#C0C0C0</item>
+        <item name="colorOnPrimary">#000000</item>
+        <item name="android:windowBackground">#263238</item>
+        <item name="android:statusBarColor">#263238</item>
+        <item name="android:navigationBarColor">#263238</item>
+    </style>
+    <style name="Theme.FCMCallApp.Luxury" parent="Theme.FCMCallApp">
+        <item name="colorPrimary">#004D40</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:windowBackground">#FFF8EE</item>
+        <item name="android:statusBarColor">#FFF8EE</item>
+        <item name="android:navigationBarColor">#FFF8EE</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+    <style name="Theme.FCMCallApp.Midnight" parent="Theme.FCMCallApp">
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorOnPrimary">#000000</item>
+        <item name="android:windowBackground">#000000</item>
+        <item name="android:statusBarColor">#000000</item>
+        <item name="android:navigationBarColor">#000000</item>
+    </style>
+    <style name="Theme.FCMCallApp.Mystic" parent="Theme.FCMCallApp">
+        <item name="colorPrimary">#F48FB1</item>
+        <item name="colorOnPrimary">#311B92</item>
+        <item name="android:windowBackground">#311B92</item>
+        <item name="android:statusBarColor">#311B92</item>
+        <item name="android:navigationBarColor">#311B92</item>
+    </style>
+    <style name="Theme.FCMCallApp.Ocean" parent="Theme.FCMCallApp">
+        <item name="colorPrimary">#E1F5FE</item>
+        <item name="colorOnPrimary">#01579B</item>
+        <item name="android:windowBackground">#01579B</item>
+        <item name="android:statusBarColor">#01579B</item>
+        <item name="android:navigationBarColor">#01579B</item>
+    </style>
+    <style name="Theme.FCMCallApp.Royal" parent="Theme.FCMCallApp">
+        <item name="colorPrimary">#FFD700</item>
+        <item name="colorOnPrimary">#4A148C</item>
+        <item name="android:windowBackground">#4A148C</item>
+        <item name="android:statusBarColor">#4A148C</item>
+        <item name="android:navigationBarColor">#4A148C</item>
+    </style>
+    <style name="Theme.FCMCallApp.Solar" parent="Theme.FCMCallApp">
+        <item name="colorPrimary">#FFFFEA00</item>
+        <item name="colorOnPrimary">#000000</item>
+        <item name="android:windowBackground">#BF360C</item>
+        <item name="android:statusBarColor">#BF360C</item>
+        <item name="android:navigationBarColor">#BF360C</item>
+    </style>
+    <style name="Theme.FCMCallApp.Vedic" parent="Theme.FCMCallApp">
+        <item name="colorPrimary">#FF9933</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:windowBackground">#800000</item>
+        <item name="android:statusBarColor">#800000</item>
+        <item name="android:navigationBarColor">#800000</item>
+    </style>
+</resources>
