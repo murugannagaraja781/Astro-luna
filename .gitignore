@@ -1,0 +1,39 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+*.log
+
+# Android patterns
+**/build/
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizard.settings.xml
+.externalNativeBuild
+.cxx
+local.properties
+captures/
+.externalNativeBuild
+.cxx
+*.apk
+*.aar
+*.jks
+*.keystore
+
+# Project specific sensitive files
+firebase-service-account.json
+github_action_key
+github_action_key.pub
+keystore.properties
+
+# OS files
+.DS_Store
+Thumbs.db
