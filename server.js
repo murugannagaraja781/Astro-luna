@@ -332,6 +332,7 @@ const UserSchema = new mongoose.Schema({
   isAvailable: { type: Boolean, default: false }, // Explicit Online Toggle
   availabilityExpiresAt: Date, // Safety timeout
   fcmToken: String, // Push Notification Token
+  isMasked: { type: Boolean, default: false }, // Hidden from main list
   lastSeen: { type: Date, default: Date.now }
 });
 
@@ -554,7 +555,7 @@ app.get('/api/user/:userId', async (req, res) => {
 // Astrologer List API (Used by Mobile App)
 app.get('/api/astrology/astrologers', async (req, res) => {
   try {
-    const astrologers = await User.find({ role: 'astrologer' })
+    const astrologers = await User.find({ role: 'astrologer', isMasked: { $ne: true } })
       .select('userId name phone skills price isOnline isChatOnline isAudioOnline isVideoOnline experience isVerified image walletBalance totalEarnings')
       .lean();
 
@@ -2242,6 +2243,15 @@ io.on('connection', (socket) => {
         const s = userSockets.get(data.userId);
         if (s) io.to(s).emit('force-logout'); // Need to handle client side
       }
+    } catch (e) { cb({ ok: false }); }
+  });
+
+  socket.on('admin-toggle-mask', async (data, cb) => {
+    if (!await checkAdmin(socket.id)) return cb({ ok: false });
+    try {
+      await User.updateOne({ userId: data.userId }, { isMasked: data.isMasked });
+      if (typeof broadcastAstroUpdate === 'function') broadcastAstroUpdate();
+      cb({ ok: true });
     } catch (e) { cb({ ok: false }); }
   });
 

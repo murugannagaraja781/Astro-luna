@@ -5549,7 +5549,9 @@
 
            <div class="admin-actions">
               <button class="btn-admin btn-wallet" onclick="adminWallet('${u.userId}')"><i class="fas fa-plus"></i> Wallet</button>
+              <button class="btn-admin" style="background:#5B21B6; color:white;" onclick="adminRole('${u.userId}', '${u.role}')"><i class="fas fa-user-tag"></i> Role</button>
               <button class="btn-admin btn-role" onclick="openAdminEditUser('${u.userId}')"><i class="fas fa-edit"></i> Edit</button>
+              ${isAstro ? `<button class="btn-admin" style="background:${u.isMasked ? '#F59E0B' : '#eee'}; color:${u.isMasked ? 'white' : '#666'};" onclick="adminMask('${u.userId}', ${!u.isMasked})"><i class="fas fa-eye-slash"></i></button>` : ''}
 
               <button class="btn-admin btn-block" onclick="adminBan('${u.userId}', ${!u.isBanned})" style="background:${u.isBanned ? '#DC2626' : '#eee'}; color:${u.isBanned ? 'white' : '#666'};">
                 <i class="fas fa-ban"></i>
@@ -5665,8 +5667,22 @@
     let roleChangeTargetId = null;
 
     window.adminRole = (uid, currentRole) => {
+      roleChangeTargetId = uid;
       document.getElementById('adminRoleSelect').value = currentRole;
       document.getElementById('screen-admin-role-modal').classList.remove('hidden');
+    };
+
+    window.adminMask = (uid, doMask) => {
+      if (confirm(doMask ? 'Mask this astrologer (hide from list)?' : 'Unmask this astrologer?')) {
+        socket.emit('admin-toggle-mask', { userId: uid, isMasked: doMask }, (res) => {
+          if (res.ok) {
+            alert(doMask ? 'Astrologer Masked' : 'Astrologer Unmasked');
+            refreshAdminData();
+          } else {
+            alert('Failed to update mask status');
+          }
+        });
+      }
     };
 
     window.submitAdminRoleChange = () => {
