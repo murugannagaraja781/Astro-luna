@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "210523768022",
-    "project_id": "astro5star-d487c",
-    "storage_bucket": "astro5star-d487c.firebasestorage.app"
+    "project_number": "587691116180",
+    "project_id": "astroluna-76da1",
+    "storage_bucket": "astroluna-76da1.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:210523768022:android:b4de7ccacb56fa3d32b577",
+        "mobilesdk_app_id": "1:587691116180:android:b039652f609d845a9cd681",
         "android_client_info": {
-          "package_name": "com.astroluna.app"
+          "package_name": "com.astroluna"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDGCg6OQnWyERiPQVSTrFDkXYlgCyl2BJ8"
+          "current_key": "AIzaSyAeTzwwRh7EYI7KFlenYtPHI9Ck2a7vIPo"
         }
       ],
       "services": {

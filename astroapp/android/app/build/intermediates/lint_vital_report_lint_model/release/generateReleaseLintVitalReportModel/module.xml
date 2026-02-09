@@ -3,12 +3,12 @@
     dir="/Users/wohozo/Documents/Astro-luna/astroapp/android/app"
     name=":app"
     type="APP"
-    maven="AstroApp:app:"
-    agpVersion="8.2.2"
+    maven="AstroApp:app:unspecified"
+    agpVersion="8.5.2"
     buildFolder="build"
-    bootClassPath="/Users/wohozo/Library/Android/sdk/platforms/android-34/android.jar:/Users/wohozo/Library/Android/sdk/build-tools/34.0.0/core-lambda-stubs.jar"
+    bootClassPath="/Users/wohozo/Library/Android/sdk/platforms/android-35/android.jar:/Users/wohozo/Library/Android/sdk/build-tools/34.0.0/core-lambda-stubs.jar"
     javaSourceLevel="17"
-    compileTarget="android-34"
+    compileTarget="android-35"
     neverShrinking="true">
   <lintOptions
       abortOnError="true"

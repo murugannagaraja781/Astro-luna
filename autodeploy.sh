@@ -1,24 +1,41 @@
 #!/bin/bash
 
-# Astro Luna - Auto Deploy Script
-# Run this on server: curl -fsSL https://raw.githubusercontent.com/murugannagaraja781/Astro-luna/main/autodeploy.sh | bash
+# Astro 5 Star - Auto Deploy Script
+# Run this on server: curl -fsSL https://raw.githubusercontent.com/murugannagaraja781/astro5start/main/autodeploy.sh | bash
 
 echo "=========================================="
-echo "      Astro Luna Auto Deploy"
+echo "    Astro 5 Star Auto Deploy"
 echo "=========================================="
 
 # Variables
-APP_DIR="/var/www/astroluna"
-REPO_URL="https://github.com/murugannagaraja781/Astro-luna.git"
-APP_NAME="astroluna-app"
+APP_DIR="/var/www/astro5start"
+REPO_URL="https://github.com/murugannagaraja781/astro5start.git"
+APP_NAME="astro-app"
 
-# Step 1: Create directory if not exists
-echo "[1/6] Creating app directory..."
-sudo mkdir -p $APP_DIR
-cd $APP_DIR
+# Step 1.5: Setup Swap if memory is low (Mandatory for 512MB RAM)
+total_mem=$(free -m | awk '/^Mem:/{print $2}')
+swap_count=$(swapon --show | wc -l)
+
+if [ "$total_mem" -lt 1000 ] && [ "$swap_count" -le 1 ]; then
+    echo "[1.5/6] Low memory detected ($total_mem MB). Creating 1GB swap file..."
+    if [ ! -f "/swapfile" ]; then
+        sudo fallocate -l 1G /swapfile
+        sudo chmod 600 /swapfile
+        sudo mkswap /swapfile
+        sudo swapon /swapfile
+        echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab
+        echo "Swap file created and activated."
+    else
+        sudo swapon /swapfile 2>/dev/null || true
+        echo "Existing swap file activated."
+    fi
+fi
 
 # Step 2: Clone or pull latest code
 echo "[2/6] Getting latest code..."
+
+# Optimization for low memory npm
+export NODE_OPTIONS="--max-old-space-size=448"
 
 # Define SSH Key Command if key exists
 if [ -f "github_action_key" ]; then
@@ -32,32 +49,21 @@ if [ -f "github_action_key" ]; then
         current_url=$(git remote get-url origin)
         if [[ "$current_url" == https* ]]; then
              echo "Switching remote to SSH..."
-             git remote set-url origin git@github.com:murugannagaraja781/Astro-luna.git
+             git remote set-url origin git@github.com:murugannagaraja781/astro5start.git
         fi
     fi
 fi
 
 if [ -d ".git" ]; then
-    echo "Updating remote URL and pulling latest changes..."
-    # Force update the remote URL to the new one
-    git remote set-url origin $REPO_URL || git remote add origin $REPO_URL
+    echo "Pulling latest changes..."
+    # Reset any local changes (like the manual fix user might have attempted)
     git reset --hard
-    git fetch origin
-    # Detect the correct branch (main or master)
-    BRANCH=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
-    if [ -z "$BRANCH" ]; then
-        # Fallback if remote show fails
-        if git rev-parse --verify origin/main >/dev/null 2>&1; then BRANCH="main"; else BRANCH="master"; fi
-    fi
-
-    echo "Detected branch: $BRANCH"
-    git checkout $BRANCH || git checkout -b $BRANCH
-    git branch --set-upstream-to=origin/$BRANCH $BRANCH || true
-    git reset --hard origin/$BRANCH
+    git fetch origin main
+    git reset --hard origin/main
 else
     echo "Cloning repository..."
     cd /var/www
-    sudo rm -rf astroluna
+    sudo rm -rf astro5start
 
     # If freshly cloning, we might fail if we don't have the key yet (Chicken & Egg).
     # But user likely has the repo already.
@@ -65,7 +71,7 @@ else
     # Getting key for initial clone is tricky via script if script is curl'd.
     # Assessing current state: User HAS repo.
 
-    git clone $REPO_URL astroluna
+    git clone $REPO_URL astro5start
     cd $APP_DIR
 fi
 
@@ -92,7 +98,17 @@ fi
 
 # Step 4: Install dependencies
 echo "[4/6] Installing dependencies..."
-npm install --production
+# Clean up if previous install failed
+if [ -d "node_modules" ]; then
+    echo "Existing node_modules found. Pruning..."
+fi
+
+# Use memory-efficient npm install
+npm install --production --no-audit --no-fund --prefer-offline || {
+    echo "Initial npm install failed. Retrying with --no-package-lock..."
+    rm -rf node_modules
+    npm install --production --no-audit --no-fund --no-package-lock
+}
 
 # Step 5: Setup PM2
 echo "[5/6] Setting up PM2..."
@@ -105,7 +121,7 @@ pm2 save
 
 echo ""
 echo "=========================================="
-echo "    Deployment Complete!"
+echo "    Deployment Complete!11"
 echo "=========================================="
 echo ""
 echo "App running on port 3000"

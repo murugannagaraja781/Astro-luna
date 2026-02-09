@@ -1,0 +1,8 @@
+#R8 includes a set of additional optimizations (referred to as "full mode") which makes it behave differently from ProGuard. These optimizations are enabled by default since Android Gradle plugin version 8.0.0.
+#You can disable these additional optimizations by including the following in your project's gradle.properties file:
+#android.enableR8.fullMode=false
+-keep public interface com.phonepe.intent.sdk.core.ObjectFactoryInitializationStrategy
+-keepclassmembers public class * implements com.phonepe.intent.sdk.core.ObjectFactoryInitializationStrategy {
+   public <init>(...);
+}
+-dontwarn java.lang.invoke.StringConcatFactory

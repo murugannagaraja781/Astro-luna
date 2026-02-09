@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.phonepe.intent.sdk" >
+
+    <uses-sdk android:minSdkVersion="21" />
+    <!-- Android 11 Package Changes -->
+    <queries>
+        <package android:name="com.phonepe.app" />
+        <package android:name="com.phonepe.simulator" />
+
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data
+                android:host="pay"
+                android:scheme="upi" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data
+                android:host="upi"
+                android:scheme="mandate" />
+        </intent>
+    </queries>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <meta-data
+        android:name="android.webkit.WebView.EnableSafeBrowsing"
+        android:value="true" />
+
+    <application>
+        <activity
+            android:name="com.phonepe.intent.sdk.ui.b2bPg.B2bPgActivity"
+            android:exported="false"
+            android:theme="@style/phonepeThemeInvisibleCompat" />
+    </application>
+
+</manifest>

@@ -1,0 +1,11 @@
+com.phonepe.intent.sdk
+id fragment_container_core_view
+id progressBar
+id webView
+layout activty_web_payment
+layout fragment_web
+string no
+string payment_cancel_confirmation
+string yes
+style CircularProgress
+style phonepeThemeInvisibleCompat

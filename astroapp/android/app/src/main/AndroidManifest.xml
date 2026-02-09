@@ -25,6 +25,7 @@
     <!-- Foreground service permissions -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
     <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
@@ -98,13 +99,26 @@
         </activity>
 
         <activity android:name=".ui.guest.GuestDashboardActivity" />
+        <activity android:name=".ui.academy.AcademyActivity" />
+        <activity android:name=".ui.horoscope.FreeHoroscopeActivity" />
         <activity android:name=".ui.astro.AstrologerDashboardActivity" />
+        <activity android:name=".ui.astro.AstrologerHistoryActivity" />
         <activity android:name=".ui.admin.SuperPowerAdminDashboardActivity" android:exported="false" android:theme="@style/Theme.FCMCallApp"/>
         <activity android:name=".ui.settings.SettingsActivity" />
         <activity android:name=".ui.settings.ThemeSettingsActivity" />
         <activity android:name=".ui.rasipalan.RasipalanActivity" />
         <activity android:name=".ui.dashboard.GuestActivity" />
-        <activity android:name=".ui.payment.PaymentActivity" />
+        <activity android:name=".ui.payment.PaymentActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="astroluna"
+                    android:host="payment-success"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.auth.LoginActivity" />
         <activity android:name=".ui.auth.OtpVerificationActivity" />
         <activity android:name=".ui.home.HomeActivity" />
@@ -113,6 +127,11 @@
         <activity android:name=".ui.call.CallActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.intake.IntakeActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.chart.ChartDisplayActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".ui.chart.VipChartActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
@@ -190,7 +209,7 @@
         <service
             android:name=".CallForegroundService"
             android:exported="false"
-            android:foregroundServiceType="phoneCall" />
+            android:foregroundServiceType="phoneCall|microphone" />
 
         <!-- Required meta-data for FCM default notification channel -->
         <meta-data
@@ -202,6 +221,22 @@
             android:screenOrientation="portrait"
             android:exported="false"
             android:theme="@style/Theme.FCMCallApp"/>
+
+        <activity
+            android:name=".ui.profile.UserProfileActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:theme="@style/Theme.FCMCallApp"/>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

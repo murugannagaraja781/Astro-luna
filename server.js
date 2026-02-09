@@ -11,6 +11,8 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const admin = require('firebase-admin'); // Firebase Admin for Mobile App
+const { DateTime } = require('luxon');
+const { fetchDailyHoroscope } = require("./utils/rasiEng/horoscopeData");
 
 // PhonePe Config
 // PhonePe Config
@@ -30,7 +32,7 @@ const { GoogleAuth } = require('google-auth-library');
 const fs = require('fs');
 
 // FCM v1 Configuration
-const FCM_PROJECT_ID = 'astroluna-76da1';
+const FCM_PROJECT_ID = 'astro5star-d487c';
 let fcmAuth = null;
 
 // Initialize FCM v1 Auth
@@ -146,6 +148,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));  // Serve static files
 
+// Policy Page Routes
+app.get('/privacy-policy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'privacy-policy.html')));
+app.get('/terms-condition', (req, res) => res.sendFile(path.join(__dirname, 'public', 'terms-condition.html')));
+app.get('/refund-cancellation-policy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'refund-cancellation-policy.html')));
+app.get('/return-policy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'return-policy.html')));
+app.get('/shipping-policy', (req, res) => res.sendFile(path.join(__dirname, 'public', 'shipping-policy.html')));
+
 // Fallback Wallet Route for App Users who get redirected to /wallet
 app.get('/wallet', (req, res) => {
   const status = req.query.status || 'unknown';
@@ -154,30 +163,30 @@ app.get('/wallet', (req, res) => {
   // Construct Deep Link
   const scheme = status === 'success' ? 'astroluna://payment-success' : 'astroluna://payment-failed';
   const deepLink = `${scheme}?status=${status}&reason=${reason}`;
-  const intentUrl = `intent://payment-${status === 'success' ? 'success' : 'failed'}?status=${status}#Intent;scheme=astroluna;package=com.astroluna.app;end`;
+  const intentUrl = `intent://payment-${status === 'success' ? 'success' : 'failed'}?status=${status}#Intent;scheme=astroluna;package=com.astroluna;end`;
 
   res.send(`
-     <html>
-       <head>
-         <title>Payment Status</title>
-         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <style>
-           body { font-family: sans-serif; padding: 20px; text-align: center; }
-           .btn { background: #059669; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; display: inline-block; margin-top: 20px; font-weight: bold;}
-         </style>
-       </head>
-       <body>
-         <h3>Payment ${status === 'success' ? 'Successful' : 'Completed'}</h3>
-         <p>Redirecting you back to the app...</p>
-         <a href="${deepLink}" class="btn">Return to App</a>
-         <script>
-           // Auto Redirect
-           setTimeout(() => { window.location.href = "${intentUrl}"; }, 500);
-           setTimeout(() => { window.location.href = "${deepLink}"; }, 1500);
-         </script>
-       </body>
-     </html>
-   `);
+    <html>
+      <head>
+        <title>Payment Status</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+          body { font-family: sans-serif; padding: 20px; text-align: center; }
+          .btn { background: #059669; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; display: inline-block; margin-top: 20px; font-weight: bold;}
+        </style>
+      </head>
+      <body>
+        <h3>Payment ${status === 'success' ? 'Successful' : 'Completed'}</h3>
+        <p>Redirecting you back to the app...</p>
+        <a href="${deepLink}" class="btn">Return to Home</a>
+        <script>
+          // Auto Redirect
+          setTimeout(() => { window.location.href = "${intentUrl}"; }, 500);
+          setTimeout(() => { window.location.href = "${deepLink}"; }, 1500);
+        </script>
+      </body>
+    </html>
+  `);
 });
 
 // Policy Page Routes
@@ -187,17 +196,14 @@ app.get('/return-policy', (req, res) => res.sendFile(path.join(__dirname, 'publi
 app.get('/shipping-policy', (req, res) => res.sendFile(path.join(__dirname, 'public/shipping-policy.html')));
 
 // Routes
-const vimshottariRouter = require("./routes/vimshottari");
-const astrologyRouter = require("./routes/astrology");
-const matchRouter = require("./routes/match");
-const horoscopeRouter = require("./routes/horoscope");
-const chartsRouter = require("./routes/charts"); // Local charts
+const rasiEngRouter = require("./routes/rasiEng");
+const rasipalanRouter = require("./routes/rasipalan");
+const freeHoroscopeRouter = require("./routes/freeHoroscope");
 
-app.use("/api/vimshottari", vimshottariRouter);
-app.use("/api/astrology", astrologyRouter);
-app.use("/api/match", matchRouter);
-app.use("/api/horoscope", horoscopeRouter);
-app.use("/api/charts", chartsRouter); // Mount local charts
+app.use("/api/rasi-eng", rasiEngRouter);
+app.use("/api/rasipalan", rasipalanRouter);
+app.use("/api/horoscope/rasi-palan", rasipalanRouter); // Android App specific path
+app.use("/api/horoscope", freeHoroscopeRouter); // Free horoscope chart generation
 
 // FCM Test Endpoint - Verify Firebase is working
 app.get('/api/test-fcm', async (req, res) => {
@@ -278,15 +284,85 @@ app.post('/upload', upload.single('file'), (req, res) => {
   // ... (keeping upload logic if valid) ...
   return res.json({ ok: true, url: req.file ? '/uploads/' + req.file.filename : '' });
 });
-const MONGO_URI = 'mongodb+srv://murugannagaraja781_db_user:NewLife2025@cluster0.tp2gekn.mongodb.net/astrofive';
-mongoose.connect(MONGO_URI)
-  .then(() => {
-    console.log('✅ MongoDB Connected');
+const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/astrofive';
+
+// Helper function to check if MongoDB is connected
+const isMongoConnected = () => {
+  return mongoose.connection.readyState === 1;
+};
+
+// Helper function for safe database operations
+const safeDbOperation = async (operation, fallbackValue = null) => {
+  if (!isMongoConnected()) {
+    console.warn('⚠️  MongoDB not connected, skipping database operation');
+    return fallbackValue;
+  }
+  try {
+    return await operation();
+  } catch (err) {
+    console.error('Database operation error:', err.message);
+    return fallbackValue;
+  }
+};
+
+// MongoDB Connection with retry logic
+const connectDB = async (retries = 5) => {
+  try {
+    await mongoose.connect(MONGO_URI, {
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
+      maxPoolSize: 10,
+      minPoolSize: 2
+    });
+    console.log('✅ MongoDB Connected to:', MONGO_URI.split('@').pop().split('?')[0]);
     if (process.env.NODE_ENV !== 'test') {
       seedDatabase();
     }
-  })
-  .catch(err => console.error('MongoDB Error:', err));
+  } catch (err) {
+    console.error('❌ MongoDB Connection Error:', err.message);
+
+    if (err.message.includes('IP that isn\'t whitelisted') || err.message.includes('IP whitelist')) {
+      console.error('👉 ACTION NEEDED: Login to MongoDB Atlas and whitelist your server IP');
+      console.error('   Go to: Network Access → Add IP Address → Allow Access from Anywhere (0.0.0.0/0)');
+    }
+
+    if (retries > 0) {
+      console.log(`🔄 Retrying MongoDB connection... (${retries} attempts left)`);
+      setTimeout(() => connectDB(retries - 1), 5000);
+    } else {
+      console.error('❌ MongoDB connection failed after all retries');
+      console.error('⚠️  Server will continue without database (some features may not work)');
+    }
+  }
+};
+
+// Handle MongoDB connection events
+mongoose.connection.on('connected', () => {
+  console.log('📡 Mongoose connected to MongoDB');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('❌ Mongoose connection error:', err.message);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('📴 Mongoose disconnected from MongoDB');
+});
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  try {
+    await mongoose.connection.close();
+    console.log('MongoDB connection closed through app termination');
+    process.exit(0);
+  } catch (err) {
+    console.error('Error closing MongoDB connection:', err);
+    process.exit(1);
+  }
+});
+
+// Start connection
+connectDB();
 
 // Schemas
 const UserSchema = new mongoose.Schema({
@@ -330,9 +406,9 @@ const UserSchema = new mongoose.Schema({
   },
   // Phase 2: Reliable Calling Fields
   isAvailable: { type: Boolean, default: false }, // Explicit Online Toggle
+  isBusy: { type: Boolean, default: false }, // Currently in session
   availabilityExpiresAt: Date, // Safety timeout
   fcmToken: String, // Push Notification Token
-  isMasked: { type: Boolean, default: false }, // Hidden from main list
   lastSeen: { type: Date, default: Date.now }
 });
 
@@ -417,19 +493,57 @@ const PaymentSchema = new mongoose.Schema({
   amount: Number, // in Rupees
   status: { type: String, enum: ['pending', 'success', 'failed'], default: 'pending' },
   createdAt: { type: Date, default: Date.now },
-  providerRefId: String
+  providerRefId: String,
+  isApp: { type: Boolean, default: false }
 });
 const Payment = mongoose.model('Payment', PaymentSchema);
 
 
 const ChatMessageSchema = new mongoose.Schema({
+  messageId: { type: String, unique: true },
   sessionId: String,
   fromUserId: String,
   toUserId: String,
   text: String,
-  timestamp: Number
+  type: { type: String, default: 'text' }, // text, system
+  timestamp: { type: Number, default: Date.now },
+  createdAt: { type: Date, default: Date.now }
 });
 const ChatMessage = mongoose.model('ChatMessage', ChatMessageSchema);
+
+const AcademyVideoSchema = new mongoose.Schema({
+  title: String,
+  youtubeUrl: String,
+  thumbnail: String,
+  category: String,
+  createdAt: { type: Date, default: Date.now }
+});
+const AcademyVideo = mongoose.model('AcademyVideo', AcademyVideoSchema);
+
+const BannerSchema = new mongoose.Schema({
+  imageUrl: { type: String, required: true },
+  title: String,
+  subtitle: String,
+  ctaText: { type: String, default: 'Learn More' },
+  order: { type: Number, default: 0 },
+  isActive: { type: Boolean, default: true },
+  createdAt: { type: Date, default: Date.now }
+});
+const Banner = mongoose.model('Banner', BannerSchema);
+
+// Account Deletion Request Schema
+const AccountDeletionRequestSchema = new mongoose.Schema({
+  requestId: { type: String, unique: true },
+  userIdentifier: { type: String, required: true }, // Email or Phone
+  userId: String, // If found in database
+  reason: String,
+  status: { type: String, default: 'pending' }, // pending, approved, rejected, completed
+  requestedAt: { type: Date, default: Date.now },
+  processedAt: Date,
+  processedBy: String, // Admin userId who processed it
+  notes: String // Admin notes
+});
+const AccountDeletionRequest = mongoose.model('AccountDeletionRequest', AccountDeletionRequestSchema);
 
 
 // ===== Seed Data =====
@@ -544,6 +658,10 @@ app.get('/api/user/:userId', async (req, res) => {
       role: user.role,
       walletBalance: user.walletBalance,
       isOnline: user.isOnline,
+      isAvailable: user.isAvailable,
+      isChatOnline: user.isChatOnline || false,
+      isAudioOnline: user.isAudioOnline || false,
+      isVideoOnline: user.isVideoOnline || false,
       totalEarnings: user.totalEarnings || 0,
       image: user.image
     });
@@ -555,7 +673,7 @@ app.get('/api/user/:userId', async (req, res) => {
 // Astrologer List API (Used by Mobile App)
 app.get('/api/astrology/astrologers', async (req, res) => {
   try {
-    const astrologers = await User.find({ role: 'astrologer', isMasked: { $ne: true } })
+    const astrologers = await User.find({ role: 'astrologer' })
       .select('userId name phone skills price isOnline isChatOnline isAudioOnline isVideoOnline experience isVerified image walletBalance totalEarnings')
       .lean();
 
@@ -572,6 +690,7 @@ app.get('/api/astrology/astrologers', async (req, res) => {
       isVideoOnline: a.isVideoOnline || false,
       experience: a.experience || 0,
       isVerified: a.isVerified || false,
+      isBusy: a.isBusy || false,
       image: a.image || '',
       walletBalance: a.walletBalance // Optional
     }));
@@ -579,6 +698,39 @@ app.get('/api/astrology/astrologers', async (req, res) => {
     res.json({ ok: true, astrologers: formatted });
   } catch (err) {
     console.error('Error fetching astrologers:', err);
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// --- Get Astrologer Session History ---
+app.get('/api/astrology/history/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    // Find sessions where this user was the astrologer
+    // We check both astrologerId and toUserId for compatibility
+    const sessions = await Session.find({
+      $or: [
+        { astrologerId: userId },
+        { toUserId: userId, type: { $in: ['audio', 'video', 'chat'] } }
+      ],
+      status: 'ended'
+    })
+      .sort({ actualBillingStart: -1, startTime: -1 })
+      .limit(50)
+      .lean();
+
+    const populatedSessions = await Promise.all(sessions.map(async (s) => {
+      const cId = s.clientId || s.fromUserId;
+      const client = await User.findOne({ userId: cId }).select('name').lean();
+      return {
+        ...s,
+        clientName: client ? client.name : 'Unknown Client'
+      };
+    }));
+
+    res.json({ ok: true, sessions: populatedSessions });
+  } catch (err) {
+    console.error('History API error:', err);
     res.status(500).json({ ok: false, error: err.message });
   }
 });
@@ -606,22 +758,134 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Daily Horoscope API
-app.get('/api/daily-horoscope', (req, res) => {
-  const content = generateTamilHoroscope(); // Check and update if new day
-  res.json({ ok: true, content });
+// Academy Admin APIs
+app.post('/api/admin/academy/videos', async (req, res) => {
+  try {
+    const video = new AcademyVideo(req.body);
+    await video.save();
+    res.json({ ok: true, video });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
 });
 
-// Home Banners API (5 Dummy Images)
-app.get('/api/home/banners', (req, res) => {
-  const banners = [
-    { id: 1, imageUrl: "https://via.placeholder.com/600x300/1B5E20/FFFFFF?text=Astro+Premium", title: "Premium Consultation" },
-    { id: 2, imageUrl: "https://via.placeholder.com/600x300/43A047/FFFFFF?text=Love+Match", title: "Find Your Soulmate" },
-    { id: 3, imageUrl: "https://via.placeholder.com/600x300/66BB6A/FFFFFF?text=Career+Growth", title: "Career Guidance" },
-    { id: 4, imageUrl: "https://via.placeholder.com/600x300/81C784/FFFFFF?text=Gemstones", title: "Lucky Gemstones" },
-    { id: 5, imageUrl: "https://via.placeholder.com/600x300/A5D6A7/FFFFFF?text=Daily+Pooja", title: "Daily Rituals" }
-  ];
-  res.json({ ok: true, data: banners });
+app.put('/api/admin/academy/videos/:id', async (req, res) => {
+  try {
+    const video = await AcademyVideo.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json({ ok: true, video });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+app.delete('/api/admin/academy/videos/:id', async (req, res) => {
+  try {
+    await AcademyVideo.findByIdAndDelete(req.params.id);
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// Daily Horoscope API
+app.get('/api/daily-horoscope', async (req, res) => {
+  try {
+    const today = DateTime.now().setZone('Asia/Kolkata').toFormat('yyyy-MM-dd');
+    const data = await fetchDailyHoroscope(today);
+    if (data && data.length > 0) {
+      // Pick the first rasi (Mesham) as a generic forecast for the home screen
+      res.json({ ok: true, content: data[0].forecast_ta });
+    } else {
+      const content = generateTamilHoroscope();
+      res.json({ ok: true, content });
+    }
+  } catch (err) {
+    console.error('Error in /api/daily-horoscope:', err);
+    const content = generateTamilHoroscope();
+    res.json({ ok: true, content });
+  }
+});
+
+// Academy Videos API
+app.get('/api/academy/videos', async (req, res) => {
+  try {
+    let videos = await AcademyVideo.find().sort({ createdAt: -1 });
+    if (videos.length === 0) {
+      // Return some dummy videos if none exist
+      videos = [
+        { title: "Introduction to Astrology", youtubeUrl: "https://www.youtube.com/watch?v=kYI9W5yisCc", category: "Basics" },
+        { title: "Planetary Positions", youtubeUrl: "https://www.youtube.com/watch?v=FjI1XwHhK_4", category: "Intermediate" },
+        { title: "Daily Prediction Guide", youtubeUrl: "https://www.youtube.com/watch?v=BvRE0mD6uA0", category: "General" }
+      ];
+    }
+    res.json({ ok: true, videos });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// --- Banner APIs (Admin & App) ---
+
+// Get Active Banners (Public)
+app.get('/api/home/banners', async (req, res) => {
+  try {
+    const banners = await Banner.find({ isActive: true }).sort({ order: 1 });
+    // Fallback if no banners in DB
+    if (banners.length === 0) {
+      return res.json({
+        ok: true,
+        data: [
+          { id: '1', imageUrl: "https://via.placeholder.com/600x300/1B5E20/FFFFFF?text=Astro+Premium", title: "Premium Consultation", subtitle: "50% Off Today", ctaText: "Book Now" },
+          { id: '2', imageUrl: "https://via.placeholder.com/600x300/43A047/FFFFFF?text=Love+Match", title: "Find Your Soulmate", subtitle: "Vedic Compatibility", ctaText: "Check Match" },
+          { id: '3', imageUrl: "https://via.placeholder.com/600x300/66BB6A/FFFFFF?text=Career+Growth", title: "Career Guidance", subtitle: "Success Ahead", ctaText: "View Path" }
+        ]
+      });
+    }
+    res.json({ ok: true, data: banners });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// Admin: Get All Banners
+app.get('/api/admin/banners', async (req, res) => {
+  try {
+    const banners = await Banner.find().sort({ order: 1 });
+    res.json({ ok: true, banners });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// Admin: Create Banner
+app.post('/api/admin/banners', async (req, res) => {
+  try {
+    const banner = new Banner(req.body);
+    await banner.save();
+    res.json({ ok: true, banner });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// Admin: Update Banner
+app.put('/api/admin/banners/:id', async (req, res) => {
+  try {
+    const banner = await Banner.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json({ ok: true, banner });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// Admin: Delete Banner
+app.delete('/api/admin/banners/:id', async (req, res) => {
+  try {
+    await Banner.findByIdAndDelete(req.params.id);
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
 });
 
 // 12 Rasi Horoscope API
@@ -643,6 +907,202 @@ app.get('/api/horoscope/rasi', (req, res) => {
   res.json({ ok: true, data: raliList });
 });
 
+// ==========================================
+// USER INTAKE APIs (Required by Android App)
+// ==========================================
+
+// Get user intake details
+app.get('/api/user/:userId/intake', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findOne({ userId });
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    res.json({
+      success: true,
+      data: user.intakeDetails || null
+    });
+  } catch (err) {
+    console.error('Get intake error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Save user intake details
+app.post('/api/user/intake', async (req, res) => {
+  try {
+    const { userId, ...intakeData } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ success: false, error: 'userId required' });
+    }
+
+    const user = await User.findOneAndUpdate(
+      { userId },
+      { $set: { intakeDetails: intakeData } },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    res.json({ success: true, data: user.intakeDetails });
+  } catch (err) {
+    console.error('Save intake error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ==========================================
+// CHAT HISTORY API (Required by Android App)
+// ==========================================
+app.get('/api/chat/history/:sessionId', async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const messages = await ChatMessage.find({ sessionId }).sort({ timestamp: 1 });
+
+    res.json({
+      success: true,
+      messages: messages.map(m => ({
+        messageId: m._id.toString(),
+        text: m.text,
+        fromUserId: m.fromUserId,
+        toUserId: m.toUserId,
+        timestamp: m.timestamp
+      }))
+    });
+  } catch (err) {
+    console.error('Chat history error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ==========================================
+// LEGACY CHART APIs (Redirect to rasi-eng)
+// ==========================================
+
+// Birth chart - proxy to rasi-eng/charts/full
+app.post('/api/charts/birth-chart', async (req, res) => {
+  try {
+    const { DateTime } = require('luxon');
+    const { swissEph } = require('./utils/rasiEng/swisseph');
+    const { getPlanetsWithDetails, getHouseCusps } = require('./utils/rasiEng/calculations');
+
+    const { date, time, lat, lng, timezone = 5.5, ayanamsa = 'Lahiri' } = req.body;
+
+    const offsetHours = Math.floor(Math.abs(timezone));
+    const offsetMinutes = Math.round((Math.abs(timezone) - offsetHours) * 60);
+    const sign = timezone >= 0 ? '+' : '-';
+    const zone = `UTC${sign}${String(offsetHours).padStart(2, '0')}:${String(offsetMinutes).padStart(2, '0')}`;
+
+    const dt = DateTime.fromFormat(`${date} ${time}`, "yyyy-MM-dd HH:mm", { zone });
+    if (!dt.isValid) {
+      return res.status(400).json({ error: 'Invalid date or time format' });
+    }
+
+    const utc = dt.toUTC();
+    const jd = swissEph.julday(utc.year, utc.month, utc.day, utc.hour + utc.minute / 60);
+
+    const houses = getHouseCusps(jd, lat, lng, 'Placidus', ayanamsa);
+    const planets = getPlanetsWithDetails(jd, houses.cusps, ayanamsa);
+
+    res.json({ success: true, data: { planets, houses } });
+  } catch (err) {
+    console.error('Birth chart error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Match porutham
+app.post('/api/match/porutham', async (req, res) => {
+  try {
+    const { DateTime } = require('luxon');
+    const { swissEph } = require('./utils/rasiEng/swisseph');
+    const { calculatePorutham } = require('./utils/rasiEng/matchCalculations');
+
+    const {
+      groomDate, groomTime, groomLat, groomLng, groomTimezone = 5.5,
+      brideDate, brideTime, brideLat, brideLng, brideTimezone = 5.5,
+      // Alternative fields for compatibility
+      gDate, gTime, gLat, gLng, gTz,
+      bDate, bTime, bLat, bLng, bTz,
+      // Direct moon longitude input (if already calculated)
+      groomMoonLon, brideMoonLon
+    } = req.body;
+
+    let gMoonLon, bMoonLon;
+
+    // If moon longitudes are provided directly, use them
+    if (groomMoonLon !== undefined && brideMoonLon !== undefined) {
+      gMoonLon = groomMoonLon;
+      bMoonLon = brideMoonLon;
+    } else {
+      // Calculate moon positions from birth data
+      const gD = groomDate || gDate;
+      const gT = groomTime || gTime || '12:00';
+      const gLa = groomLat || gLat || 13.08;
+      const gLo = groomLng || gLng || 80.27;
+      const gZ = groomTimezone || gTz || 5.5;
+
+      const bD = brideDate || bDate;
+      const bT = brideTime || bTime || '12:00';
+      const bLa = brideLat || bLat || 13.08;
+      const bLo = brideLng || bLng || 80.27;
+      const bZ = brideTimezone || bTz || 5.5;
+
+      if (!gD || !bD) {
+        return res.status(400).json({ success: false, error: 'Both groom and bride birth dates required' });
+      }
+
+      // Helper to parse datetime
+      const parseDateTime = (date, time, tz) => {
+        const offsetHours = Math.floor(Math.abs(tz));
+        const offsetMinutes = Math.round((Math.abs(tz) - offsetHours) * 60);
+        const sign = tz >= 0 ? '+' : '-';
+        const zone = `UTC${sign}${String(offsetHours).padStart(2, '0')}:${String(offsetMinutes).padStart(2, '0')}`;
+        return DateTime.fromFormat(`${date} ${time}`, "yyyy-MM-dd HH:mm", { zone });
+      };
+
+      const gDt = parseDateTime(gD, gT, gZ);
+      const bDt = parseDateTime(bD, bT, bZ);
+
+      if (!gDt.isValid || !bDt.isValid) {
+        return res.status(400).json({ success: false, error: 'Invalid date/time format' });
+      }
+
+      // Calculate Julian Days
+      const gUtc = gDt.toUTC();
+      const bUtc = bDt.toUTC();
+      const gJd = swissEph.julday(gUtc.year, gUtc.month, gUtc.day, gUtc.hour + gUtc.minute / 60);
+      const bJd = swissEph.julday(bUtc.year, bUtc.month, bUtc.day, bUtc.hour + bUtc.minute / 60);
+
+      // Get Moon positions
+      const gPlanets = swissEph.getAllPlanets(gJd, 'Lahiri');
+      const bPlanets = swissEph.getAllPlanets(bJd, 'Lahiri');
+
+      const gMoon = gPlanets.find(p => p.name === 'Moon');
+      const bMoon = bPlanets.find(p => p.name === 'Moon');
+
+      if (!gMoon || !bMoon) {
+        return res.status(500).json({ success: false, error: 'Could not calculate Moon positions' });
+      }
+
+      gMoonLon = gMoon.longitude;
+      bMoonLon = bMoon.longitude;
+    }
+
+    const result = calculatePorutham(gMoonLon, bMoonLon);
+    res.json({ success: true, data: result });
+  } catch (err) {
+    console.error('Match porutham error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // OTP Send (Mock)
 app.post('/api/send-otp', (req, res) => {
   const { phone } = req.body;
@@ -654,6 +1114,20 @@ app.post('/api/send-otp', (req, res) => {
   // Super Admin Bypass (Don't send SMS)
   if (phone === '9876543210') {
     console.log('Super Admin Login Attempt');
+    return res.json({ ok: true });
+  }
+
+  // Test Astrologer Bypass (OTP: 0101)
+  if (phone === '8000000001') {
+    console.log('Test Astrologer Login Attempt - OTP: 0101');
+    otpStore.set(phone, { otp: '0101', expires: Date.now() + 300000 });
+    return res.json({ ok: true });
+  }
+
+  // Test Client Bypass (OTP: 0101)
+  if (phone === '9000000001') {
+    console.log('Test Client Login Attempt - OTP: 0101');
+    otpStore.set(phone, { otp: '0101', expires: Date.now() + 300000 });
     return res.json({ ok: true });
   }
 
@@ -696,18 +1170,74 @@ app.post('/api/verify-otp', async (req, res) => {
     });
   }
 
-  // --- Normal User Verification ---
-  // --- Normal User Verification ---
-  // Allow 1234 as universal test OTP
-  if (otp === '1234') {
-    // Proceed to find/create user
-  } else {
-    const entry = otpStore.get(phone);
-    if (!entry) return res.json({ ok: false, error: 'No OTP requested' });
-    if (Date.now() > entry.expires) return res.json({ ok: false, error: 'Expired' });
-    if (entry.otp !== otp) return res.json({ ok: false, error: 'Invalid OTP' });
-    otpStore.delete(phone);
+  // --- Test Astrologer Account ---
+  if (phone === '8000000001' && otp === '0101') {
+    let user = await User.findOne({ phone });
+    if (!user) {
+      user = await User.create({
+        userId: crypto.randomUUID(),
+        phone,
+        name: 'Test Astrologer',
+        role: 'astrologer',
+        walletBalance: 5000,
+        totalEarnings: 0,
+        isOnline: true,
+        isAvailable: true,
+        ratePerMinute: 10
+      });
+    } else if (user.role !== 'astrologer') {
+      user.role = 'astrologer';
+      user.isOnline = true;
+      user.isAvailable = true;
+      user.ratePerMinute = user.ratePerMinute || 10;
+      await user.save();
+    }
+    return res.json({
+      ok: true,
+      userId: user.userId,
+      name: user.name,
+      role: user.role,
+      phone: user.phone,
+      walletBalance: user.walletBalance,
+      totalEarnings: user.totalEarnings || 0,
+      image: user.image,
+      ratePerMinute: user.ratePerMinute
+    });
   }
+
+  // --- Test Client Account ---
+  if (phone === '9000000001' && otp === '0101') {
+    let user = await User.findOne({ phone });
+    if (!user) {
+      user = await User.create({
+        userId: crypto.randomUUID(),
+        phone,
+        name: 'Test Client',
+        role: 'client',
+        walletBalance: 1000
+      });
+    } else if (user.role !== 'client') {
+      user.role = 'client';
+      await user.save();
+    }
+    return res.json({
+      ok: true,
+      userId: user.userId,
+      name: user.name,
+      role: user.role,
+      phone: user.phone,
+      walletBalance: user.walletBalance,
+      totalEarnings: user.totalEarnings || 0,
+      image: user.image
+    });
+  }
+
+  // --- Normal User Verification ---
+  const entry = otpStore.get(phone);
+  if (!entry) return res.json({ ok: false, error: 'No OTP requested' });
+  if (Date.now() > entry.expires) return res.json({ ok: false, error: 'Expired' });
+  if (entry.otp !== otp) return res.json({ ok: false, error: 'Invalid OTP' });
+  otpStore.delete(phone);
 
   try {
     let user = await User.findOne({ phone });
@@ -740,6 +1270,163 @@ app.post('/api/verify-otp', async (req, res) => {
     });
   } catch (e) {
     res.status(500).json({ ok: false, error: 'DB Error' });
+  }
+});
+
+// ===== ACCOUNT DELETION REQUEST API =====
+app.post('/api/delete-account-request', async (req, res) => {
+  try {
+    const { user_identifier, reason } = req.body;
+
+    if (!user_identifier) {
+      return res.json({ ok: false, error: 'Email or phone number is required' });
+    }
+
+    // Check if user exists in database
+    let user = null;
+    let userId = null;
+
+    // Try to find by phone
+    if (/^\d+$/.test(user_identifier)) {
+      user = await User.findOne({ phone: user_identifier });
+    } else {
+      // Try to find by email (if email field exists in your schema)
+      user = await User.findOne({ email: user_identifier });
+    }
+
+    if (user) {
+      userId = user.userId;
+    }
+
+    // Check if there's already a pending request
+    const existingRequest = await AccountDeletionRequest.findOne({
+      userIdentifier: user_identifier,
+      status: 'pending'
+    });
+
+    if (existingRequest) {
+      return res.json({
+        ok: false,
+        error: 'A deletion request for this account is already pending'
+      });
+    }
+
+    // Create deletion request
+    const requestId = crypto.randomUUID();
+    const deletionRequest = await AccountDeletionRequest.create({
+      requestId,
+      userIdentifier: user_identifier,
+      userId: userId,
+      reason: reason || 'No reason provided',
+      status: 'pending',
+      requestedAt: new Date()
+    });
+
+    console.log(`[Account Deletion] Request created: ${requestId} for ${user_identifier}`);
+
+    res.json({
+      ok: true,
+      message: 'Account deletion request submitted successfully',
+      requestId: requestId
+    });
+
+  } catch (error) {
+    console.error('[Account Deletion] Error:', error);
+    res.status(500).json({ ok: false, error: 'Failed to submit deletion request' });
+  }
+});
+
+// ===== ADMIN: GET ACCOUNT DELETION REQUESTS =====
+app.get('/api/admin/deletion-requests', async (req, res) => {
+  try {
+    const { status } = req.query;
+
+    const query = status ? { status } : {};
+    const requests = await AccountDeletionRequest.find(query)
+      .sort({ requestedAt: -1 })
+      .limit(100);
+
+    res.json({ ok: true, requests });
+  } catch (error) {
+    console.error('[Admin] Error fetching deletion requests:', error);
+    res.status(500).json({ ok: false, error: 'Failed to fetch requests' });
+  }
+});
+
+// ===== ADMIN: PROCESS ACCOUNT DELETION REQUEST =====
+app.post('/api/admin/process-deletion', async (req, res) => {
+  try {
+    const { requestId, action, adminUserId, notes } = req.body;
+    // action: 'approve' or 'reject'
+
+    if (!requestId || !action || !adminUserId) {
+      return res.json({ ok: false, error: 'Missing required fields' });
+    }
+
+    const request = await AccountDeletionRequest.findOne({ requestId });
+    if (!request) {
+      return res.json({ ok: false, error: 'Request not found' });
+    }
+
+    if (request.status !== 'pending') {
+      return res.json({ ok: false, error: 'Request already processed' });
+    }
+
+    if (action === 'approve') {
+      // Delete user account and related data
+      if (request.userId) {
+        // Delete user
+        await User.deleteOne({ userId: request.userId });
+
+        // Delete related data
+        await Session.deleteMany({
+          $or: [
+            { fromUserId: request.userId },
+            { toUserId: request.userId }
+          ]
+        });
+        await ChatMessage.deleteMany({
+          $or: [
+            { fromUserId: request.userId },
+            { toUserId: request.userId }
+          ]
+        });
+        await Payment.deleteMany({ userId: request.userId });
+        await BillingLedger.deleteMany({
+          $or: [
+            { clientId: request.userId },
+            { astrologerId: request.userId }
+          ]
+        });
+        await PairMonth.deleteMany({
+          $or: [
+            { clientId: request.userId },
+            { astrologerId: request.userId }
+          ]
+        });
+        await Withdrawal.deleteMany({ astroId: request.userId });
+
+        console.log(`[Account Deletion] User ${request.userId} and related data deleted`);
+      }
+
+      request.status = 'completed';
+    } else if (action === 'reject') {
+      request.status = 'rejected';
+    }
+
+    request.processedAt = new Date();
+    request.processedBy = adminUserId;
+    request.notes = notes || '';
+    await request.save();
+
+    res.json({
+      ok: true,
+      message: `Request ${action === 'approve' ? 'approved and account deleted' : 'rejected'}`
+    });
+
+  } catch (error) {
+    console.error('[Admin] Error processing deletion:', error);
+    res.status(500).json({ ok: false, error: 'Failed to process request' });
   }
 });
 
@@ -833,6 +1520,11 @@ function startSessionRecord(sessionId, type, u1, u2) {
   });
   userActiveSession.set(u1, sessionId);
   userActiveSession.set(u2, sessionId);
+
+  // Mark astrologer as busy
+  User.updateMany({ userId: { $in: [u1, u2] }, role: 'astrologer' }, { isBusy: true })
+    .then(() => broadcastAstroUpdate())
+    .catch(e => console.error('Error marking busy:', e));
 }
 
 
@@ -903,9 +1595,6 @@ async function endSessionRecord(sessionId) {
   }
 
   // Notify with Summary
-  const s1 = userSockets.get(s.clientId);
-  const s2 = userSockets.get(s.astrologerId);
-
   const payload = {
     reason: 'ended',
     summary: {
@@ -915,8 +1604,13 @@ async function endSessionRecord(sessionId) {
     }
   };
 
-  if (s1) io.to(s1).emit('session-ended', payload);
-  if (s2) io.to(s2).emit('session-ended', payload);
+  if (s.clientId) io.to(s.clientId).emit('session-ended', payload);
+  if (s.astrologerId) io.to(s.astrologerId).emit('session-ended', payload);
+
+  // Mark astrologer as NOT busy (Wait for DB update before broadcast)
+  User.updateMany({ userId: { $in: s.users }, role: 'astrologer' }, { isBusy: false })
+    .then(() => broadcastAstroUpdate())
+    .catch(e => console.error('Error clearing busy:', e));
 }
 
 // --- Phase 3: Billing Helper ---
@@ -1213,27 +1907,18 @@ io.on('connection', (socket) => {
           // Current logic uses userSockets.get(userId) to target, so updating the map is sufficient.
         }
 
-        // If astro, handle reconnection status restoration
+        // If astro, broadcast status
         if (user.role === 'astrologer') {
-          // Cancel pending offline timeout (Status)
+          // Cancel pending offline timeout (if any - though we will remove the timeout logic)
           if (offlineTimeouts.has(userId)) {
             clearTimeout(offlineTimeouts.get(userId));
             offlineTimeouts.delete(userId);
-            console.log(`[Status] Cancelled pending offline for ${user.name} (reconnected)`);
           }
 
-          // Restore saved status if available
-          const saved = savedAstroStatus.get(userId);
-          if (saved && Date.now() - saved.timestamp < OFFLINE_GRACE_PERIOD * 2) {
-            user.isChatOnline = saved.chat;
-            user.isAudioOnline = saved.audio;
-            user.isVideoOnline = saved.video;
-            user.isOnline = saved.chat || saved.audio || saved.video;
-            user.save().then(() => {
-              console.log(`[Status] Restored ${user.name} status: chat=${saved.chat}, audio=${saved.audio}, video=${saved.video}`);
-              broadcastAstroUpdate();
-            });
-            savedAstroStatus.delete(userId);
+          // Re-sync online status if isAvailable is true
+          if (user.isAvailable) {
+            user.isOnline = true;
+            user.save().then(() => broadcastAstroUpdate());
           } else {
             broadcastAstroUpdate();
           }
@@ -1250,6 +1935,24 @@ io.on('connection', (socket) => {
     } catch (err) {
       console.error('register error', err);
       if (typeof cb === 'function') cb({ ok: false, error: 'Internal error' });
+    }
+  });
+
+  // --- Rejoin Session (for reconnecting after background/edit) ---
+  socket.on('rejoin-session', (data) => {
+    try {
+      const { sessionId } = data || {};
+      const userId = socketToUser.get(socket.id);
+
+      if (sessionId && userId) {
+        socket.join(sessionId);
+        console.log(`[Socket] User ${userId} rejoined session: ${sessionId}`);
+
+        // Notify the other party that user has reconnected
+        socket.to(sessionId).emit('peer-reconnected', { userId });
+      }
+    } catch (err) {
+      console.error('rejoin-session error', err);
     }
   });
 
@@ -1311,9 +2014,8 @@ io.on('connection', (socket) => {
       let user = await User.findOne({ userId });
       if (user) {
         Object.assign(user, update);
-        // Recalculate global online status
-        user.isOnline = user.isChatOnline || user.isAudioOnline || user.isVideoOnline;
-        user.isAvailable = user.isOnline;
+        // Manual Toggle Rule: isAvailable is the master status
+        user.isOnline = user.isAvailable;
         user.lastSeen = new Date();
         await user.save();
 
@@ -1437,10 +2139,8 @@ io.on('connection', (socket) => {
         return cb({ ok: false, error: 'User not found' });
       }
 
-      // Check if astrologer is available (NOT socket-based!)
-      // Use isAvailable (manual toggle) OR check lastSeen within grace period
-      const isRecentlyActive = toUser.lastSeen && (Date.now() - new Date(toUser.lastSeen).getTime() < OFFLINE_GRACE_PERIOD);
-      const isAvailable = toUser.isAvailable || (toUser.isOnline && isRecentlyActive);
+      // Check if astrologer is available (MANUAL ONLY)
+      const isAvailable = toUser.isAvailable === true;
 
       // ALLOW CALL even if offline -> Logic will fall back to FCM below
       // if (!isAvailable) {
@@ -1497,20 +2197,16 @@ io.on('connection', (socket) => {
       userActiveSession.set(toUserId, sessionId);
 
       // Try socket notification (might fail if in background - that's OK!)
-      const targetSocketId = userSockets.get(toUserId);
       let socketSent = false;
-
-      if (targetSocketId) {
-        io.to(targetSocketId).emit('incoming-session', {
-          sessionId,
-          fromUserId,
-          callerName: fromUser?.name || 'Client',  // FIX: Add caller name for display
-          type,
-          birthData: birthData || null
-        });
-        socketSent = true;
-        console.log(`[Session] Socket notification sent to ${toUserId}`);
-      }
+      io.to(toUserId).emit('incoming-session', {
+        sessionId,
+        fromUserId,
+        callerName: fromUser?.name || 'Client',  // FIX: Add caller name for display
+        type,
+        birthData: birthData || null
+      });
+      socketSent = true;
+      console.log(`[Session] Socket notification sent to room: ${toUserId}`);
 
       // IMPROVED: Send FCM Push Notification as BACKUP (even if socket sent)
       // This ensures the call reaches the user if socket message is missed/dropped
@@ -1548,6 +2244,21 @@ io.on('connection', (socket) => {
 
       console.log(`Session request: ${sessionId} (${type})`);
       cb({ ok: true, sessionId });
+
+      // --- MISSED CALL TIMEOUT (25s) ---
+      setTimeout(async () => {
+        const s = activeSessions.get(sessionId);
+        if (s && s.status === 'ringing') {
+          console.log(`[Session] Ringing timeout for ${sessionId}. Marking as MISSED.`);
+          io.to(fromUserId).emit('session-ended', { sessionId, reason: 'no_answer' });
+          io.to(toUserId).emit('session-ended', { sessionId, reason: 'missed' });
+
+          userActiveSession.delete(fromUserId);
+          userActiveSession.delete(toUserId);
+          activeSessions.delete(sessionId);
+          await Session.updateOne({ sessionId }, { status: 'missed', endTime: Date.now() }).catch(() => { });
+        }
+      }, 25000);
     } catch (err) {
       console.error('request-session error', err);
       cb({ ok: false, error: 'Internal error' });
@@ -1660,26 +2371,23 @@ io.on('connection', (socket) => {
 
         if (accept) {
           // Notify caller that call was accepted
-          if (targetSocketId) {
-            io.to(targetSocketId).emit('session-answered', {
-              sessionId,
-              fromUserId: astrologerId,
-              type: callType || dbSession.type,
-              accept: true
-            });
-          }
+          io.to(fromUserId).emit('session-answered', {
+            sessionId,
+            fromUserId: astrologerId,
+            type: callType || dbSession.type,
+            accept: true
+          });
 
           console.log(`[Native] Call accepted - Session: ${sessionId}, From: ${fromUserId}, To: ${astrologerId}`);
           if (typeof cb === 'function') cb({ ok: true, fromUserId });
         } else {
           // Call rejected
-          if (targetSocketId) {
-            io.to(targetSocketId).emit('session-answered', {
-              sessionId,
-              fromUserId: astrologerId,
-              accept: false
-            });
-          }
+          io.to(fromUserId).emit('session-answered', {
+            sessionId,
+            fromUserId: astrologerId,
+            type: callType || dbSession.type,
+            accept: false
+          });
           endSessionRecord(sessionId);
           console.log(`[Native] Call rejected - Session: ${sessionId}`);
           if (typeof cb === 'function') cb({ ok: true });
@@ -1751,15 +2459,7 @@ io.on('connection', (socket) => {
       if (!fromUserId || !sessionId) return;
 
       const session = activeSessions.get(sessionId);
-      if (session) {
-        // Find partner
-        const partnerId = session.users.find(u => u !== fromUserId);
-        // Emit to Room (userId) - works even after reconnect
-        io.to(partnerId).emit('session-ended', {
-          sessionId,
-          reason: 'partner_ended'
-        });
-      }
+      // No need to emit here, endSessionRecord handles it for both parties
 
       endSessionRecord(sessionId);
       console.log(`[Session] Ended by ${fromUserId}: ${sessionId}`);
@@ -1768,7 +2468,7 @@ io.on('connection', (socket) => {
   });
 
   // --- Chat message (text / audio / file) ---
-  socket.on('chat-message', (data) => {
+  socket.on('chat-message', async (data) => {
     try {
       const { toUserId, sessionId, content, timestamp, messageId } = data || {};
       const fromUserId = socketToUser.get(socket.id);
@@ -1781,6 +2481,7 @@ io.on('connection', (socket) => {
 
       // Save to DB (Async)
       ChatMessage.create({
+        messageId,
         sessionId,
         fromUserId,
         toUserId,
@@ -1796,10 +2497,42 @@ io.on('connection', (socket) => {
         timestamp: timestamp || Date.now(),
         messageId,
       });
+
+      // ALWAYS send FCM push for background delivery
+      // App may be in background but socket still connected
+      // FCM ensures message is delivered even if app is killed
+      sendChatMessagePush(toUserId, fromUserId, content.text || 'New message', sessionId, messageId);
     } catch (err) {
       console.error('chat-message error', err);
     }
   });
+
+  // --- Helper: Send Chat Message Push (for background messages) ---
+  async function sendChatMessagePush(toUserId, fromUserId, messageText, sessionId, messageId) {
+    try {
+      const toUser = await User.findOne({ userId: toUserId });
+      const fromUser = await User.findOne({ userId: fromUserId });
+
+      if (toUser && toUser.fcmToken) {
+        const payload = {
+          type: 'CHAT_MESSAGE',
+          sessionId: sessionId || '',
+          callerName: fromUser?.name || 'Astrologer',
+          callerId: fromUserId,
+          text: (messageText || 'New message').substring(0, 200),
+          messageId: messageId || Date.now().toString(),
+          timestamp: Date.now().toString()
+        };
+
+        // Data-only message for background handling
+        await sendFcmV1Push(toUser.fcmToken, payload, null);
+        console.log(`Chat push sent to ${toUserId} from ${fromUserId}`);
+      }
+    } catch (e) {
+      console.error('Chat Message Push Error:', e);
+    }
+  }
+
 
   // --- Helper: Send Chat Push ---
   async function sendChatPush(toUserId, fromUserId, messageText, sessionId) {
@@ -1829,10 +2562,16 @@ io.on('connection', (socket) => {
   }
 
   // --- Get History ---
-  socket.on('get-history', async (cb) => {
+  socket.on('get-history', async (data, cb) => {
+    if (typeof data === 'function') { cb = data; data = {}; }
     try {
       const userId = socketToUser.get(socket.id);
-      if (!userId) return cb({ ok: false });
+      if (!userId) return cb && cb({ ok: false });
+
+      if (data && data.sessionId) {
+        const messages = await ChatMessage.find({ sessionId: data.sessionId }).sort({ timestamp: 1 });
+        return cb && cb({ ok: true, messages });
+      }
 
       // Find sessions where user participated
       const sessions = await Session.find({ $or: [{ fromUserId: userId }, { toUserId: userId }] })
@@ -1846,17 +2585,32 @@ io.on('connection', (socket) => {
     } catch (e) { console.error(e); cb({ ok: false }); }
   });
 
-  // --- Receiver: delivered ack ---
+  // --- message-status (from Android) - handles both delivered and read ---
+  socket.on('message-status', (data) => {
+    try {
+      const { toUserId, messageId, status } = data || {};
+      const fromUserId = socketToUser.get(socket.id);
+      if (!fromUserId || !toUserId || !messageId || !status) return;
+
+      console.log(`[MessageStatus] ${status} from ${fromUserId} to ${toUserId} msgId=${messageId}`);
+
+      // Emit to sender (toUserId is the original sender)
+      io.to(toUserId).emit('message-status', {
+        messageId,
+        status, // 'delivered' or 'read'
+      });
+    } catch (err) { console.error('message-status error', err); }
+  });
+
+  // --- Receiver: delivered ack (legacy) ---
   socket.on('message-delivered', (data) => {
     try {
       const { toUserId, messageId } = data || {};
       const fromUserId = socketToUser.get(socket.id);
       if (!fromUserId || !toUserId || !messageId) return;
 
-      const targetSocketId = userSockets.get(toUserId);
-      if (!targetSocketId) return;
-
-      io.to(targetSocketId).emit('message-status', {
+      // Emit to userId room (not socketId) - works after reconnect
+      io.to(toUserId).emit('message-status', {
         messageId,
         status: 'delivered',
       });
@@ -1870,10 +2624,8 @@ io.on('connection', (socket) => {
       const fromUserId = socketToUser.get(socket.id);
       if (!fromUserId || !toUserId || !messageId) return;
 
-      const targetSocketId = userSockets.get(toUserId);
-      if (!targetSocketId) return;
-
-      io.to(targetSocketId).emit('message-status', {
+      // Emit to userId room (not socketId) - works after reconnect
+      io.to(toUserId).emit('message-status', {
         messageId,
         status: 'read',
       });
@@ -1994,9 +2746,25 @@ io.on('connection', (socket) => {
 
       console.log(`Session ${sessionId}: Billing starts at ${billingStart} (Buffer applied)`);
 
+      // Get client wallet and rate for available minutes calculation
+      const client = await User.findOne({ userId: session.clientId });
+      const astro = await User.findOne({ userId: session.astrologerId });
+      const clientBalance = client?.walletBalance || 0;
+      const ratePerMinute = astro?.price || 10;
+      const availableMinutes = Math.floor(clientBalance / ratePerMinute);
+
       // Notify both parties
-      io.to(userSockets.get(session.clientId)).emit('billing-started', { startTime: billingStart });
-      io.to(userSockets.get(session.astrologerId)).emit('billing-started', { startTime: billingStart });
+      io.to(userSockets.get(session.clientId)).emit('billing-started', {
+        startTime: billingStart,
+        clientBalance,
+        availableMinutes
+      });
+      io.to(userSockets.get(session.astrologerId)).emit('billing-started', {
+        startTime: billingStart,
+        clientBalance,
+        ratePerMinute,
+        availableMinutes
+      });
     }
   }
 
@@ -2095,11 +2863,8 @@ io.on('connection', (socket) => {
       const fromUserId = socketToUser.get(socket.id);
       if (!fromUserId || !toUserId) return cb({ ok: false, error: 'Invalid data' });
 
-      const targetSocketId = userSockets.get(toUserId);
-      if (!targetSocketId) return cb({ ok: false, error: 'Astrologer offline' });
-
       // Send birth chart data to astrologer
-      io.to(targetSocketId).emit('client-birth-chart', {
+      io.to(toUserId).emit('client-birth-chart', {
         fromUserId,
         birthData
       });
@@ -2191,6 +2956,7 @@ io.on('connection', (socket) => {
       // Update allowed fields
       if (updates.name) user.name = updates.name;
       if (updates.price) user.price = parseInt(updates.price);
+      if (updates.image) user.image = updates.image;
       if (typeof updates.isVerified === 'boolean') user.isVerified = updates.isVerified;
       if (updates.documentStatus) {
         user.documentStatus = updates.documentStatus;
@@ -2213,7 +2979,19 @@ io.on('connection', (socket) => {
   socket.on('admin-update-role', async (data, cb) => {
     if (!await checkAdmin(socket.id)) return cb({ ok: false });
     try {
-      await User.updateOne({ userId: data.userId }, { role: data.role });
+      const updates = { role: data.role };
+      if (data.role === 'astrologer') {
+        updates.walletBalance = 0;
+      }
+      await User.updateOne({ userId: data.userId }, updates);
+
+      // Notify user of role/wallet change if online
+      const sId = userSockets.get(data.userId);
+      if (sId) {
+        if (data.role === 'astrologer') io.to(sId).emit('wallet-update', { balance: 0 });
+        io.to(sId).emit('app-notification', { text: `Your role has been updated to ${data.role}!` });
+      }
+
       cb({ ok: true });
     } catch (e) { cb({ ok: false }); }
   });
@@ -2243,15 +3021,6 @@ io.on('connection', (socket) => {
         const s = userSockets.get(data.userId);
         if (s) io.to(s).emit('force-logout'); // Need to handle client side
       }
-    } catch (e) { cb({ ok: false }); }
-  });
-
-  socket.on('admin-toggle-mask', async (data, cb) => {
-    if (!await checkAdmin(socket.id)) return cb({ ok: false });
-    try {
-      await User.updateOne({ userId: data.userId }, { isMasked: data.isMasked });
-      if (typeof broadcastAstroUpdate === 'function') broadcastAstroUpdate();
-      cb({ ok: true });
     } catch (e) { cb({ ok: false }); }
   });
 
@@ -2338,12 +3107,19 @@ io.on('connection', (socket) => {
       const u = await User.findOne({ userId });
       if (!u || u.walletBalance < amount) return cb({ ok: false, error: 'Insufficient Balance' });
 
+      // DEDUCT IMMEDIATELY
+      u.walletBalance -= amount;
+      await u.save();
+
       const w = await Withdrawal.create({
         astroId: userId,
         amount,
         status: 'pending',
         requestedAt: Date.now()
       });
+
+      // Emit wallet update to self
+      io.to(socket.id).emit('wallet-update', { balance: u.walletBalance });
 
       // Notify Super Admins
       io.to('superadmin').emit('admin-notification', {
@@ -2352,7 +3128,7 @@ io.on('connection', (socket) => {
         data: { withdrawalId: w._id, astroName: u.name, amount }
       });
 
-      cb({ ok: true });
+      cb({ ok: true, balance: u.walletBalance });
     } catch (e) {
       console.error(e);
       cb({ ok: false, error: 'Error' });
@@ -2360,6 +3136,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('approve-withdrawal', async (data, cb) => {
+    if (!await checkAdmin(socket.id)) return cb({ ok: false });
     try {
       const { withdrawalId } = data;
       const w = await Withdrawal.findById(withdrawalId);
@@ -2368,11 +3145,7 @@ io.on('connection', (socket) => {
       const u = await User.findOne({ userId: w.astroId });
       if (!u) return cb({ ok: false, error: 'User not found' });
 
-      if (u.walletBalance < w.amount) return cb({ ok: false, error: 'User Insufficient Balance' });
-
-      // Deduct
-      u.walletBalance -= w.amount;
-      await u.save();
+      // Balance already deducted at request time
 
       // Update Request
       w.status = 'approved';
@@ -2382,7 +3155,6 @@ io.on('connection', (socket) => {
       // Notify Astro
       const sId = userSockets.get(u.userId);
       if (sId) {
-        io.to(sId).emit('wallet-update', { balance: u.walletBalance });
         io.to(sId).emit('app-notification', { text: `✅ Your withdrawal of ₹${w.amount} is approved!` });
       }
 
@@ -2390,6 +3162,37 @@ io.on('connection', (socket) => {
     } catch (e) {
       console.error(e);
       cb({ ok: false, error: 'Error' });
+    }
+  });
+
+  socket.on('reject-withdrawal', async (data, cb) => {
+    if (!await checkAdmin(socket.id)) return cb({ ok: false });
+    try {
+      const { withdrawalId } = data;
+      const w = await Withdrawal.findById(withdrawalId);
+      if (!w || w.status !== 'pending') return cb({ ok: false, error: 'Invalid Request' });
+
+      const u = await User.findOne({ userId: w.astroId });
+      if (u) {
+        // REFUND
+        u.walletBalance += w.amount;
+        await u.save();
+
+        const sId = userSockets.get(u.userId);
+        if (sId) {
+          io.to(sId).emit('wallet-update', { balance: u.walletBalance });
+          io.to(sId).emit('app-notification', { text: `❌ Your withdrawal of ₹${w.amount} was rejected. Money refunded.` });
+        }
+      }
+
+      w.status = 'rejected';
+      w.processedAt = Date.now();
+      await w.save();
+
+      cb({ ok: true });
+    } catch (e) {
+      console.error(e);
+      cb({ ok: false });
     }
   });
 
@@ -2405,6 +3208,17 @@ io.on('connection', (socket) => {
     } catch (e) {
       console.error(e);
       if (typeof cb === 'function') cb({ ok: false, list: [] });
+    }
+  });
+
+  socket.on('get-my-withdrawals', async (cb) => {
+    const userId = socketToUser.get(socket.id);
+    if (!userId) return;
+    try {
+      const list = await Withdrawal.find({ astroId: userId }).sort({ requestedAt: -1 }).limit(10);
+      if (typeof cb === 'function') cb({ ok: true, list });
+    } catch (e) {
+      if (typeof cb === 'function') cb({ ok: false });
     }
   });
 
@@ -2440,46 +3254,8 @@ io.on('connection', (socket) => {
         const user = await User.findOne({ userId });
         if (user && user.role === 'astrologer') {
           // Save current status before potential offline
-          savedAstroStatus.set(userId, {
-            chat: user.isChatOnline,
-            audio: user.isAudioOnline,
-            video: user.isVideoOnline,
-            timestamp: Date.now()
-          });
+          return; // Manual Toggle Rule: Skip offline marking
 
-          console.log(`[Status] Astrologer ${user.name} disconnected - starting ${OFFLINE_GRACE_PERIOD / 1000}s grace period`);
-
-          // Clear any existing timeout
-          if (offlineTimeouts.has(userId)) {
-            clearTimeout(offlineTimeouts.get(userId));
-          }
-
-          // Set new timeout - only mark offline if still disconnected after grace period
-          const timeoutId = setTimeout(async () => {
-            try {
-              // Check if user reconnected
-              if (!userSockets.has(userId)) {
-                const astro = await User.findOne({ userId });
-                if (astro && astro.role === 'astrologer') {
-                  astro.isOnline = false;
-                  astro.isChatOnline = false;
-                  astro.isAudioOnline = false;
-                  astro.isVideoOnline = false;
-                  await astro.save();
-                  broadcastAstroUpdate();
-                  console.log(`[Status] Astrologer ${astro.name} marked offline after grace period`);
-                }
-                savedAstroStatus.delete(userId);
-              } else {
-                console.log(`[Status] Astrologer ${userId} reconnected before grace period ended`);
-              }
-              offlineTimeouts.delete(userId);
-            } catch (err) {
-              console.error('[Status] Grace period timeout error:', err);
-            }
-          }, OFFLINE_GRACE_PERIOD);
-
-          offlineTimeouts.set(userId, timeoutId);
         }
       } catch (e) { console.error('Disconnect DB error', e); }
 
@@ -2511,14 +3287,11 @@ io.on('connection', (socket) => {
             endSessionRecord(sid);
 
             if (otherUserId) {
-              const targetSocketId = userSockets.get(otherUserId);
-              if (targetSocketId) {
-                // Notify other user that partner dropped
-                io.to(targetSocketId).emit('session-ended', {
-                  sessionId: sid,
-                  reason: 'partner_disconnected'
-                });
-              }
+              // Notify other user that partner dropped
+              io.to(otherUserId).emit('session-ended', {
+                sessionId: sid,
+                reason: 'partner_disconnected'
+              });
             }
           }
         }, SESSION_GRACE_PERIOD);
@@ -2541,20 +3314,68 @@ app.post('/api/astrologer/online', async (req, res) => {
   try {
     const update = {
       isAvailable: available,
+      isOnline: available, // Sync Master
+      isChatOnline: available,
+      isAudioOnline: available,
+      isVideoOnline: available,
       lastSeen: new Date()
     };
 
-    if (available) {
-      update.availabilityExpiresAt = new Date(Date.now() + 1000 * 60 * 60); // 1 Hour TTL
-    }
     if (fcmToken) {
       update.fcmToken = fcmToken;
     }
 
     await User.updateOne({ userId }, update);
+
+    // Broadcast update to real-time clients
+    const astros = await User.find({ role: 'astrologer' });
+    io.emit('astrologer-update', astros);
     res.json({ ok: true });
   } catch (e) {
     console.error("Online Toggle Error:", e);
+    res.json({ ok: false });
+  }
+});
+
+// 1b. Individual Service Toggle (Chat / Audio / Video)
+app.post('/api/astrologer/service-toggle', async (req, res) => {
+  const { userId, service, enabled } = req.body;
+  if (!userId || !service) return res.json({ ok: false, error: 'Missing params' });
+
+  try {
+    const update = { lastSeen: new Date() };
+
+    // Update specific service
+    if (service === 'chat') {
+      update.isChatOnline = enabled;
+    } else if (service === 'audio') {
+      update.isAudioOnline = enabled;
+    } else if (service === 'video') {
+      update.isVideoOnline = enabled;
+    }
+
+    // Also update isAvailable and isOnline if any service is enabled
+    const user = await User.findOne({ userId });
+    if (user) {
+      const chatOn = service === 'chat' ? enabled : user.isChatOnline;
+      const audioOn = service === 'audio' ? enabled : user.isAudioOnline;
+      const videoOn = service === 'video' ? enabled : user.isVideoOnline;
+
+      // isAvailable = true if ANY service is online
+      update.isAvailable = chatOn || audioOn || videoOn;
+      update.isOnline = chatOn || audioOn || videoOn;
+    }
+
+    await User.updateOne({ userId }, update);
+
+    // Broadcast update
+    const astros = await User.find({ role: 'astrologer' });
+    io.emit('astrologer-update', astros);
+
+    console.log(`[Service Toggle] ${userId}: ${service} = ${enabled}`);
+    res.json({ ok: true });
+  } catch (e) {
+    console.error("Service Toggle Error:", e);
     res.json({ ok: false });
   }
 });
@@ -2568,11 +3389,6 @@ app.post('/api/call/initiate', async (req, res) => {
     // A. Check Availability (DB Source of Truth)
     const astro = await User.findOne({ userId: receiverId });
 
-    // Safety: Auto-expire offline if TTL passed
-    if (astro.availabilityExpiresAt && new Date() > astro.availabilityExpiresAt) {
-      astro.isAvailable = false;
-      await astro.save();
-    }
 
     if (!astro || !astro.isAvailable) {
       return res.json({ ok: false, error: 'Astrologer is Offline', code: 'OFFLINE' });
@@ -2591,7 +3407,7 @@ app.post('/api/call/initiate', async (req, res) => {
     // Send FCM v1 Push Notification
     if (astro.fcmToken) {
       const fcmData = {
-        type: 'INCOMING_CALL',
+        type: 'incoming_call',
         callId: callId,
         callerId: callerId,
         callerName: 'Client'
@@ -2787,9 +3603,7 @@ app.post('/api/payment/create', async (req, res) => {
     const userMobile = rawPhone.replace(/[^0-9]/g, '').slice(-10);
 
     const merchantTransactionId = "MT" + Date.now() + Math.floor(Math.random() * 1000);
-    const redirectUrl = isApp
-      ? `https://astroluna.in/api/payment/callback?isApp=true&txnId=${merchantTransactionId}`
-      : `https://astroluna.in/api/payment/callback`;
+    const redirectUrl = `https://astroluna.in/api/payment/callback`;
 
     // Create Pending Record
     await Payment.create({
@@ -2797,7 +3611,8 @@ app.post('/api/payment/create', async (req, res) => {
       merchantTransactionId,
       userId,
       amount,
-      status: 'pending'
+      status: 'pending',
+      isApp: !!isApp // Store the source
     });
 
     // PhonePe Payload
@@ -2815,8 +3630,8 @@ app.post('/api/payment/create', async (req, res) => {
         merchantTransactionId: merchantTransactionId,
         merchantUserId: cleanUserId,
         amount: amount * 100, // Amount in Paise
-        redirectUrl: redirectUrl,
-        redirectMode: "POST",
+        redirectUrl: "astro5://payment-success",
+        redirectMode: "GET", // Use GET for deep links
         callbackUrl: `https://astroluna.in/api/payment/callback?isApp=true&txnId=${merchantTransactionId}`,
         mobileNumber: userMobile,
         paymentInstrument: {
@@ -2963,26 +3778,26 @@ app.post('/api/payment/callback', async (req, res) => {
 
       // AUTO-REDIRECT TO APP IF DETECTED (Even if isApp param is missing)
       if (isAndroidApp) {
-        const intentUrl = `intent://payment-failed?reason=no_response#Intent;scheme=astroluna;package=com.astroluna.app;end`;
-        const customScheme = `astroluna://payment-failed?reason=no_response`;
+        const intentUrl = `intent://payment-failed?reason=no_response#Intent;scheme=astro5;package=com.astro5star.app;end`;
+        const customScheme = `astro5://payment-failed?reason=no_response`;
 
         return res.send(`
-           <html>
-           <head>
-             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-             <style>body{font-family:sans-serif;text-align:center;padding:20px;}</style>
-           </head>
-           <body>
-           <h3>Redirecting...</h3>
-           <script>
-             // Try Intent first (Chrome/Android)
-             window.location.href = "${intentUrl}";
+          <html>
+          <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>body{font-family:sans-serif;text-align:center;padding:20px;}</style>
+          </head>
+          <body>
+          <h3>Redirecting...</h3>
+          <script>
+            // Try Intent first (Chrome/Android)
+            window.location.href = "${intentUrl}";
 
-             // Fallback
-             setTimeout(() => { window.location.href = "${customScheme}"; }, 800);
-           </script>
-           </body></html>
-         `);
+            // Fallback
+            setTimeout(() => { window.location.href = "${customScheme}"; }, 800);
+          </script>
+          </body></html>
+        `);
       }
 
       // Web Fallback
@@ -3016,6 +3831,8 @@ app.post('/api/payment/callback', async (req, res) => {
     console.log(`[WALLET DEBUG] Code: "${code}", isSuccess: ${isSuccess}, isFailed: ${isFailed}`);
     console.log(`[WALLET DEBUG] Payment found: ${payment._id}, userId: ${payment.userId}, amount: ${payment.amount}, status: ${payment.status}`);
 
+    const redirectIsApp = payment.isApp || req.query.isApp === 'true';
+
     if (isSuccess) {
       // Treat as success - credit wallet
       if (payment.status !== 'success') {
@@ -3042,197 +3859,102 @@ app.post('/api/payment/callback', async (req, res) => {
         }
       }
 
-      // Determine Redirect URL
-      let targetUrl = '';
-      if (req.query.isApp === 'true') {
-        targetUrl = `astroluna://payment-success?status=success`;
-      } else {
-        targetUrl = `https://astroluna.in/wallet?status=success`;
-      }
-
-      // Render HTML for App Deep Link (Using Android Intent URL for Chrome)
-      if (req.query.isApp === 'true') {
+      if (redirectIsApp) {
         const txnId = merchantTransactionId || '';
-        const amount = payment.amount || '';
-
-        // Intent URL with S.browser=1 fallback (Chrome will stay in browser if app not installed)
-        const webFallback = encodeURIComponent('https://astroluna.in/?payment=success');
-        const intentUrl = `intent://payment-success?status=success&txnId=${txnId}#Intent ;scheme=astroluna;package=com.astroluna.app;S.browser_fallback_url=${webFallback};end`;
-        const customSchemeUrl = `astroluna://payment-success?status=success&txnId=${txnId}`;
-
-        const html = `
-             <!DOCTYPE html>
-             <html>
-               <head>
-                 <meta charset="UTF-8">
-                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                 <meta http-equiv="refresh" content="3;url=${customSchemeUrl}">
-                 <title>Payment Successful</title>
-                 <style>
-                   * { box-sizing: border-box; }
-                   body {
-                     display:flex; flex-direction:column; align-items:center; justify-content:center;
-                     min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-                     background:linear-gradient(135deg, #f0f9f4 0%, #d1fae5 100%);
-                     margin:0; padding:20px; text-align:center;
-                   }
-                   .card { background:white; border-radius:20px; padding:40px 30px; box-shadow:0 10px 40px rgba(0,0,0,0.1); max-width:350px; width:100%; }
-                   .success-icon { width:80px; height:80px; background:#10B981; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
-                   .success-icon svg { width:40px; height:40px; fill:white; }
-                   h1 { color:#047857; margin:0 0 10px; font-size:1.5rem; }
-                   .amount { font-size:2rem; font-weight:bold; color:#059669; margin:15px 0; }
-                   p { color:#666; margin:10px 0; font-size:0.95rem; }
-                   .btn {
-                     display:block; width:100%; padding:16px; background:linear-gradient(135deg,#059669,#047857);
-                     color:white; text-decoration:none; border-radius:12px; font-weight:bold;
-                     font-size:1.1rem; margin-top:25px; border:none; cursor:pointer;
-                     box-shadow: 0 4px 15px rgba(4,120,87,0.3);
-                   }
-                   .btn:active { transform:scale(0.98); }
-                   .status { font-size:0.85rem; color:#9CA3AF; margin-top:15px; }
-                   .loading { display:inline-block; width:16px; height:16px; border:2px solid #ccc; border-top-color:#047857; border-radius:50%; animation:spin 1s linear infinite; margin-right:8px; vertical-align:middle; }
-                   @keyframes spin { to { transform:rotate(360deg); } }
-                   .pulse { animation: pulse 1.5s ease-in-out infinite; }
-                   @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.02);} }
-               </style>
-               </head>
-               <body>
-                 <script>
-                   alert("DEBUG INFO:\\n\\nStatus: ${code}\\nisSuccess: ${isSuccess}\\nAmount: ₹${payment.amount}\\nPayment ID: ${payment._id}\\nUser ID: ${payment.userId}\\nWallet Credited: ✅");
-                 </script>
-                 <div class="card">
-                   <div class="success-icon">
-                     <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                   </div>
-                   <h1>Payment Successful!</h1>
-                   <div class="amount">₹${amount}</div>
-                   <p>Your wallet has been credited</p>
-                   <button class="btn pulse" id="openAppBtn" onclick="openApp()">
-                     Open Astro5 App
-                   </button>
-                   <div class="status" id="status"><span class="loading"></span>Opening app...</div>
-                 </div>
-
-                 <!-- Hidden iframe for deep link (most reliable method) -->
-                 <iframe id="deepLinkFrame" style="display:none;"></iframe>
-
-                 <script>
-                   var appOpened = false;
-                   var attempts = 0;
-
-                   function openApp() {
-                     if (appOpened) return;
-                     attempts++;
-
-                     document.getElementById('status').innerHTML = '<span class="loading"></span>Attempt ' + attempts + '...';
-
-                     // Method 1: Intent URL (Chrome specific)
-                     try {
-                       window.location.href = "${intentUrl}";
-                     } catch(e) {}
-
-                     // Method 2: Hidden iframe fallback after 300ms
-                     setTimeout(function() {
-                       if (appOpened) return;
-                       try {
-                         document.getElementById('deepLinkFrame').src = "${customSchemeUrl}";
-                       } catch(e) {}
-                     }, 300);
-
-                     // Method 3: Direct custom scheme after 800ms
-                     setTimeout(function() {
-                       if (appOpened) return;
-                       try {
-                         window.location.href = "${customSchemeUrl}";
-                       } catch(e) {}
-                     }, 800);
-
-                     // Check if we're still here after 2 seconds
-                     setTimeout(function() {
-                       if (!appOpened) {
-                         document.getElementById('status').innerHTML = 'Tap the button to open app';
-                         document.getElementById('openAppBtn').classList.add('pulse');
-                       }
-                     }, 2000);
-                   }
-
-                   // Detect if user leaves page (app opened)
-                   document.addEventListener('visibilitychange', function() {
-                     if (document.hidden) {
-                       appOpened = true;
-                     }
-                   });
-
-                   window.addEventListener('blur', function() {
-                     appOpened = true;
-                   });
-
-                   // Auto-trigger on page load
-                   setTimeout(openApp, 100);
-                 </script>
-               </body>
-             </html>
-           `;
-        return res.send(html);
+        return res.redirect(`/payment-success?amount=${payment.amount || ''}&txnId=${txnId}`);
       }
-      return res.redirect(targetUrl);
+      return res.redirect(`/wallet?status=success&amount=${payment.amount}`);
 
     } else {
       // Failure Handling
       payment.status = 'failed';
       await payment.save();
 
-      let targetUrl = '';
-      if (req.query.isApp === 'true') {
-        targetUrl = `astroluna://payment-failed?status=failed`;
-      } else {
-        targetUrl = `https://astroluna.in/wallet?status=failure`;
+      if (redirectIsApp) {
+        return res.redirect('/payment-failed');
       }
-
-      if (req.query.isApp === 'true') {
-        // Android Intent URL format for Chrome
-        const intentUrl = `intent://payment-failed?status=failed#Intent ;scheme=astroluna;package=com.astroluna.app;end`;
-        const fallbackUrl = `astroluna://payment-failed?status=failed`;
-
-        const html = `
-             <!DOCTYPE html>
-             <html>
-               <head>
-                 <meta charset="UTF-8">
-                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                 <title>Payment Failed</title>
-                 <style>
-                   body { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:sans-serif; background:#fef2f2; margin:0; padding:20px; text-align:center; }
-                   .fail-icon { font-size:80px; color:#EF4444; margin-bottom:20px; }
-                   h1 { color:#DC2626; margin:0 0 10px; }
-                   p { color:#666; margin:10px 0; }
-                   .btn { display:inline-block; padding:15px 40px; background:#6B7280; color:white; text-decoration:none; border-radius:8px; font-weight:bold; margin-top:20px; font-size:16px; }
-                 </style>
-               </head>
-               <body>
-                 <div class="fail-icon">✗</div>
-                 <h1>Payment Failed</h1>
-                 <p>Please try again.</p>
-                 <p style="font-size:14px; color:#999;">Tap the button if not redirected automatically</p>
-                 <a href="${intentUrl}" class="btn">Return to App</a>
-                 <script>
-                   window.location.href = "${intentUrl}";
-                   setTimeout(function() {
-                     window.location.href = "${fallbackUrl}";
-                   }, 1000);
-                 </script>
-               </body>
-             </html>
-           `;
-        return res.send(html);
-      }
-      return res.redirect(targetUrl);
+      return res.redirect(`/wallet?status=failure`);
     }
 
   } catch (e) {
     console.error("Callback Error:", e);
     return res.redirect('/?status=error');
   }
+});
+
+// --- 3. Public Status Pages ---
+app.get('/payment-success', (req, res) => {
+  const { amount, txnId } = req.query;
+  const intentUrl = `intent://payment-success?status=success&txnId=${txnId}#Intent;scheme=astro5;package=com.astro5star.app;end`;
+  const customSchemeUrl = `astro5://payment-success?status=success&txnId=${txnId}`;
+
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Success</title>
+        <style>
+          body { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:sans-serif; background:#f0fdf4; margin:0; text-align:center; }
+          .card { background:white; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); width:320px; }
+          .icon { font-size:60px; color:#22c55e; margin-bottom:20px; }
+          .btn { display:block; padding:15px; background:#16a34a; color:white; text-decoration:none; border-radius:10px; font-weight:bold; margin-top:20px; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="icon">✓</div>
+          <h2>Success!</h2>
+          <p>₹${amount || '--'}</p>
+          <a href="${intentUrl}" class="btn">Return to Home</a>
+          <script>
+             function openApp() {
+               // Try Intent first (Chrome/Android)
+               window.location.href = "${intentUrl}";
+               // Immediate Deep Link fallback
+               setTimeout(() => { window.location.href = "${customSchemeUrl}"; }, 100);
+               // Backup force link
+               setTimeout(() => { window.location.href = "astro5://payment-success"; }, 500);
+             }
+             openApp();
+          </script>
+        </div>
+      </body>
+    </html>
+  `);
+});
+
+app.get('/payment-failed', (req, res) => {
+  const intentUrl = `intent://payment-failed?status=failed#Intent;scheme=astro5;package=com.astro5star.app;end`;
+  const customSchemeUrl = `astro5://payment-failed?status=failed`;
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Failed</title>
+        <style>
+          body { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:sans-serif; background:#fef2f2; margin:0; text-align:center; }
+          .card { background:white; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); width:320px; }
+          .icon { font-size:60px; color:#ef4444; margin-bottom:20px; }
+          .btn { display:block; padding:15px; background:#b91c1c; color:white; text-decoration:none; border-radius:10px; font-weight:bold; margin-top:20px; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="icon">✗</div>
+          <h2>Failed</h2>
+          <a href="${intentUrl}" class="btn">Return to Home</a>
+          <script>
+             function openApp() { window.location.href = "${intentUrl}"; setTimeout(() => { window.location.href = "${customSchemeUrl}"; }, 100); }
+             openApp();
+          </script>
+        </div>
+      </body>
+    </html>
+  `);
 });
 
 // 3. Payment History API

@@ -1,0 +1,3 @@
+androidx.compose.runtime.livedata.LiveDataAdapterKt
+androidx.compose.runtime.livedata.LiveDataAdapterKt$observeAsState$1
+androidx.compose.runtime.livedata.LiveDataAdapterKt$observeAsState$1$invoke$$inlined$onDispose$1

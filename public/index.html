@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Astro luna</title>
+  <title>Astroluna</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css">
@@ -12,12 +12,19 @@
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
   <style>
     :root {
-      --primary: #7C3AED;
+      /* New Luxury Purple Theme */
+      --primary: #6C3BFF;
+      /* Rich Purple */
+      --primary-dark: #5B21B6;
       --secondary: #A78BFA;
-      --bg-body: #F5F3FF;
-      --accent-gold: #D4AF37;
+      /* Soft Purple */
+      --bg-body: #F5F6FA;
+      /* Light Grey Background */
+      --accent-gold: #14B8A6;
+      /* Changed Gold to Teal for Luxury Accent */
       --surface: #FFFFFF;
-      --border: #DDD6FE;
+      --border: #E5E7EB;
+      /* Light Border */
     }
 
     * {
@@ -30,6 +37,7 @@
       height: 100vh;
       overflow: hidden;
       background: var(--bg-body);
+      color: #111827;
     }
 
     input,
@@ -53,7 +61,8 @@
     #screen-login {
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, #5B21B6, #7C3AED, #A78BFA);
+      background: linear-gradient(135deg, #6C3BFF, #7C3AED, #8B5CF6);
+      /* Purple Gradient */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -67,7 +76,8 @@
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      box-shadow: 0 8px 32px 0 rgba(108, 59, 255, 0.15);
+      /* Purple Shadow */
       border-radius: 20px;
       padding: 30px;
       width: 90%;
@@ -79,10 +89,15 @@
       width: 100%;
       padding: 12px;
       margin: 10px 0;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 8px;
       color: white;
+      font-size: 1rem;
+    }
+
+    .cosmic-input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
     }
 
     .cosmic-btn {
@@ -91,12 +106,19 @@
       margin-top: 10px;
       border-radius: 8px;
       border: none;
-      background: linear-gradient(to right, #7C3AED, #5B21B6);
+      background: linear-gradient(to right, #14B8A6, #0D9488);
+      /* Teal Gradient */
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       color: white;
       cursor: pointer;
       font-weight: 600;
       letter-spacing: 0.5px;
+      transition: all 0.2s;
+    }
+
+    .cosmic-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(20, 184, 166, 0.3);
     }
 
     .admin-notification-popup {
@@ -1726,8 +1748,7 @@
   <!-- Screen: Login -->
   <div id="screen-login">
     <div class="form-box">
-      <img src="logo.png" alt="Astroluna Logo" style="width: 120px; margin-bottom: 20px;">
-      <h2 style="color: white; margin-bottom: 20px;">Astroluna</h2>
+      <h2>✨Astro5 Login</h2>
       <div id="step-phone">
         <input id="inputPhone" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="10" class="cosmic-input"
           placeholder="10 Digit Mobile Number" value="" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -1746,6 +1767,8 @@
   <div class="app-footer">
     <div class="footer-links">
       <a href="https://astroluna.in/terms-condition" target="_blank">Terms</a>
+      <span class="sep">|</span>
+      <a href="https://astroluna.in/privacy-policy" target="_blank">Privacy</a>
       <span class="sep">|</span>
       <a href="https://astroluna.in/refund-cancellation-policy" target="_blank">Refunds</a>
       <span class="sep">|</span>
@@ -1806,9 +1829,7 @@
   <!-- Screen: Client Dashboard -->
   <div id="screen-client" class="dashboard-container hidden">
     <div class="app-header">
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <div style="font-weight: bold; font-size: 1.1rem;">Astroluna</div>
-      </div>
+      <div style="font-weight: bold; font-size: 1.2rem;">Astroluna</div>
       <div style="display: flex; align-items: center; gap: 8px;">
         <span id="walletContainer" onclick="refreshWallet()"
           style="cursor: pointer; display: flex; align-items: center; gap: 4px;" title="Tap to refresh">
@@ -1824,6 +1845,198 @@
       <!-- Section: Home -->
       <div id="section-home">
 
+        <!-- Dynamic Home Slider -->
+        <div id="homeSliderContainer" class="home-slider-container">
+          <div id="homeSliderWrapper" class="home-slider-wrapper">
+            <!-- Slides injected here -->
+            <div class="slider-loading">
+              <i class="fas fa-circle-notch fa-spin"></i>
+            </div>
+          </div>
+          <div id="homeSliderDots" class="home-slider-dots">
+            <!-- Dots injected here -->
+          </div>
+        </div>
+
+        <style>
+          .home-slider-container {
+            width: 100%;
+            height: 180px;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: #f3f4f6;
+          }
+
+          .home-slider-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+          }
+
+          .home-slide {
+            min-width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+          }
+
+          .home-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+            z-index: 1;
+          }
+
+          .slide-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            max-width: 70%;
+          }
+
+          .slide-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+          }
+
+          .slide-subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            opacity: 0.9;
+          }
+
+          .slide-cta {
+            display: inline-block;
+            background: white;
+            color: #333;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+          }
+
+          .home-slider-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 3;
+          }
+
+          .slider-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+          }
+
+          .slider-dot.active {
+            background: white;
+            width: 20px;
+            border-radius: 4px;
+          }
+
+          .slider-loading {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+          }
+        </style>
+
+        <!-- Premium Services Grid -->
+        <div class="services-grid-container"
+          style="margin-bottom: 25px; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+          <div style="display: flex; gap: 12px; padding: 5px 0;">
+            <div class="service-item-card"
+              onclick="document.getElementById('universalChartModal').classList.remove('hidden')">
+              <img src="images/kundali_icon.png" alt="Kundali">
+              <span>Free Horoscope</span>
+            </div>
+            <div class="service-item-card"
+              onclick="document.getElementById('screen-porutham').classList.remove('hidden')">
+              <img src="images/match_icon.png" alt="Match">
+              <span>Horoscope Match</span>
+            </div>
+            <div class="service-item-card"
+              onclick="document.getElementById('dailyHoroscopeSection').scrollIntoView({behavior:'smooth'})">
+              <img src="images/daily_horoscope_icon.png" alt="Daily">
+              <span>Daily Horoscope</span>
+            </div>
+            <div class="service-item-card" onclick="openAcademyModal()">
+              <img src="images/academy_icon.png" alt="Academy">
+              <span>Astro Academy</span>
+            </div>
+            <div class="service-item-card" onclick="alert('For free services, please contact: info@astroluna.in')">
+              <img src="images/free_services_icon.png" alt="Free">
+              <span>Free Services</span>
+            </div>
+          </div>
+        </div>
+
+        <style>
+          .services-grid-container::-webkit-scrollbar {
+            display: none;
+          }
+
+          .service-item-card {
+            min-width: 90px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 12px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+          }
+
+          .service-item-card:active {
+            transform: scale(0.95);
+          }
+
+          .service-item-card img {
+            width: 45px;
+            height: 45px;
+            margin-bottom: 8px;
+            object-fit: contain;
+          }
+
+          .service-item-card span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #374151;
+            line-height: 1.2;
+          }
+        </style>
 
         <!-- Horoscope Section -->
         <div id="dailyHoroscopeSection" style="margin-bottom: 20px;">
@@ -1972,6 +2185,43 @@
     </div>
   </div>
   </div>
+  <!-- Screen: Client Academy Modal -->
+  <div id="clientAcademyModal" class="modal-overlay hidden"
+    style="align-items: center; justify-content: center; z-index: 10000;">
+    <div
+      style="background:#F3F4F6; width:100%; height:90vh; border-top-left-radius:25px; border-top-right-radius:25px; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 -5px 20px rgba(0,0,0,0.2); max-width:500px;">
+      <div
+        style="padding:20px; background:white; font-weight:700; font-size:1.2rem; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e5e5; color:#1F2937;">
+        <span>🎓 Astro Academy</span>
+        <button onclick="document.getElementById('clientAcademyModal').classList.add('hidden')"
+          style="background:none; border:none; font-size:1.4rem; color:#6B7280; cursor:pointer;"><i
+            class="fas fa-times"></i></button>
+      </div>
+      <div id="clientAcademyList"
+        style="flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:15px;">
+        <!-- Videos will be rendered here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen: Client Academy Modal -->
+  <div id="clientAcademyModal" class="modal-overlay hidden"
+    style="align-items: center; justify-content: center; z-index: 10000;">
+    <div
+      style="background:#F3F4F6; width:100%; height:90vh; border-top-left-radius:25px; border-top-right-radius:25px; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 -5px 20px rgba(0,0,0,0.2); max-width:500px;">
+      <div
+        style="padding:20px; background:white; font-weight:700; font-size:1.2rem; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e5e5; color:#1F2937;">
+        <span>🎓 Astro Academy</span>
+        <button onclick="document.getElementById('clientAcademyModal').classList.add('hidden')"
+          style="background:none; border:none; font-size:1.4rem; color:#6B7280; cursor:pointer;"><i
+            class="fas fa-times"></i></button>
+      </div>
+      <div id="clientAcademyList"
+        style="flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:15px;">
+        <!-- Videos will be rendered here -->
+      </div>
+    </div>
+  </div>
 
   <!-- Mobile Footer -->
   <div class="doc-bottom-nav">
@@ -2078,22 +2328,28 @@
             ₹<span id="astroLifetimeDisplay">0.00</span>
           </div>
 
+          <div style="margin-top: 10px; font-size: 0.85rem; opacity: 0.9;">
+            Withdrawable: <span style="font-weight: bold;">₹<span id="astroWalletDisplay">0.00</span></span>
+          </div>
+
           <button id="btnShowEarnings" onclick="toggleEarnings()"
-            style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; margin-top: 5px; transition: all 0.2s;">
-            <i class="fas fa-eye"></i> View Earnings
+            style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; margin-top: 10px; transition: all 0.2s;">
+            <i class="fas fa-eye"></i> View Lifetime Earnings
           </button>
-          <!-- Removed Wallet Balance secondary line -->
           <div style="font-size: 0.75rem; opacity: 0.8; margin-top:2px;">Min. ₹500 to Withdraw</div>
         </div>
-        <div>
+        <div style="text-align: right;">
           <button id="btnAstroWithdraw" onclick="astroRequestWithdrawal()"
             style="background: white; color: #059669; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 0.8rem; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             Withdraw
           </button>
         </div>
       </div>
-      <div id="astroPendingWithdrawals" style="margin: 10px 15px; font-size: 0.8rem; color: #666; display: none;">
-        <!-- Pending status here -->
+      <div id="astroPendingWithdrawals"
+        style="margin: 10px 15px; padding: 10px; background: #fff; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: none;">
+        <div style="font-weight: bold; font-size: 0.85rem; margin-bottom: 8px; color: #374151;">Recent Withdrawal Status
+        </div>
+        <div id="astroWithdrawList" style="display: flex; flex-direction: column; gap: 8px;"></div>
       </div>
 
       <div class="progress-card">
@@ -2121,7 +2377,7 @@
           <div class="grid-icon"><i class="fas fa-star"></i></div> Reviews
         </div>
         <div class="grid-item" onclick="showHistory()" style="cursor: pointer;">
-          <div class="grid-icon"><i class="fas fa-clock"></i></div> History
+          <div class="grid-icon"><i class="fas fa-clock"></i></div> Consult History
         </div>
         <div class="grid-item" onclick="showProfile()" style="cursor: pointer;">
           <div class="grid-icon"><i class="fas fa-user"></i></div> Profile
@@ -2461,6 +2717,16 @@
         <h3 style="margin-top:0; color:#1e3a8a;">Edit Profile</h3>
         <input type="hidden" id="adminEditUserId">
 
+        <div style="text-align:center; margin-bottom:15px;">
+          <img id="adminEditAvatar" src=""
+            style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid #ddd; margin-bottom:10px;">
+          <br>
+          <input type="file" id="adminFileAvatar" style="display:none" onchange="uploadAvatar(this, true)">
+          <button onclick="document.getElementById('adminFileAvatar').click()"
+            style="padding:5px 10px; font-size:0.8rem; border-radius:5px; border:1px solid #ddd; background:white;">Change
+            Photo</button>
+        </div>
+
         <div style="margin-bottom:15px;">
           <label style="display:block; font-size:0.8rem; color:#666; margin-bottom:5px;">Display Name</label>
           <input type="text" id="adminEditName" class="app-input" placeholder="User Name">
@@ -2500,9 +2766,8 @@
     </div>
 
     <div class="app-header"
-      style="background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 100%); color:white; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);">
+      style="background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); color:white; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);">
       <div style="font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
-        <img src="logo.png" alt="Logo" style="width: 30px; height: 30px; filter: brightness(0) invert(1);">
         <i class="fas fa-shield-alt"></i> Super Admin
       </div>
       <div style="display: flex; gap: 15px; align-items: center;">
@@ -3103,8 +3368,89 @@
           style="margin:0 0 15px 0; color:#1F2937; font-size:1.3rem; font-weight:700; display:flex; align-items:center; gap:8px;">
           <i class="fas fa-users" style="color:#1e3a8a;"></i> Customer List
         </h2>
+        <div style="margin-bottom: 15px; position: sticky; top: 0; background: #f9fafb; z-index: 10; padding: 5px 0;">
+          <div style="position: relative;">
+            <i class="fas fa-search"
+              style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #9ca3af;"></i>
+            <input type="text" id="adminUserSearch" oninput="searchAdminUsers()"
+              placeholder="Search by name, phone or ID..."
+              style="width: 100%; padding: 10px 10px 10px 35px; border-radius: 10px; border: 1px solid #e5e7eb; font-size: 0.9rem; outline: none; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+          </div>
+        </div>
         <div id="adminClientList" style="display:flex; flex-direction:column; gap:12px;">
           <!-- Populated via JS -->
+        </div>
+      </div>
+
+      <!-- Tab 5: Academy Management -->
+      <div id="admin-sect-academy" class="admin-tab-section">
+        <h2
+          style="margin:0 0 15px 0; color:#1F2937; font-size:1.3rem; font-weight:700; display:flex; align-items:center; gap:8px;">
+          <i class="fas fa-graduation-cap" style="color:#1e3a8a;"></i> Astro Academy
+        </h2>
+
+        <div
+          style="background:white; padding:15px; border-radius:12px; margin-bottom:15px; border:1px solid #eee; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+          <h4 style="margin:0 0 10px 0; font-size:0.9rem;">Add New YouTube Video</h4>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <input type="text" id="academyTitle" class="app-input" placeholder="Title (e.g. Daily Horoscope Tips)"
+              style="padding:10px;">
+            <input type="text" id="academyUrl" class="app-input" placeholder="Full YouTube URL" style="padding:10px;">
+            <input type="text" id="academyCategory" class="app-input" placeholder="Category (Basics, Advanced...)"
+              style="padding:10px;">
+            <button class="cosmic-btn" style="margin-top:5px; padding:10px;" onclick="addAcademyVideo()">Add
+              Video</button>
+          </div>
+        </div>
+
+        <div id="adminAcademyList" style="display:flex; flex-direction:column; gap:10px;">
+          <div style="text-align:center; padding:20px; color:#6b7280;">Loading videos...</div>
+        </div>
+      </div>
+
+      <!-- Tab 5: Slider Management -->
+      <div id="admin-sect-slider" class="admin-tab-section hidden">
+        <div class="dashboard-header">
+          <h2 class="dashboard-title">
+            <i class="fas fa-images"></i> App Slider
+          </h2>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-user-header">
+            <span style="font-weight:bold; color:#1f2937;">Manage Banners</span>
+            <button onclick="fetchAdminBanners()" style="background:none; border:none; color:#3b82f6; cursor:pointer;">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+          </div>
+
+          <!-- Add New Banner Form -->
+          <div
+            style="background:#f9fafb; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #e5e7eb;">
+            <div style="font-weight:600; margin-bottom:10px; color:#374151;">Add New Banner</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <input type="text" id="bannerTitle" class="app-input" placeholder="Title (e.g. Premium Consultation)"
+                style="padding:10px;">
+              <input type="text" id="bannerSubtitle" class="app-input" placeholder="Subtitle (e.g. 50% Off Today)"
+                style="padding:10px;">
+              <input type="text" id="bannerImageUrl" class="app-input" placeholder="Image URL (https://...)"
+                style="padding:10px;">
+              <div style="display:flex; gap:10px;">
+                <input type="text" id="bannerCta" class="app-input" placeholder="CTA Button Text"
+                  style="padding:10px; flex:1;">
+                <input type="number" id="bannerOrder" class="app-input" placeholder="Order (0,1,2...)"
+                  style="padding:10px; width:80px;">
+              </div>
+              <button class="cosmic-btn" style="margin-top:5px; padding:10px;" onclick="addBanner()">
+                <i class="fas fa-plus-circle"></i> Add Banner
+              </button>
+            </div>
+          </div>
+
+          <!-- Banner List -->
+          <div id="adminBannerList" style="display:flex; flex-direction:column; gap:10px;">
+            <div style="text-align:center; padding:20px; color:#6b7280;">Loading banners...</div>
+          </div>
         </div>
       </div>
 
@@ -3137,7 +3483,7 @@
             </div>
           </div>
           <div class="admin-footer-bottom">
-            <div>Astroluna Admin Panel v1.0</div>
+            <div>AstroFiveStar Admin Panel v1.0</div>
             <div style="margin-top: 4px;">© 2025 All Rights Reserved</div>
           </div>
         </div>
@@ -3162,6 +3508,14 @@
       <div class="admin-nav-item" id="anav-users" onclick="navAdmin('users')">
         <i class="fas fa-users"></i>
         <span>Users</span>
+      </div>
+      <div class="admin-nav-item" id="anav-academy" onclick="navAdmin('academy')">
+        <i class="fas fa-graduation-cap"></i>
+        <span>Academy</span>
+      </div>
+      <div class="admin-nav-item" id="anav-slider" onclick="navAdmin('slider')">
+        <i class="fas fa-images"></i>
+        <span>Slider</span>
       </div>
     </div>
   </div>
@@ -3209,7 +3563,7 @@
       style="background: white; width: 90%; max-width: 400px; height: 80%; border-radius: 20px; display: flex; flex-direction: column; overflow: hidden;">
       <div
         style="padding: 15px; background: var(--bg-body); font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
-        <span>Chat History</span>
+        <span>Consultation History</span>
         <button onclick="document.getElementById('screen-history').classList.add('hidden')"
           style="background: none; border: none; font-size: 1.2rem;"><i class="fas fa-times"></i></button>
       </div>
@@ -4220,6 +4574,98 @@
           showLowBalanceAlert(data.balance);
         }
       });
+
+      // Load Home Slider
+      loadHomeBanners();
+    }
+
+    // --- Dynamic Home Slider Logic ---
+    let homeSliderInterval;
+    async function loadHomeBanners() {
+      const wrapper = document.getElementById('homeSliderWrapper');
+      if (!wrapper) return;
+
+      try {
+        const res = await fetch('/api/home/banners');
+        const data = await res.json();
+        if (data.ok) {
+          renderHomeSlider(data.data || []);
+        } else {
+          // Keep loading or show placeholder?
+          renderHomeSlider([]); // Fallback handled in render
+        }
+      } catch (e) {
+        console.error("Slider Error", e);
+        renderHomeSlider([]);
+      }
+    }
+
+    function renderHomeSlider(banners) {
+      const wrapper = document.getElementById('homeSliderWrapper');
+      const dotsCont = document.getElementById('homeSliderDots');
+      if (!wrapper) return;
+
+      if (banners.length === 0) {
+        // Fallback or Empty State
+        wrapper.innerHTML = `
+          <div class="home-slide" style="background-image: url('https://via.placeholder.com/600x300/1e3a8a/FFFFFF?text=Welcome+to+Astro5');">
+            <div class="slide-content">
+               <div class="slide-title">Welcome to Astro5</div>
+               <div class="slide-subtitle">Connect with top astrologers instantly.</div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // Render Slides
+      wrapper.innerHTML = banners.map(b => `
+         <div class="home-slide" style="background-image: url('${b.imageUrl}');">
+            <div class="slide-content">
+               <div class="slide-title" style="${!b.title ? 'display:none' : ''}">${b.title}</div>
+               <div class="slide-subtitle" style="${!b.subtitle ? 'display:none' : ''}">${b.subtitle}</div>
+               ${b.ctaText ? `<div class="slide-cta" onclick="handleBannerClick('${b._id}')">${b.ctaText} <i class="fas fa-arrow-right" style="font-size:0.7rem; margin-left:4px;"></i></div>` : ''}
+            </div>
+         </div>
+      `).join('');
+
+      // Render Dots
+      if (dotsCont) {
+        dotsCont.innerHTML = banners.map((_, i) => `
+          <div class="slider-dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></div>
+        `).join('');
+      }
+
+      // Init Auto Scroll
+      startSliderAutoScroll(banners.length);
+    }
+
+    let currentSlide = 0;
+    function goToSlide(index) {
+      const wrapper = document.getElementById('homeSliderWrapper');
+      const dots = document.querySelectorAll('.slider-dot');
+      if (!wrapper) return;
+
+      currentSlide = index;
+      wrapper.style.transform = `translateX(-${index * 100}%)`;
+
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
+    }
+
+    function startSliderAutoScroll(count) {
+      if (homeSliderInterval) clearInterval(homeSliderInterval);
+      if (count <= 1) return;
+
+      homeSliderInterval = setInterval(() => {
+        let next = currentSlide + 1;
+        if (next >= count) next = 0;
+        goToSlide(next);
+      }, 5000); // 5 Seconds
+    }
+
+    function handleBannerClick(id) {
+      // Logic to handle clicks (e.g. open specific page, or just scroll to astro list)
+      document.getElementById('astroList').scrollIntoView({ behavior: 'smooth' });
     }
 
     function updateHomeTime() {
@@ -4290,6 +4736,7 @@
 
     window.showProfile = function () {
       document.getElementById('screen-profile').classList.remove('hidden');
+      tempAvatarUrl = ''; // Reset for new session
 
       const user = state.me;
       if (!user) return;
@@ -4314,12 +4761,18 @@
       }
     };
 
+    let tempAvatarUrl = '';
+
     window.saveProfile = function () {
       const update = {};
 
       if (state.me.role === 'astrologer') {
         update.price = document.getElementById('editPrice').value;
         update.experience = document.getElementById('editExp').value;
+      }
+
+      if (tempAvatarUrl) {
+        update.image = tempAvatarUrl;
       }
 
       update.birthDetails = {
@@ -4479,6 +4932,9 @@
 
       // Initialize Wallet Display
       document.getElementById('astroLifetimeDisplay').innerText = Number(user.totalEarnings || 0).toFixed(2);
+      document.getElementById('astroWalletDisplay').innerText = Number(user.walletBalance || 0).toFixed(2);
+
+      loadAstroWithdrawals();
 
       // Update Dynamic Prices
       const rate = user.price || 20;
@@ -4504,9 +4960,17 @@
           state.me.totalEarnings = data.totalEarnings;
         }
 
-        // Update stored wallet balance (internal state)
+        // Update withrawable wallet balance
         if (data.balance !== undefined) {
           state.me.walletBalance = data.balance;
+          const el = document.getElementById('astroWalletDisplay');
+          if (el) el.innerText = Number(data.balance).toFixed(2);
+        }
+
+        if (data.walletBalance !== undefined) {
+          state.me.walletBalance = data.walletBalance;
+          const el = document.getElementById('astroWalletDisplay');
+          if (el) el.innerText = Number(data.walletBalance).toFixed(2);
         }
         saveSession(state.me);
       });
@@ -4542,7 +5006,7 @@
     }
 
     // Profile Logic
-    let tempAvatarUrl = '';
+    // Profile Logic
 
     function showProfile() {
       const u = state.me;
@@ -4553,7 +5017,7 @@
       document.getElementById('screen-profile').classList.remove('hidden');
     }
 
-    async function uploadAvatar(input) {
+    async function uploadAvatar(input, isAdmin = false) {
       if (!input.files[0]) return;
       const formData = new FormData();
       formData.append('file', input.files[0]);
@@ -4566,7 +5030,8 @@
         const res = await fetch('/upload', { method: 'POST', body: formData }).then(r => r.json());
         if (res.ok) {
           tempAvatarUrl = res.url;
-          document.getElementById('editAvatar').src = res.url;
+          const targetImgId = isAdmin ? 'adminEditAvatar' : 'editAvatar';
+          document.getElementById(targetImgId).src = res.url;
           btn.textContent = 'Uploaded';
           setTimeout(() => btn.textContent = 'Change Photo', 2000);
         } else {
@@ -4622,18 +5087,32 @@
         list.innerHTML = '';
         res.sessions.forEach(s => {
           const date = new Date(s.startTime).toLocaleString();
-          const dura = s.duration ? Math.round(s.duration / 1000) + 's' : 'Ongoing/Failed';
+
+          // Format duration as M min S sec
+          let duraText = 'Ongoing/Failed';
+          if (s.duration) {
+            const totalSec = Math.floor(s.duration / 1000);
+            const m = Math.floor(totalSec / 60);
+            const s_left = totalSec % 60;
+            duraText = m > 0 ? `${m}m ${s_left}s` : `${s_left}s`;
+          }
+
           const isMe = s.fromUserId === state.me.userId;
           const otherId = isMe ? s.toUserId : s.fromUserId;
 
           const item = document.createElement('div');
-          item.style.cssText = 'background: #f9f9f9; padding: 10px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #FFD700;';
+          item.style.cssText = 'background: #f9f9f9; padding: 12px; margin-bottom: 12px; border-radius: 12px; border-left: 5px solid #FFD700; box-shadow: 0 2px 5px rgba(0,0,0,0.05);';
           item.innerHTML = `
-            <div style="font-weight:bold; font-size:0.9rem;">${s.type.toUpperCase()}</div>
-            <div style="font-size:0.8rem; color:#555;">ID: ${otherId ? otherId.slice(0, 6) : 'Unknown'}</div>
-            <div style="font-size:0.75rem; color:#999; display:flex; justify-content:space-between; margin-top:5px;">
-              <span>${date}</span>
-              <span>${dura}</span>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <div>
+                <div style="font-weight:bold; font-size:1rem; color:#111827;">${s.type.toUpperCase()}</div>
+                <div style="font-size:0.8rem; color:#6B7280; margin-top: 2px;">Partner ID: ${otherId ? otherId.slice(0, 6) : 'Unknown'}</div>
+              </div>
+              <div style="font-size:0.75rem; color:#9BA3AF; text-align: right;">${date}</div>
+            </div>
+            <div style="font-size:0.9rem; color:#059669; font-weight: 600; padding-top: 5px; border-top: 1px solid #EEE; display: flex; align-items: center; gap: 6px;">
+              <i class="fas fa-history" style="font-size: 0.8rem;"></i>
+              <span>Consultation Time: ${duraText}</span>
             </div>
           `;
           list.appendChild(item);
@@ -5275,11 +5754,51 @@
         renderAdminAstros(astros);
         loadAdminWithdrawals(); // Phase 15
       } else if (tab === 'users') {
-        // Filter Clients from Cache
-        const clients = adminUsersCache.filter(u => u.role !== 'astrologer' && u.role !== 'superadmin');
-        renderAdminClients(clients);
+        const searchInput = document.getElementById('adminUserSearch');
+        if (searchInput) searchInput.value = '';
+        // Show all users (Clients & Astrologers) in User Management list
+        const allUsers = adminUsersCache.filter(u => u.role !== 'superadmin');
+        renderAdminClients(allUsers);
+      } else if (tab === 'academy') {
+        fetchAcademyVideosAdmin();
+      } else if (tab === 'slider') {
+        fetchAdminBanners();
       }
     };
+
+    async function openAcademyModal() {
+      document.getElementById('clientAcademyModal').classList.remove('hidden');
+      const list = document.getElementById('clientAcademyList');
+      list.innerHTML = '<div style="text-align:center; padding:20px;"><i class="fas fa-circle-notch fa-spin"></i> Loading...</div>';
+
+      try {
+        const res = await fetch('/api/academy/videos');
+        const data = await res.json();
+        if (data.ok && data.videos.length > 0) {
+          list.innerHTML = data.videos.map(v => `
+            <a href="${v.youtubeUrl}" target="_blank" style="text-decoration:none; color:inherit;">
+              <div style="background:white; border-radius:15px; overflow:hidden; box-shadow:0 4px 6px -1px rgba(0,0,0,0.1); border:1px solid #eee;">
+                <div style="padding:15px; display:flex; align-items:center; gap:15px;">
+                  <div style="width:50px; height:50px; background:#fff7ed; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <i class="fab fa-youtube" style="font-size:1.8rem; color:#ef4444;"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight:700; color:#1f2937; font-size:1rem; margin-bottom:4px;">${v.title}</div>
+                    <div style="font-size:0.8rem; color:#6b7280; display:flex; align-items:center; gap:5px;">
+                      <span style="background:#f3f4f6; padding:2px 8px; border-radius:10px;">${v.category}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          `).join('');
+        } else {
+          list.innerHTML = '<div style="text-align:center; padding:20px; color:#6b7280;">No educational videos available yet.</div>';
+        }
+      } catch (err) {
+        list.innerHTML = '<div style="text-align:center; padding:20px; color:#ef4444;">Failed to load videos.</div>';
+      }
+    }
 
     function loadAdminDash(user) {
       hideAllScreens();
@@ -5316,6 +5835,163 @@
       if (timeEl) {
         timeEl.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       }
+    }
+
+    async function fetchAcademyVideosAdmin() {
+      try {
+        const res = await fetch('/api/academy/videos');
+        const data = await res.json();
+        if (data.ok) {
+          renderAcademyVideos(data.videos);
+        }
+      } catch (err) { console.error(err); }
+    }
+
+    function renderAcademyVideos(videos) {
+      const list = document.getElementById('adminAcademyList');
+      if (!list) return;
+      if (videos.length === 0) {
+        list.innerHTML = '<div style="text-align:center; padding:20px; color:#6b7280;">No videos added yet.</div>';
+        return;
+      }
+
+      list.innerHTML = videos.map(v => `
+        <div style="background:white; padding:12px; border-radius:10px; border:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-weight:bold; color:#1F2937;">${v.title}</div>
+            <div style="font-size:0.75rem; color:#6b7280;">${v.category} | <a href="${v.youtubeUrl}" target="_blank">View on YouTube</a></div>
+          </div>
+          <button class="btn-admin btn-delete" style="flex:none; width:auto; padding:5px 10px;" onclick="deleteAcademyVideo('${v._id}')">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    async function addAcademyVideo() {
+      const title = document.getElementById('academyTitle').value;
+      const youtubeUrl = document.getElementById('academyUrl').value;
+      const category = document.getElementById('academyCategory').value;
+
+      if (!title || !youtubeUrl) return alert('Title and URL are required');
+
+      try {
+        const res = await fetch('/api/admin/academy/videos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, youtubeUrl, category })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          alert('Video added successfully');
+          document.getElementById('academyTitle').value = '';
+          document.getElementById('academyUrl').value = '';
+          document.getElementById('academyCategory').value = '';
+          fetchAcademyVideosAdmin();
+        }
+      } catch (err) { alert('Error adding video'); }
+    }
+
+    async function deleteAcademyVideo(id) {
+      if (!confirm('Are you sure you want to delete this video?')) return;
+      try {
+        const res = await fetch('/api/admin/academy/videos/' + id, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.ok) {
+          fetchAcademyVideosAdmin();
+        }
+      } catch (err) { alert('Error deleting video'); }
+    }
+
+    // --- Admin Slider Logic ---
+    async function fetchAdminBanners() {
+      const list = document.getElementById('adminBannerList');
+      if (!list) return;
+      list.innerHTML = '<div style="text-align:center; padding:20px; color:#6b7280;"><i class="fas fa-circle-notch fa-spin"></i> Loading...</div>';
+
+      try {
+        const res = await fetch('/api/admin/banners');
+        const data = await res.json();
+        if (data.ok) {
+          renderAdminBanners(data.banners);
+        } else {
+          list.innerHTML = '<div style="text-align:center; padding:20px; color:#ef4444;">Failed to load banners.</div>';
+        }
+      } catch (err) {
+        console.error(err);
+        list.innerHTML = '<div style="text-align:center; padding:20px; color:#ef4444;">Network Error.</div>';
+      }
+    }
+
+    function renderAdminBanners(banners) {
+      const list = document.getElementById('adminBannerList');
+      if (!list) return;
+
+      if (!banners || banners.length === 0) {
+        list.innerHTML = '<div style="text-align:center; padding:20px; color:#6b7280;">No banners found. Add one above.</div>';
+        return;
+      }
+
+      list.innerHTML = banners.map(b => `
+        <div style="background:white; padding:15px; border-radius:10px; border:1px solid #eee; display:flex; gap:15px; align-items:center;">
+          <img src="${b.imageUrl}" style="width:80px; height:45px; object-fit:cover; border-radius:6px; background:#f3f4f6;">
+          <div style="flex:1;">
+            <div style="font-weight:bold; color:#1f2937;">${b.title || 'No Title'} <span style="font-weight:normal; font-size:0.8rem; color:#6b7280;">(Order: ${b.order})</span></div>
+            <div style="font-size:0.8rem; color:#6b7280;">${b.subtitle || ''}</div>
+          </div>
+          <div style="text-align:right;">
+             <button class="btn-admin btn-delete" style="padding:6px 12px;" onclick="deleteBanner('${b._id}')">
+               <i class="fas fa-trash"></i>
+             </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function addBanner() {
+      const title = document.getElementById('bannerTitle').value;
+      const subtitle = document.getElementById('bannerSubtitle').value;
+      const imageUrl = document.getElementById('bannerImageUrl').value;
+      const ctaText = document.getElementById('bannerCta').value;
+      const order = document.getElementById('bannerOrder').value;
+
+      if (!imageUrl) return alert('Image URL is required');
+
+      const payload = {
+        title, subtitle, imageUrl, ctaText,
+        order: parseInt(order || 0),
+        isActive: true
+      };
+
+      try {
+        const res = await fetch('/api/admin/banners', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.ok) {
+          alert('Banner Added!');
+          // Clear inputs
+          document.getElementById('bannerTitle').value = '';
+          document.getElementById('bannerSubtitle').value = '';
+          document.getElementById('bannerImageUrl').value = '';
+          document.getElementById('bannerCta').value = '';
+          fetchAdminBanners();
+        } else {
+          alert('Error: ' + data.error);
+        }
+      } catch (err) { alert('Network Error'); }
+    }
+
+    async function deleteBanner(id) {
+      if (!confirm('Delete this banner?')) return;
+      try {
+        const res = await fetch('/api/admin/banners/' + id, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.ok) fetchAdminBanners();
+        else alert('Failed to delete');
+      } catch (e) { alert('Network Error'); }
     }
 
     function loadAdminLedgerStats() {
@@ -5398,6 +6074,8 @@
 
       document.getElementById('adminEditUserId').value = u.userId;
       document.getElementById('adminEditName').value = u.name;
+      document.getElementById('adminEditAvatar').src = u.image || `https://ui-avatars.com/api/?name=${u.name}&background=random`;
+      tempAvatarUrl = ''; // Reset for new edit session
 
       const astroFields = document.getElementById('adminEditAstroFields');
       if (u.role === 'astrologer') {
@@ -5428,6 +6106,10 @@
         updates.price = document.getElementById('adminEditPrice').value;
         updates.isVerified = document.getElementById('adminEditVerified').checked;
         updates.documentStatus = document.getElementById('adminEditDocStatus').value;
+      }
+
+      if (tempAvatarUrl) {
+        updates.image = tempAvatarUrl;
       }
 
       socket.emit('admin-update-user-details', { userId: uid, updates }, (res) => {
@@ -5521,14 +6203,8 @@
       list.forEach(u => {
         const div = document.createElement('div');
         div.className = 'admin-user-card';
+
         const isAstro = u.role === 'astrologer';
-        const roleColor = isAstro ? '#ECFDF5' : '#EFF6FF';
-        const roleTextColor = isAstro ? '#059669' : '#1E3A8A';
-        const roleBorder = isAstro ? '2px solid #F59E0B' : '1px solid #E5E7EB';
-
-        div.style.border = roleBorder;
-
-        // Verification Statuses
         const isVerified = u.isVerified || false;
         const isDocs = u.isDocumentVerified || false;
 
@@ -5539,8 +6215,11 @@
                  ${u.name}
                  ${isVerified ? '<i class="fas fa-check-circle" style="color:#3B82F6;"></i>' : ''}
                </div>
-               <div style="font-size:0.8rem; color:#9ca3af; margin-top:2px;">${u.phone} • ${u.role.toUpperCase()}</div>
-               ${isAstro && isDocs ? '<div style="font-size:0.7rem; color:#059669;"><i class="fas fa-file-contract"></i> Docs Verified</div>' : ''}
+               <div style="font-size:0.8rem; color:#9ca3af; margin-top:2px;">${u.phone} • ID: ${u.userId.slice(0, 6)}...</div>
+               <div style="margin-top:5px;">
+                  <span class="user-pill" style="background:${isAstro ? '#fef3c7' : '#EFF6FF'}; color:${isAstro ? '#d97706' : '#1E3A8A'}; font-weight:bold; font-size:0.7rem; padding:2px 8px; border-radius:10px;">${u.role.toUpperCase()}</span>
+                  ${isAstro && isDocs ? '<span style="font-size:0.7rem; color:#059669; margin-left:5px;"><i class="fas fa-file-contract"></i> Docs</span>' : ''}
+               </div>
              </div>
              <div style="text-align:right;">
                <div style="font-weight:700; color:#059669; font-size:1.1rem;">₹${u.walletBalance || 0}</div>
@@ -5548,12 +6227,16 @@
            </div>
 
            <div class="admin-actions">
-              <button class="btn-admin btn-wallet" onclick="adminWallet('${u.userId}')"><i class="fas fa-plus"></i> Wallet</button>
-              <button class="btn-admin" style="background:#5B21B6; color:white;" onclick="adminRole('${u.userId}', '${u.role}')"><i class="fas fa-user-tag"></i> Role</button>
-              <button class="btn-admin btn-role" onclick="openAdminEditUser('${u.userId}')"><i class="fas fa-edit"></i> Edit</button>
-              ${isAstro ? `<button class="btn-admin" style="background:${u.isMasked ? '#F59E0B' : '#eee'}; color:${u.isMasked ? 'white' : '#666'};" onclick="adminMask('${u.userId}', ${!u.isMasked})"><i class="fas fa-eye-slash"></i></button>` : ''}
-
-              <button class="btn-admin btn-block" onclick="adminBan('${u.userId}', ${!u.isBanned})" style="background:${u.isBanned ? '#DC2626' : '#eee'}; color:${u.isBanned ? 'white' : '#666'};">
+              <button class="btn-admin btn-wallet" onclick="adminWallet('${u.userId}')" title="Add Funds">
+                <i class="fas fa-plus"></i> Wallet
+              </button>
+              <button class="btn-admin btn-role" onclick="adminRole('${u.userId}', '${u.role}')" title="Change User Role">
+                <i class="fas fa-user-tag"></i> Role
+              </button>
+              <button class="btn-admin btn-role" style="background:#6366F1;" onclick="openAdminEditUser('${u.userId}')" title="Edit Profile">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="btn-admin btn-block" onclick="adminBan('${u.userId}', ${!u.isBanned})" style="background:${u.isBanned ? '#EF4444' : '#eee'}; color:${u.isBanned ? 'white' : '#666'};">
                 <i class="fas fa-ban"></i>
               </button>
             </div>
@@ -5565,9 +6248,9 @@
     window.adminWallet = (uid) => {
       const amt = prompt("Enter amount to ADD (e.g., 100):");
       if (amt) {
-        socket.emit('admin-add-money', { userId: uid, amount: parseInt(amt) }, (res) => {
+        socket.emit('admin-add-wallet', { userId: uid, amount: parseInt(amt) }, (res) => {
           alert(res.msg || (res.ok ? 'Success' : 'Failed'));
-          loadAdminDash(); // Refresh
+          refreshAdminData();
         });
       }
     };
@@ -5576,8 +6259,8 @@
 
     // Astrologer Request
     window.astroRequestWithdrawal = () => {
-      // We can get current balance from UI or cache
-      const balance = parseInt(document.getElementById('astroWalletDisplay')?.innerText || '0');
+      // Use the live state instead of just UI text
+      const balance = state.me.walletBalance || 0;
       if (balance < 500) {
         alert("Minimum wallet balance of ₹500 is required to request withdrawal.");
         return;
@@ -5597,17 +6280,48 @@
       }
 
       // Confirm
-      if (!confirm(`Request withdrawal of ₹${amount}?`)) return;
+      if (!confirm(`Request withdrawal of ₹${amount}? Your wallet balance will be reduced immediately.`)) return;
 
       socket.emit('request-withdrawal', { amount }, (res) => {
         if (res.ok) {
-          alert("Request Sent! Pending Admin Approval.");
+          alert("Request Sent! Money deducted. Pending Admin Approval.");
+          loadAstroWithdrawals(); // Refresh self list
         } else {
           alert(res.error || "Failed");
         }
-        // Update UI if needed, but balance doesn't change yet
       });
     };
+
+    function loadAstroWithdrawals() {
+      socket.emit('get-my-withdrawals', (res) => {
+        const container = document.getElementById('astroWithdrawList');
+        const section = document.getElementById('astroPendingWithdrawals');
+        if (!container || !section) return;
+
+        if (res.ok && res.list && res.list.length > 0) {
+          section.style.display = 'block';
+          container.innerHTML = res.list.map(w => {
+            let statusColor = '#f59e0b'; // pending
+            if (w.status === 'approved') statusColor = '#059669';
+            if (w.status === 'rejected') statusColor = '#dc2626';
+
+            return `
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:8px; border-bottom:1px solid #f3f4f6;">
+                <div>
+                  <div style="font-weight:bold; font-size:0.9rem;">₹${w.amount}</div>
+                  <div style="font-size:0.7rem; color:#9ca3af;">${new Date(w.requestedAt).toLocaleDateString()}</div>
+                </div>
+                <div style="font-size:0.75rem; font-weight:bold; color:${statusColor}; text-transform:uppercase;">
+                  ${w.status}
+                </div>
+              </div>
+            `;
+          }).join('');
+        } else {
+          section.style.display = 'none';
+        }
+      });
+    }
 
     // Admin: Load Pending Withdrawals
     function loadAdminWithdrawals() {
@@ -5622,20 +6336,25 @@
           res.list.filter(x => x.status === 'pending').forEach(w => {
             const div = document.createElement('div');
             div.className = 'admin-card';
-            div.style.borderLeft = '4px solid #DC2626';
+            div.style.borderLeft = '4px solid #F59E0B';
             div.innerHTML = `
                       <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
                            <div style="font-weight:bold; color:#111;">${w.astroName}</div>
-                           <div style="font-size:0.8rem; color:#666;">${w.astroPhone}</div>
-                           <div style="font-size:0.75rem; color:#999;">${new Date(w.requestedAt).toLocaleDateString()}</div>
+                           <div style="font-size:0.75rem; color:#999;">${new Date(w.requestedAt).toLocaleString()}</div>
                         </div>
                         <div style="text-align:right;">
-                           <div style="font-size:1.2rem; font-weight:bold; color:#DC2626;">₹${w.amount}</div>
-                           <button onclick="adminApproveWithdrawal('${w._id}')"
-                             style="margin-top:5px; background: #059669; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
-                             Approve
-                           </button>
+                           <div style="font-size:1.2rem; font-weight:bold; color:#DC2626; margin-bottom:5px;">₹${w.amount}</div>
+                           <div style="display:flex; gap:5px;">
+                             <button onclick="adminApproveWithdrawal('${w._id}')"
+                               style="background: #059669; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
+                               Approve
+                             </button>
+                             <button onclick="adminRejectWithdrawal('${w._id}')"
+                               style="background: #DC2626; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
+                               Reject
+                             </button>
+                           </div>
                         </div>
                       </div >
               `;
@@ -5648,12 +6367,25 @@
     }
 
     window.adminApproveWithdrawal = (wid) => {
-      if (!confirm("Approve this withdrawal? Funds will be deducted from Astrologer's wallet now.")) return;
+      if (!confirm("Approve this withdrawal? Amount was already deducted from Astrologer's wallet.")) return;
       socket.emit('approve-withdrawal', { withdrawalId: wid }, (res) => {
         if (res.ok) {
-          alert("Withdrawal Approved & Funds Deducted.");
+          alert("Withdrawal Approved.");
           loadAdminWithdrawals(); // Refresh list
-          navAdmin('payouts'); // Refresh astro list too
+          refreshAdminData();
+        } else {
+          alert("Error: " + (res.msg || 'Failed'));
+        }
+      });
+    };
+
+    window.adminRejectWithdrawal = (wid) => {
+      if (!confirm("Reject this withdrawal? Funds will be REFUNDED to Astrologer's wallet.")) return;
+      socket.emit('reject-withdrawal', { withdrawalId: wid }, (res) => {
+        if (res.ok) {
+          alert("Withdrawal Rejected & Funds Refunded.");
+          loadAdminWithdrawals(); // Refresh list
+          refreshAdminData();
         } else {
           alert("Error: " + (res.msg || 'Failed'));
         }
@@ -5664,25 +6396,26 @@
     const originalNavAdmin = window.navAdmin;
 
 
+    function refreshAdminData() {
+      socket.emit('get-all-users', (res) => {
+        if (res.ok) {
+          adminUsersCache = res.users;
+          // Find current active tab and refresh it
+          const activeTab = document.querySelector('.admin-nav-item.active');
+          if (activeTab) {
+            const tabId = activeTab.id.replace('anav-', '');
+            navAdmin(tabId);
+          }
+        }
+      });
+    }
+
     let roleChangeTargetId = null;
 
     window.adminRole = (uid, currentRole) => {
       roleChangeTargetId = uid;
       document.getElementById('adminRoleSelect').value = currentRole;
       document.getElementById('screen-admin-role-modal').classList.remove('hidden');
-    };
-
-    window.adminMask = (uid, doMask) => {
-      if (confirm(doMask ? 'Mask this astrologer (hide from list)?' : 'Unmask this astrologer?')) {
-        socket.emit('admin-toggle-mask', { userId: uid, isMasked: doMask }, (res) => {
-          if (res.ok) {
-            alert(doMask ? 'Astrologer Masked' : 'Astrologer Unmasked');
-            refreshAdminData();
-          } else {
-            alert('Failed to update mask status');
-          }
-        });
-      }
     };
 
     window.submitAdminRoleChange = () => {
@@ -5707,6 +6440,17 @@
           else alert('Failed');
         });
       }
+    };
+
+    window.searchAdminUsers = () => {
+      const query = document.getElementById('adminUserSearch').value.toLowerCase();
+      const filtered = adminUsersCache.filter(u =>
+        u.role !== 'superadmin' &&
+        ((u.name && u.name.toLowerCase().includes(query)) ||
+          (u.phone && u.phone.includes(query)) ||
+          (u.userId && u.userId.toLowerCase().includes(query)))
+      );
+      renderAdminClients(filtered);
     };
 
     // Admin: Verify Users (Blue Tick / Docs)
@@ -6204,6 +6948,11 @@
         document.getElementById('chartLon').value = bd.longitude;
         document.getElementById('chartTz').value = bd.timezone || '5.5';
         document.getElementById('citySearch').value = bd.city || '';
+
+        // Auto-fetch the chart if we have client data
+        setTimeout(() => {
+          fetchChart();
+        }, 500);
       } else {
         const now = new Date();
         document.getElementById('chartDate').value = now.toISOString().split('T')[0];
@@ -6259,13 +7008,10 @@
       const [hour, minute] = timeStr.split(':');
 
       const bd = {
-        year: parseInt(year),
-        month: parseInt(month),
-        day: parseInt(day),
-        hour: parseInt(hour),
-        minute: parseInt(minute),
-        latitude: parseFloat(lat),
-        longitude: parseFloat(lon),
+        date: dateStr || new Date().toISOString().split('T')[0],
+        time: timeStr || "12:00",
+        lat: parseFloat(lat) || 13.0827,
+        lng: parseFloat(lon) || 80.2707,
         timezone: parseFloat(tz) || 5.5
       };
 
@@ -6275,10 +7021,16 @@
         const originalContent = panel.innerHTML;
         panel.innerHTML = '<div style="text-align:center; padding:60px 20px;"><div class="spinner-astro"></div><div style="margin-top:20px; font-weight:500; color:#d97706; font-size:1.1rem;">Analyzing Planets...</div></div>';
 
-        const res = await fetch('/api/charts/birth-chart', {
+        const res = await fetch('/api/rasi-eng/charts/full', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(bd)
+          body: JSON.stringify({
+            date: dateStr,
+            time: timeStr,
+            lat: parseFloat(lat),
+            lng: parseFloat(lon),
+            timezone: parseFloat(tz) || 5.5
+          })
         }).then(r => r.json());
 
         if (res.error) throw new Error(res.error);
@@ -6290,14 +7042,15 @@
         console.error('Chart API Error:', e);
       }
     }
-
     // Display chart results in dashboard modal
     function displayDashboardChartResults(data) {
       const panel = document.getElementById('dashboardChartPanel');
-      const rawPlanets = data.data?.rawPlanets || {};
-      const panchangam = data.data?.panchangam || {};
-      const dasha = data.data?.dasha || {};
-      const lagna = data.data?.lagna || {};
+      const d = data.data || {};
+      const rawPlanets = d.planets || [];
+      const panchangam = d.panchanga || {};
+      const dashaList = d.dasha || [];
+      const houses = d.houses?.details || [];
+      const transitPlanets = d.transits || [];
 
       let html = `
         <div style="padding:20px; background:white; font-weight:700; font-size:1.2rem; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e5e5; color:#1F2937;">
@@ -6306,48 +7059,70 @@
         </div>
         <div style="flex:1; overflow-y:auto; padding:20px;">
           <!-- Lagna Section -->
-          <div style="background:linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color:white; padding:20px; border-radius:12px; margin-bottom:20px;">
-            <div style="font-size:0.9rem; opacity:0.9; margin-bottom:5px;">🌟 Lagna (Ascendant)</div>
-            <div style="font-size:1.8rem; font-weight:bold;">${lagna.tamil || lagna.name || 'N/A'}</div>
-            <div style="font-size:0.9rem; margin-top:8px;">Lord: ${lagna.lordTamil || lagna.lord || 'N/A'}</div>
+          <div style="background:linear-gradient(135deg, #047857 0%, #059669 100%); color:white; padding:15px; border-radius:12px; margin-bottom:15px;">
+            <div style="font-size:0.8rem; opacity:0.9; margin-bottom:5px;">🌟 Ascendant (Lagna)</div>
+            <div style="font-size:1.5rem; font-weight:bold;">${d.houses?.ascendantDetails?.signName || 'N/A'}</div>
+            <div style="font-size:0.8rem; margin-top:5px;">Nakshatra: ${d.houses?.ascendantDetails?.nakshatra || 'N/A'}</div>
           </div>
 
-          <!-- Planets Section -->
-          <div style="margin-bottom:20px;">
-            <div style="font-weight:bold; color:#d97706; margin-bottom:12px; font-size:1.1rem;">🌟 Planets</div>
+          <!-- Deep Analysis Tabs -->
+          <div style="display:flex; gap:10px; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
+             <button onclick="switchDeepTab('planets')" class="chip-btn active" id="btn-deep-planets">Planets</button>
+             <button onclick="switchDeepTab('kp')" class="chip-btn" id="btn-deep-kp">KP Analysis</button>
+             <button onclick="switchDeepTab('json')" class="chip-btn" id="btn-deep-json">Raw JSON</button>
+          </div>
+
+          <div id="deep-planets" class="deep-tab-content">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
       `;
 
-      // Add planets
-      const planetOrder = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
-      const planetColors = {
-        'Sun': '#ef4444', 'Moon': '#3b82f6', 'Mars': '#b91c1c', 'Mercury': '#10b981',
-        'Jupiter': '#f59e0b', 'Venus': '#ec4899', 'Saturn': '#374151', 'Rahu': '#1f2937', 'Ketu': '#4b5563'
-      };
-
-      planetOrder.forEach(planet => {
-        const p = rawPlanets[planet];
-        if (p) {
-          const color = planetColors[planet] || '#6b7280';
-          html += `
+      // Planet List
+      rawPlanets.forEach(p => {
+        const color = planetColors[p.name] || '#6b7280';
+        html += `
             <div style="background:white; border-left:4px solid ${color}; padding:12px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.1);">
-              <div style="font-weight:bold; color:${color}; margin-bottom:4px;">${p.nameTamil || planet}</div>
+              <div style="font-weight:bold; color:${color}; margin-bottom:4px;">${p.name}</div>
               <div style="font-size:0.85rem; color:#555;">
-                <div>${p.signTamil || p.sign}</div>
-                <div style="color:#999; font-size:0.8rem;">${p.degreeFormatted || p.degree}</div>
+                <div>${p.signName}</div>
+                <div style="color:#d97706; font-size:0.8rem;">${p.nakshatra} (${p.nakshatraPada})</div>
               </div>
             </div>
           `;
-        }
       });
 
       html += `
             </div>
           </div>
 
-          <!-- Panchangam Section -->
-          <div style="margin-bottom:20px;">
-            <div style="font-weight:bold; color:#d97706; margin-bottom:12px; font-size:1.1rem;">📅 Panchangam</div>
+          <div id="deep-kp" class="deep-tab-content hidden">
+            <div style="display:flex; flex-direction:column; gap:8px;">
+      `;
+
+      // KP Details Table-like view
+      rawPlanets.forEach(p => {
+        html += `
+          <div style="background:white; padding:10px; border-radius:8px; border:1px solid #eee; font-size:0.85rem;">
+            <div style="font-weight:bold; color:#047857; margin-bottom:5px; border-bottom:1px solid #f9f9f9;">${p.name}</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px; text-align:center;">
+              <div><span style="color:#999;font-size:0.7rem;">SignL</span><br>${p.signLord?.substring(0, 3)}</div>
+              <div><span style="color:#999;font-size:0.7rem;">StarL</span><br>${p.starLord?.substring(0, 3)}</div>
+              <div><span style="color:#999;font-size:0.7rem;">SubL</span><br>${p.subLord?.substring(0, 3)}</div>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `
+            </div>
+          </div>
+
+          <div id="deep-json" class="deep-tab-content hidden">
+            <pre style="background:#1f2937; color:#10b981; padding:15px; border-radius:8px; font-size:0.75rem; overflow-x:auto; max-height:400px;">${JSON.stringify(d, null, 2)}</pre>
+          </div>
+
+          <!-- Existing sections follow... -->
+          <div style="margin-top:20px;">
+            <div style="font-weight:bold; color:#d97706; margin-bottom:12px; font-size:1.1rem;">📅 Today's Panchangam</div>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
               <div style="background:#ecfdf5; padding:12px; border-radius:8px; border-left:4px solid #10b981;">
                 <div style="font-size:0.8rem; color:#666; margin-bottom:4px;">Tithi</div>
@@ -6357,40 +7132,25 @@
                 <div style="font-size:0.8rem; color:#666; margin-bottom:4px;">Nakshatra</div>
                 <div style="font-weight:bold; color:#1e40af;">${panchangam.nakshatra || 'N/A'}</div>
               </div>
-              <div style="background:#fff7ed; padding:12px; border-radius:8px; border-left:4px solid #f59e0b;">
-                <div style="font-size:0.8rem; color:#666; margin-bottom:4px;">Yoga</div>
-                <div style="font-weight:bold; color:#b45309;">${panchangam.yoga || 'N/A'}</div>
-              </div>
-              <div style="background:#faf5ff; padding:12px; border-radius:8px; border-left:4px solid #a855f7;">
-                <div style="font-size:0.8rem; color:#666; margin-bottom:4px;">Karana</div>
-                <div style="font-weight:bold; color:#6b21a8;">${panchangam.karana || 'N/A'}</div>
-              </div>
             </div>
           </div>
 
-          <!-- Dasha Section -->
-          <div style="margin-bottom:20px;">
-            <div style="font-weight:bold; color:#d97706; margin-bottom:12px; font-size:1.1rem;">⏳ Current Dasha</div>
-            <div style="background:linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); color:white; padding:15px; border-radius:8px;">
-              <div style="font-size:0.9rem; opacity:0.9; margin-bottom:5px;">Mahadasha</div>
-              <div style="font-size:1.3rem; font-weight:bold; margin-bottom:10px;">${dasha.currentLord || 'N/A'}</div>
-              <div style="font-size:0.85rem; opacity:0.9;">
-                <div>Remaining: ${dasha.remainingYearsInCurrentDasha ? parseFloat(dasha.remainingYearsInCurrentDasha).toFixed(2) : 'N/A'} years</div>
-                <div>Elapsed: ${dasha.yearsElapsedInCurrentDasha ? parseFloat(dasha.yearsElapsedInCurrentDasha).toFixed(2) : 'N/A'} years</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Moon Sign Section -->
-          <div style="background:#fdf2f8; padding:15px; border-radius:8px; border-left:4px solid #ec4899; margin-bottom:20px;">
-            <div style="font-size:0.9rem; color:#666; margin-bottom:5px;">🌙 Moon Sign</div>
-            <div style="font-size:1.2rem; font-weight:bold; color:#be185d;">${data.data?.moonSign?.tamil || data.data?.moonSign?.name || 'N/A'}</div>
-          </div>
+        </div>
+        <div style="padding:15px; background:white; border-top:1px solid #eee;">
+           <button class="cosmic-btn" onclick="openUniversalChartModal()">Calculate New</button>
         </div>
       `;
 
       panel.innerHTML = html;
     }
+
+    window.switchDeepTab = function (tab) {
+      document.querySelectorAll('.deep-tab-content').forEach(d => d.classList.add('hidden'));
+      document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+
+      document.getElementById('deep-' + tab).classList.remove('hidden');
+      document.getElementById('btn-deep-' + tab).classList.add('active');
+    };
 
     window.showChartHelperWithData = function () {
       showBirthChartColumn();
@@ -6454,17 +7214,14 @@
       }
 
       try {
-        const res = await fetch('/api/charts/birth-chart', {
+        const res = await fetch('/api/rasi-eng/charts/full', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            year: bd.year,
-            month: bd.month,
-            day: bd.day,
-            hour: bd.hour,
-            minute: bd.minute,
-            latitude: bd.latitude,
-            longitude: bd.longitude,
+            date: `${bd.year}-${String(bd.month).padStart(2, '0')}-${String(bd.day).padStart(2, '0')}`,
+            time: `${String(bd.hour).padStart(2, '0')}:${String(bd.minute).padStart(2, '0')}`,
+            lat: bd.latitude,
+            lng: bd.longitude,
             timezone: bd.timezone
           })
         }).then(r => r.json());
@@ -6494,65 +7251,64 @@
     }
 
     function displayChartInColumn2(data) {
-      const rawPlanets = data.data?.rawPlanets || data.rawPlanets || {};
-      const panchangam = data.data?.panchangam || data.panchangam || {};
-      const dasha = data.data?.dasha || data.dasha || {};
-      const lagna = data.data?.lagna || data.lagna || {};
+      const d = data.data || {};
+      const rawPlanets = d.planets || [];
+      const panchangam = d.panchanga || {};
+      const dasha = d.dasha || {};
+      const houseData = d.houses || {};
+      const lagna = houseData.ascendantDetails || {};
+      const transitPlanets = d.transits || [];
 
       const planetColors = {
         'Sun': '#ef4444', 'Moon': '#3b82f6', 'Mars': '#b91c1c', 'Mercury': '#10b981',
         'Jupiter': '#f59e0b', 'Venus': '#ec4899', 'Saturn': '#374151', 'Rahu': '#1f2937', 'Ketu': '#4b5563'
       };
 
-      let html = '<div style="padding:15px;">';
+      let html = '<div style="padding:15px; background:#f9fafb;">';
 
-      // Lagna
-      if (lagna && lagna.tamil) {
-        html += `
-          <div style="background:linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color:white; padding:15px; border-radius:12px; margin-bottom:15px;">
-            <div style="font-size:0.85rem; opacity:0.9;">🌟 Lagna</div>
-            <div style="font-size:1.3rem; font-weight:bold;">${lagna.tamil}</div>
-          </div>
-        `;
-      }
-
-      // South Indian Chart (Rasi)
+      // 1. Lagna & Panchangam Header
       html += `
-        <div style="margin-bottom:20px;">
-          <div style="font-weight:bold; color:#d97706; margin-bottom:10px; font-size:1rem;">🕉️ Rasi Chart</div>
-           <div class="south-indian-chart" id="southChartColumn2"></div>
+        <div style="background:linear-gradient(135deg, #047857 0%, #059669 100%); color:white; padding:15px; border-radius:12px; margin-bottom:15px; box-shadow:0 10px 15px -3px rgba(4,120,87,0.2);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+             <div>
+                <div style="font-size:0.8rem; opacity:0.9;">🌟 Ascendant (Lagna)</div>
+                <div style="font-size:1.5rem; font-weight:bold;">${lagna.signName || 'N/A'}</div>
+             </div>
+             <div style="text-align:right;">
+                <div style="font-size:0.8rem; opacity:0.9;">📅 Tithi</div>
+                <div style="font-weight:bold;">${panchangam.tithi || 'N/A'}</div>
+             </div>
+          </div>
+          <div style="margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.2); display:flex; gap:15px; font-size:0.85rem;">
+             <div><b>Nakshatra:</b> ${panchangam.nakshatra || 'N/A'}</div>
+             <div><b>Yoga:</b> ${panchangam.yoga || 'N/A'}</div>
+          </div>
         </div>
       `;
 
-      // South Indian Chart (Navamsa)
+      // 2. Charts (Rasi & Navamsa)
       html += `
         <div style="margin-bottom:20px;">
-          <div style="font-weight:bold; color:#d97706; margin-bottom:10px; font-size:1rem;">🕉️ Navamsa Chart</div>
+          <div style="font-weight:bold; color:#374151; margin-bottom:10px; font-size:1rem; display:flex; align-items:center; gap:8px;">
+             <i class="fas fa-th-large" style="color:#d97706;"></i> 🕉️ Rasi Chart
+          </div>
+           <div class="south-indian-chart" id="southChartColumn2"></div>
+        </div>
+        <div style="margin-bottom:20px;">
+          <div style="font-weight:bold; color:#374151; margin-bottom:10px; font-size:1rem; display:flex; align-items:center; gap:8px;">
+             <i class="fas fa-th" style="color:#3b82f6;"></i> 🕉️ Navamsa Chart
+          </div>
            <div class="south-indian-chart" id="navamsaChartColumn2"></div>
         </div>
       `;
 
-      // Render Charts
+      // Render South Indian Grids
       setTimeout(() => {
-
-        const planetSymbols = {
-          'Sun': '☉', 'Moon': '☽', 'Mars': '♂', 'Mercury': '☿',
-          'Jupiter': '♃', 'Venus': '♀', 'Saturn': '♄', 'Rahu': '☊', 'Ketu': '☋'
-        };
-
         const renderSouthGrid = (gridId, chartType) => {
           const grid = document.getElementById(gridId);
           if (!grid) return;
 
           const isRasi = chartType === 'rasi';
-
-          const tamilSigns = {
-            'Aries': 'மேஷம்', 'Taurus': 'ரிஷபம்', 'Gemini': 'மிதுனம்',
-            'Cancer': 'கடகம்', 'Leo': 'சிம்மம்', 'Virgo': 'கன்னி',
-            'Libra': 'துலாம்', 'Scorpio': 'விருச்சிகம்', 'Sagittarius': 'தனுசு',
-            'Capricorn': 'மகரம்', 'Aquarius': 'கும்பம்', 'Pisces': 'மீனம்'
-          };
-
           const cellMap = [
             'Pisces', 'Aries', 'Taurus', 'Gemini',
             'Aquarius', null, null, 'Cancer',
@@ -6561,7 +7317,6 @@
           ];
 
           grid.innerHTML = '';
-
           cellMap.forEach((sign, idx) => {
             const div = document.createElement('div');
             div.className = 'SouthChartBox';
@@ -6570,80 +7325,32 @@
               div.setAttribute('data-center', 'true');
               div.style.cssText = 'border: none; background: transparent;';
               if (idx === 5) {
-                div.style.cssText = 'grid-column: 2 / span 2; grid-row: 2 / span 2; display: flex; align-items: center; justify-content: center;';
-                div.innerHTML = '<img src="images/ganesha.png" class="center-god-icon" alt="Ganesha">';
-              } else if (idx === 6 || idx === 9 || idx === 10) {
+                div.style.cssText = 'grid-column: 2 / span 2; grid-row: 2 / span 2; display: flex; align-items: center; justify-content: center; opacity: 0.1;';
+                div.innerHTML = '<i class="fas fa-om fa-4x" style="color:#d97706;"></i>';
+              } else {
                 div.style.display = 'none';
               }
             } else {
-              const tamilName = tamilSigns[sign] || sign;
               const planetsInSign = [];
-
-              // Logic for Rasi vs Navamsa Planet Mapping
               if (isRasi) {
-                for (let planet in rawPlanets) {
-                  const p = rawPlanets[planet];
-                  if (p && p.sign === sign) {
-                    // Format: Symbol Name Degree (DMS)
-                    const symbol = planetSymbols[planet] || '';
-                    const name = p.nameTamil || planet;
-
-                    const toDMS = (d) => {
-                      if (!d && d !== 0) return '';
-                      const deg = Math.floor(d);
-                      const minFloat = (d - deg) * 60;
-                      const min = Math.floor(minFloat);
-                      const sec = Math.round((minFloat - min) * 60);
-                      return `${deg}° ${min}' ${sec}"`;
-                    };
-
-                    const deg = p.degreeFormatted || (p.degree !== undefined ? toDMS(p.degree) : '');
-                    planetsInSign.push(`<div style="font-size:0.75rem; line-height:1.2;">${symbol} <b>${name}</b><br><span style="font-size:0.65rem; color:#555;">${deg}</span></div>`);
+                rawPlanets.forEach(p => {
+                  if (p.signName === sign) {
+                    planetsInSign.push(`<div style="font-size:0.75rem; color:${planetColors[p.name]}">${p.name.substring(0, 2)}</div>`);
                   }
+                });
+                if (lagna.signName === sign) {
+                  planetsInSign.unshift('<div style="font-weight:bold; color:red; font-size:0.8rem;">Asc</div>');
                 }
-                // Check Lagna (Rasi only)
-                if (lagna && (lagna.sign === sign || lagna.signName === sign)) {
-                  planetsInSign.unshift('<div style="font-weight:bold; color:red; font-size:0.8rem;">Lagna</div>');
-                }
-              } else {
-                // Navamsa Logic
-                // We need to know which sign each planet is in Navamsa.
-                // If rawPlanets has 'navamsaSign', use it.
-                // Or if data.navamsa exists and is a list of houses/planets.
-                // Checking previous code: data.navamsa.houses array...
-                // Let's try to iterate rawPlanets if they have navamsa data, or fallback to houses.
-
-                // Using rawPlanets (if navamsaSign is there - common in some APIs, let's check or fallback)
-                let found = false;
-                for (let planet in rawPlanets) {
-                  const p = rawPlanets[planet];
-                  if (p && (p.navamsaSign === sign || p.navamsaSignName === sign)) { // Hypothetical check
-                    found = true;
-                    const symbol = planetSymbols[planet] || '';
-                    planetsInSign.push(`<div>${symbol} ${p.nameTamil || planet}</div>`); // Simplified
-                  }
-                }
-
-                if (!found && data.data?.navamsa?.planets) {
-                  // Check houses for this sign?
-                  // Usually houses data is per house (1 to 12).
-                  // We need Sign-based mapping.
-                  // Let's look for a planet-to-sign map in Navamsa data if available.
-                  // If not available, we might skip showing planets in Navamsa for now or require API update.
-                  // BUT, user asked for it, implying it should be possible.
-                  // Let's verify if `navamsa` object has planets map.
-                  const np = data.data.navamsa.planets;
-                  for (let k in np) {
-                    if (np[k] === sign) {
-                      const symbol = planetSymbols[k] || '';
-                      planetsInSign.push(`<div>${symbol} ${k}</div>`); // Simplified
-                    }
+              } else if (d.navamsa) {
+                for (let k in d.navamsa.planets) {
+                  if (d.navamsa.planets[k] === sign) {
+                    planetsInSign.push(`<div style="font-size:0.75rem; color:${planetColors[k] || '#555'}">${k.substring(0, 2)}</div>`);
                   }
                 }
               }
 
-              div.innerHTML = `<span class="s-sign-label" title="${tamilName}" style="font-size:0.7rem; color:#d97706; font-weight:bold;">${tamilName.split(' ')[0]}</span>
-                    <div class="s-planet-text" style="display:flex; flex-direction:column; gap:2px; padding-top:12px;">${planetsInSign.join('')}</div>`;
+              div.innerHTML = `<span style="font-size:0.65rem; color:#999; font-weight:bold;">${sign.substring(0, 3)}</span>
+                    <div style="display:flex; flex-wrap:wrap; gap:2px; padding-top:10px; justify-content:center;">${planetsInSign.join('')}</div>`;
             }
             if (div.style.display !== 'none') grid.appendChild(div);
           });
@@ -6651,91 +7358,57 @@
 
         renderSouthGrid('southChartColumn2', 'rasi');
         renderSouthGrid('navamsaChartColumn2', 'navamsa');
-
       }, 100);
 
-      // Planets
-      if (Object.keys(rawPlanets).length > 0) {
-        html += '<div style="margin-bottom:15px;"><div style="font-weight:bold; color:#d97706; margin-bottom:10px; font-size:1rem;">🌟 Planets</div>';
-        html += '<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">';
+      // 3. Planet Details with KP Lords
+      html += '<div style="margin-bottom:20px;"><div style="font-weight:bold; color:#374151; margin-bottom:12px; font-size:1rem;">🪐 Planet & KP Lords</div>';
+      html += '<div style="display:flex; flex-direction:column; gap:8px;">';
 
-        const planetOrder = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
-        planetOrder.forEach(planet => {
-          const p = rawPlanets[planet];
-          if (p) {
-            const color = planetColors[planet] || '#6b7280';
-            html += `
-              <div style="background:white; border-left:4px solid ${color}; padding:10px; border-radius:6px; box-shadow:0 1px 2px rgba(0,0,0,0.05);">
-                <div style="font-weight:bold; color:${color}; font-size:0.85rem; margin-bottom:3px;">${p.nameTamil || planet}</div>
-                <div style="font-size:0.75rem; color:#555;">${p.signTamil || p.sign}</div>
-                <div style="font-size:0.7rem; color:#999;">${p.degreeFormatted || p.degree}</div>
-              </div>
-            `;
-          }
-        });
-        html += '</div></div>';
-      }
-
-      // Panchangam
-      if (panchangam && panchangam.tithi) {
+      rawPlanets.forEach(p => {
+        const color = planetColors[p.name] || '#6b7280';
         html += `
-          <div style="margin-bottom:15px;">
-            <div style="font-weight:bold; color:#d97706; margin-bottom:10px; font-size:1rem;">📅 Panchangam</div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-              <div style="background:#ecfdf5; padding:10px; border-radius:6px; border-left:4px solid #10b981;">
-                <div style="font-size:0.75rem; color:#666; margin-bottom:3px;">Tithi</div>
-                <div style="font-weight:bold; color:#047857; font-size:0.85rem;">${panchangam.tithi}</div>
-              </div>
-              <div style="background:#eff6ff; padding:10px; border-radius:6px; border-left:4px solid #3b82f6;">
-                <div style="font-size:0.75rem; color:#666; margin-bottom:3px;">Nakshatra</div>
-                <div style="font-weight:bold; color:#1e40af; font-size:0.85rem;">${panchangam.nakshatra}</div>
-              </div>
-              <div style="background:#fff7ed; padding:10px; border-radius:6px; border-left:4px solid #f59e0b;">
-                <div style="font-size:0.75rem; color:#666; margin-bottom:3px;">Yoga</div>
-                <div style="font-weight:bold; color:#b45309; font-size:0.85rem;">${panchangam.yoga}</div>
-              </div>
-              <div style="background:#faf5ff; padding:10px; border-radius:6px; border-left:4px solid #a855f7;">
-                <div style="font-size:0.75rem; color:#666; margin-bottom:3px;">Karana</div>
-                <div style="font-weight:bold; color:#6b21a8; font-size:0.85rem;">${panchangam.karana}</div>
-              </div>
+          <div style="background:white; border-left:4px solid ${color}; padding:12px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+               <div style="font-weight:bold; color:${color};">${p.name}</div>
+               <div style="font-size:0.75rem; color:#d97706; background:#fff7ed; padding:1px 6px; border-radius:4px;">${p.nakshatra} (${p.nakshatraPada})</div>
+            </div>
+            <div style="font-size:0.75rem; color:#666; margin-bottom:8px;">${p.signName} - ${p.degreeFormatted}</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px; text-align:center; border-top:1px solid #f3f4f6; padding-top:8px;">
+              <div><span style="color:#999;font-size:0.65rem;">SignL</span><br><b>${p.signLord?.substring(0, 3)}</b></div>
+              <div><span style="color:#999;font-size:0.65rem;">StarL</span><br><b>${p.starLord?.substring(0, 3)}</b></div>
+              <div><span style="color:#999;font-size:0.65rem;">SubL</span><br><b>${p.subLord?.substring(0, 3)}</b></div>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div></div>';
+
+      // 4. Current Dasha
+      if (dasha && dasha.currentLord) {
+        html += `
+          <div style="background:linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); color:white; padding:15px; border-radius:12px; margin-bottom:20px; box-shadow:0 10px 15px -3px rgba(79,70,229,0.2);">
+            <div style="font-size:0.8rem; opacity:0.9; margin-bottom:5px;">⏳ Current Mahadasha</div>
+            <div style="font-size:1.3rem; font-weight:bold;">${dasha.currentLord}</div>
+            <div style="margin-top:10px; font-size:0.85rem; opacity:0.9;">
+               <div><b>Remaining:</b> ${parseFloat(dasha.remainingYearsInCurrentDasha || 0).toFixed(2)} Years</div>
             </div>
           </div>
         `;
       }
 
-      // Dasha Section (Full Hierarchy in Tamil)
-      if (dasha && dasha.mahadashaName) {
-        const endsAt = dasha.endsAt ? new Date(dasha.endsAt).toLocaleDateString() : '';
-        html += `
-              <div style="background:linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); color:white; padding:15px; border-radius:12px; margin-bottom:20px;">
-                <div style="font-weight:bold; font-size:1.1rem; margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.3); padding-bottom:5px;">
-                  ⏳ தற்போதைய திசை (Current Dasha)
-                </div>
-
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
-                  <div>
-                    <div style="font-size:0.8rem; opacity:0.8;">மகாதிசை (Mahadasha)</div>
-                    <div style="font-size:1.2rem; font-weight:bold;">${dasha.mahadashaName}</div>
-                  </div>
-                  <div>
-                    <div style="font-size:0.8rem; opacity:0.8;">புத்தி (Bhukti)</div>
-                    <div style="font-size:1.2rem; font-weight:bold;">${dasha.bhuktiName || '-'}</div>
-                  </div>
-                  <div>
-                    <div style="font-size:0.8rem; opacity:0.8;">அந்தரம் (Antaram)</div>
-                    <div style="font-size:1.2rem; font-weight:bold;">${dasha.antaramName || '-'}</div>
-                  </div>
-                  <div>
-                     <div style="font-size:0.8rem; opacity:0.8;">முடிவு (Ends)</div>
-                     <div style="font-size:1rem; font-weight:bold;">${endsAt}</div>
-                  </div>
-                </div>
-
-                <div style="background:rgba(255,255,255,0.2); padding:8px; border-radius:8px; font-size:0.9rem;">
-                   இருப்பு (Remaining): <b>${dasha.remainingYearsInCurrentDasha ? parseFloat(dasha.remainingYearsInCurrentDasha).toFixed(2) : '0'}</b> வருடங்கள் (Years)
-                </div>
-              </div>
-            `;
+      // 5. Transits (Gocharam)
+      if (transitPlanets.length > 0) {
+        html += '<div style="margin-bottom:20px;"><div style="font-weight:bold; color:#374151; margin-bottom:12px; font-size:1rem;">🚀 Current Transits (Gocharam)</div>';
+        html += '<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">';
+        transitPlanets.forEach(tp => {
+          html += `
+            <div style="background:#f0f9ff; padding:8px; border-radius:6px; border:1px solid #bae6fd; font-size:0.75rem;">
+               <div style="font-weight:bold; color:#0369a1;">${tp.name}</div>
+               <div style="color:#075985;">${tp.signName}</div>
+            </div>
+          `;
+        });
+        html += '</div></div>';
       }
 
       html += '</div>';
@@ -6762,52 +7435,40 @@
     };
 
     function renderChartResults(data) {
-      // Handle new API response format
-      const rawPlanets = data.data?.rawPlanets || data.rawPlanets || {};
+      const d = data.data || {};
+      const rawPlanets = d.planets || [];
+      const houses = d.houses || {};
 
       const pList = document.getElementById('planetList');
       if (pList) {
         pList.innerHTML = '';
+        const planetColors = {
+          'Sun': '#ef4444', 'Moon': '#3b82f6', 'Mars': '#b91c1c', 'Mercury': '#10b981',
+          'Jupiter': '#f59e0b', 'Venus': '#ec4899', 'Saturn': '#374151', 'Rahu': '#1f2937', 'Ketu': '#4b5563'
+        };
 
-        // Use rawPlanets from new API format
-        const planetOrder = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
-
-        planetOrder.forEach(planet => {
-          const info = rawPlanets[planet];
-          if (info) {
-            const div = document.createElement('div');
-            div.className = 'planet-item';
-            div.innerHTML = `
+        rawPlanets.forEach(p => {
+          const div = document.createElement('div');
+          div.className = 'planet-item';
+          const color = planetColors[p.name] || '#6b7280';
+          div.innerHTML = `
               <div style="display:flex; justify-content:space-between; align-items:center">
-                <b>${info.nameTamil || planet}</b>
-                <span style="background:#e5e7eb; padding:2px 8px; border-radius:10px; font-size:0.75rem;">${info.signTamil || info.sign}</span>
+                <b style="color:${color}">${p.name}</b>
+                <span style="background:#e5e7eb; padding:2px 8px; border-radius:10px; font-size:0.75rem;">${p.signName}</span>
               </div>
               <div style="margin-top:5px; font-size:0.85rem; color:#555;">
-                ${info.degreeFormatted || info.degree} | ${info.nakshatraTamil || info.nakshatra}
+                ${p.degreeFormatted} | ${p.nakshatra} (${p.nakshatraPada})
               </div>
             `;
-            pList.appendChild(div);
-          }
+          pList.appendChild(div);
         });
       }
 
       function renderSouthGrid(containerId, chartType) {
-        // Render Rasi or Navamsa chart from new API format
         const grid = document.getElementById(containerId);
         if (!grid) return;
 
-        const houses = chartType === 'rasi' ? (data.data?.houses || data.houses || {}) : (data.data?.navamsa?.houses || data.navamsa?.houses || []);
-        const rawPlanets = data.data?.rawPlanets || data.rawPlanets || {};
-
-        grid.innerHTML = '';
-
-        const tamilSigns = {
-          'Aries': 'மேஷம்', 'Taurus': 'ரிஷபம்', 'Gemini': 'மிதுனம்',
-          'Cancer': 'கடகம்', 'Leo': 'சிம்மம்', 'Virgo': 'கன்னி',
-          'Libra': 'துலாம்', 'Scorpio': 'விருச்சிகம்', 'Sagittarius': 'தனுசு',
-          'Capricorn': 'மகரம்', 'Aquarius': 'கும்பம்', 'Pisces': 'மீனம்'
-        };
-
+        const isRasi = chartType === 'rasi';
         const cellMap = [
           'Pisces', 'Aries', 'Taurus', 'Gemini',
           'Aquarius', null, null, 'Cancer',
@@ -6815,6 +7476,7 @@
           'Sagittarius', 'Scorpio', 'Libra', 'Virgo'
         ];
 
+        grid.innerHTML = '';
         cellMap.forEach((sign, idx) => {
           const div = document.createElement('div');
           div.className = 'SouthChartBox';
@@ -6825,22 +7487,30 @@
             if (idx === 5) {
               div.style.cssText = 'grid-column: 2 / span 2; grid-row: 2 / span 2; display: flex; align-items: center; justify-content: center;';
               div.innerHTML = '<div style="color: #d97706; font-size: 2rem;">🕉️</div>';
-            } else if (idx === 6 || idx === 9 || idx === 10) {
+            } else {
               div.style.display = 'none';
             }
           } else {
-            const tamilName = tamilSigns[sign] || sign;
-            // Get planets in this sign from rawPlanets
             const planetsInSign = [];
-            for (let planet in rawPlanets) {
-              const p = rawPlanets[planet];
-              if (p && p.sign === sign) {
-                planetsInSign.push(p.nameTamil?.substring(0, 2) || planet.substring(0, 2));
+            if (isRasi) {
+              rawPlanets.forEach(p => {
+                if (p.signName === sign) {
+                  planetsInSign.push(p.name.substring(0, 2));
+                }
+              });
+              if (houses.ascendantDetails?.signName === sign) {
+                planetsInSign.unshift('Asc');
+              }
+            } else if (d.navamsa) {
+              for (let k in d.navamsa.planets) {
+                if (d.navamsa.planets[k] === sign) {
+                  planetsInSign.push(k.substring(0, 2));
+                }
               }
             }
 
-            div.innerHTML = `<span class="s-sign-label" title="${tamilName}" style="font-size:0.7rem; color:#d97706; font-weight:bold;">${tamilName.split(' ')[0]}</span>
-              <div class="s-planet-text" style="font-size:0.85rem; line-height:1.4;">${planetsInSign.join('<br>') || ''}</div>`;
+            div.innerHTML = `<span class="s-sign-label" style="font-size:0.7rem; color:#d97706; font-weight:bold;">${sign.substring(0, 3)}</span>
+                  <div class="s-planet-text" style="font-size:0.85rem; line-height:1.4;">${planetsInSign.join('<br>') || ''}</div>`;
           }
           if (div.style.display !== 'none') grid.appendChild(div);
         });
@@ -7032,10 +7702,13 @@
       document.getElementById('poruthamResults').style.display = 'none';
 
       try {
-        const res = await fetch('/api/match/porutham', {
+        const res = await fetch('/api/rasi-eng/matching', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({
+            boyData: { dob: bDate, tob: bTime, lat: parseFloat(bLat), lng: parseFloat(bLon) },
+            girlData: { dob: gDate, tob: gTime, lat: parseFloat(gLat), lng: parseFloat(gLon) }
+          })
         }).then(r => r.json());
 
         document.getElementById('poruthamLoading').style.display = 'none';
@@ -7117,7 +7790,7 @@
       document.getElementById('activeSignName').innerText = signObj.name;
 
       // Check cache
-      const today = new Date().toDateString();
+      const today = new Date().toISOString().split('T')[0];
       const cacheKey = `${signObj.api}-${today}`;
 
       if (horoscopeCache[cacheKey]) {
@@ -7126,12 +7799,19 @@
       }
 
       try {
-        const res = await fetch(`https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${signObj.api}&day=today`)
+        // Use our internal Rasi Engine API
+        const res = await fetch(`/api/rasi-eng/horoscope/daily?sign=${signObj.api}`)
           .then(r => r.json());
 
-        if (res.data) {
-          horoscopeCache[cacheKey] = res.data;
-          displayHoroscope(res.data);
+        if (res.success && res.data) {
+          // Normalize to match the display function's expectations if needed
+          const normalized = {
+            date: res.data.date,
+            horoscope_data: res.data.forecast_ta, // Main forecast in Tamil
+            details: res.data
+          };
+          horoscopeCache[cacheKey] = normalized;
+          displayHoroscope(normalized);
         } else {
           throw new Error("No data");
         }
@@ -7151,15 +7831,30 @@
       if (content) content.classList.remove('hidden');
 
       document.getElementById('horoscopeDate').innerText = data.date;
-      document.getElementById('horoscopeText').innerText = data.horoscope_data;
+
+      let html = `<p style="margin-bottom:15px;">${data.horoscope_data}</p>`;
+
+      if (data.details) {
+        html += `
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:15px; border-top:1px solid #eee; padding-top:15px;">
+            <div style="font-size:0.85rem;"><i class="fas fa-briefcase" style="color:#d97706; width:18px;"></i> <b>தொழில்:</b> ${data.details.career_ta}</div>
+            <div style="font-size:0.85rem;"><i class="fas fa-coins" style="color:#059669; width:18px;"></i> <b>நிதி:</b> ${data.details.finance_ta}</div>
+            <div style="font-size:0.85rem;"><i class="fas fa-heartbeat" style="color:#ef4444; width:18px;"></i> <b>ஆரோக்கியம்:</b> ${data.details.health_ta}</div>
+            <div style="font-size:0.85rem;"><i class="fas fa-magic" style="color:#3b82f6; width:18px;"></i> <b>அதிர்ஷ்டம்:</b> ${data.details.lucky_number} (${data.details.lucky_color_ta})</div>
+          </div>
+        `;
+      }
+
+      document.getElementById('horoscopeText').innerHTML = html;
     }
 
     // Initialize Horoscope
     renderZodiacScroller();
     fetchHoroscope(zodiacSigns[0]); // Load Aries by default
 
-    function displayPoruthamResults(data) {
-      const m = data.match;
+    function displayPoruthamResults(res) {
+      const data = res.data || {};
+      const m = data; // New engine returns poruthams directly in data or as proper score
       const div = document.getElementById('poruthamResults');
 
       const scoreColor = m.percentage > 50 ? '#10b981' : '#ef4444';
@@ -7185,30 +7880,39 @@
          <div class="porutham-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">
        `;
 
-      const items = [
-        { k: 'dina', l: 'Dina' }, { k: 'gana', l: 'Gana' },
-        { k: 'mahendra', l: 'Mahendra' }, { k: 'streeDeergha', l: 'Stree Deergha' },
-        { k: 'yoni', l: 'Yoni' }, { k: 'rasi', l: 'Rasi' },
-        { k: 'rasiAdhipati', l: 'Rasi Adhipati' }, { k: 'vashya', l: 'Vashya' },
-        { k: 'rajju', l: 'Rajju' }, { k: 'vedha', l: 'Vedha' }
-      ];
-
-      items.forEach(i => {
-        const p = m[i.k];
-        if (p) {
-          const icon = p.status ? '✅' : '❌';
-          const bg = p.status ? '#ecfdf5' : '#fef2f2';
-          const border = p.status ? '#10b981' : '#ef4444';
+      if (m.poruthams && Array.isArray(m.poruthams)) {
+        m.poruthams.forEach(p => {
+          const isGood = p.score > 0;
+          const icon = isGood ? '✅' : '❌';
+          const bg = isGood ? '#ecfdf5' : '#fef2f2';
+          const border = isGood ? '#10b981' : '#ef4444';
 
           html += `
                <div style="background:${bg}; border-left:4px solid ${border}; padding:10px; border-radius:6px; box-shadow:0 1px 2px rgba(0,0,0,0.05);">
-                 <div style="font-size:0.85rem; color:#666;">${i.l}</div>
-                 <div style="font-weight:bold; font-size:1rem; margin:2px 0;">${icon} ${p.status ? 'Good' : 'Bad'}</div>
-                 <!-- <div style="font-size:0.75rem; color:#777;">${p.description || ''}</div> -->
+                 <div style="font-size:0.85rem; color:#666;">${p.name}</div>
+                 <div style="font-weight:bold; font-size:1rem; margin:2px 0;">${icon} ${isGood ? 'Matched' : 'Not Matched'}</div>
+                 <div style="font-size:0.7rem; color:#888;">${p.score}/${p.max} Points</div>
                </div>
              `;
-        }
-      });
+        });
+      }
+
+      // Add Dosha Info
+      if (m.girlDosha || m.boyDosha) {
+        html += `</div><div style="margin-top:20px; font-weight:bold; color:#555;">Kuja Dosha Check</div>
+         <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:5px;">
+            <div style="background:#fef2f2; padding:10px; border-radius:6px; border:1px solid #fee2e2;">
+               <div style="font-size:0.8rem; color:#be185d; font-weight:bold;">Girl Dosha</div>
+               <div style="font-size:0.8rem;">${m.girlDosha?.hasDosha ? 'YES' : 'NO'}</div>
+               <div style="font-size:0.65rem; color:#666;">${m.girlDosha?.desc || ''}</div>
+            </div>
+            <div style="background:#eff6ff; padding:10px; border-radius:6px; border:1px solid #dbeafe;">
+               <div style="font-size:0.8rem; color:#1e40af; font-weight:bold;">Boy Dosha</div>
+               <div style="font-size:0.8rem;">${m.boyDosha?.hasDosha ? 'YES' : 'NO'}</div>
+               <div style="font-size:0.65rem; color:#666;">${m.boyDosha?.desc || ''}</div>
+            </div>
+         </div>`;
+      }
 
       html += `</div>`;
       div.innerHTML = html;
