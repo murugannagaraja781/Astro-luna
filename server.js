@@ -3652,7 +3652,7 @@ app.post('/api/payment/create', async (req, res) => {
         merchantTransactionId: merchantTransactionId,
         merchantUserId: cleanUserId,
         amount: amount * 100, // Amount in Paise
-        redirectUrl: "astro5://payment-success",
+        redirectUrl: "astroluna://payment-success",
         redirectMode: "GET", // Use GET for deep links
         callbackUrl: `https://astroluna.in/api/payment/callback?isApp=true&txnId=${merchantTransactionId}`,
         mobileNumber: userMobile,
@@ -3796,12 +3796,12 @@ app.post('/api/payment/callback', async (req, res) => {
       console.log('[CALLBACK ERROR] No payment data found in Body or Query');
 
       const userAgent = req.headers['user-agent'] || '';
-      const isAndroidApp = req.query.isApp === 'true' || userAgent.includes('Android') || userAgent.includes('Astro5App');
+      const isAndroidApp = req.query.isApp === 'true' || userAgent.includes('Android') || userAgent.includes('astrolunaApp');
 
       // AUTO-REDIRECT TO APP IF DETECTED (Even if isApp param is missing)
       if (isAndroidApp) {
-        const intentUrl = `intent://payment-failed?reason=no_response#Intent;scheme=astro5;package=com.astroluna.app;end`;
-        const customScheme = `astro5://payment-failed?reason=no_response`;
+        const intentUrl = `intent://payment-failed?reason=no_response#Intent;scheme=astroluna;package=com.astroluna.app;end`;
+        const customScheme = `astroluna://payment-failed?reason=no_response`;
 
         return res.send(`
           <html>
@@ -3907,8 +3907,8 @@ app.post('/api/payment/callback', async (req, res) => {
 // --- 3. Public Status Pages ---
 app.get('/payment-success', (req, res) => {
   const { amount, txnId } = req.query;
-  const intentUrl = `intent://payment-success?status=success&txnId=${txnId}#Intent;scheme=astro5;package=com.astroluna.app;end`;
-  const customSchemeUrl = `astro5://payment-success?status=success&txnId=${txnId}`;
+  const intentUrl = `intent://payment-success?status=success&txnId=${txnId}#Intent;scheme=astroluna;package=com.astroluna.app;end`;
+  const customSchemeUrl = `astroluna://payment-success?status=success&txnId=${txnId}`;
 
   res.send(`
     <!DOCTYPE html>
@@ -3937,7 +3937,7 @@ app.get('/payment-success', (req, res) => {
                // Immediate Deep Link fallback
                setTimeout(() => { window.location.href = "${customSchemeUrl}"; }, 100);
                // Backup force link
-               setTimeout(() => { window.location.href = "astro5://payment-success"; }, 500);
+               setTimeout(() => { window.location.href = "astroluna://payment-success"; }, 500);
              }
              openApp();
           </script>
@@ -3948,8 +3948,8 @@ app.get('/payment-success', (req, res) => {
 });
 
 app.get('/payment-failed', (req, res) => {
-  const intentUrl = `intent://payment-failed?status=failed#Intent;scheme=astro5;package=com.astroluna.app;end`;
-  const customSchemeUrl = `astro5://payment-failed?status=failed`;
+  const intentUrl = `intent://payment-failed?status=failed#Intent;scheme=astroluna;package=com.astroluna.app;end`;
+  const customSchemeUrl = `astroluna://payment-failed?status=failed`;
   res.send(`
     <!DOCTYPE html>
     <html>

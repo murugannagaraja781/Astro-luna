@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Astro5 - NO-FAIL MongoDB Installation Script
+# astroluna - NO-FAIL MongoDB Installation Script
 # This script tries 3 different ways to get MongoDB on your server
 
 echo "🚀 Starting NO-FAIL MongoDB Installation..."
