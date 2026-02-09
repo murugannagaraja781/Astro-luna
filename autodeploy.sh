@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Astro 5 Star - Auto Deploy Script
-# Run this on server: curl -fsSL https://raw.githubusercontent.com/murugannagaraja781/astro5start/main/autodeploy.sh | bash
+# Run this on server: curl -fsSL https://raw.githubusercontent.com/murugannagaraja781/astrolunat/main/autodeploy.sh | bash
 
 echo "=========================================="
 echo "    Astro 5 Star Auto Deploy"
 echo "=========================================="
 
 # Variables
-APP_DIR="/var/www/astro5start"
-REPO_URL="https://github.com/murugannagaraja781/astro5start.git"
+APP_DIR="/var/www/astrolunat"
+REPO_URL="https://github.com/murugannagaraja781/astrolunat.git"
 APP_NAME="astro-app"
 
 # Step 1.5: Setup Swap if memory is low (Mandatory for 512MB RAM)
@@ -49,7 +49,7 @@ if [ -f "github_action_key" ]; then
         current_url=$(git remote get-url origin)
         if [[ "$current_url" == https* ]]; then
              echo "Switching remote to SSH..."
-             git remote set-url origin git@github.com:murugannagaraja781/astro5start.git
+             git remote set-url origin git@github.com:murugannagaraja781/astrolunat.git
         fi
     fi
 fi
@@ -63,7 +63,7 @@ if [ -d ".git" ]; then
 else
     echo "Cloning repository..."
     cd /var/www
-    sudo rm -rf astro5start
+    sudo rm -rf astrolunat
 
     # If freshly cloning, we might fail if we don't have the key yet (Chicken & Egg).
     # But user likely has the repo already.
@@ -71,7 +71,7 @@ else
     # Getting key for initial clone is tricky via script if script is curl'd.
     # Assessing current state: User HAS repo.
 
-    git clone $REPO_URL astro5start
+    git clone $REPO_URL astrolunat
     cd $APP_DIR
 fi
 

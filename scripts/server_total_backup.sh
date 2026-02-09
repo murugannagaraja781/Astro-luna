@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# Astro5Star Server Total Backup Dispatcher
+# astroluna Server Total Backup Dispatcher
 # This script is designed to run on your PRODUCTION SERVER.
 
 # Set the base directory absolutely
-BASE_DIR="/var/www/astro5start"
+BASE_DIR="/var/www/astrolunat"
 JS_BACKUP_SCRIPT="$BASE_DIR/scripts/backup.js"
 
 echo "==========================================="
-echo "   Astro5Star Server Backup Initializing   "
+echo "   astroluna Server Backup Initializing   "
 echo "==========================================="
 
 # 1. Self-Installation Check

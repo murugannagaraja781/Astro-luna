@@ -32,26 +32,40 @@ const { GoogleAuth } = require('google-auth-library');
 const fs = require('fs');
 
 // FCM v1 Configuration
-const FCM_PROJECT_ID = 'astro5star-d487c';
+const FCM_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'astroluna-76da1';
 let fcmAuth = null;
 
 // Initialize FCM v1 Auth
 function initFcmAuth() {
   try {
-    const serviceAccountPath = './firebase-service-account.json';
-    if (fs.existsSync(serviceAccountPath)) {
+    if (process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) {
+      // Use environment variables (support newlines in private key)
+      const privateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
       fcmAuth = new GoogleAuth({
-        keyFile: serviceAccountPath,
-        scopes: ['https://www.googleapis.com/auth/firebase.messaging']
+        credentials: {
+          client_email: process.env.FIREBASE_CLIENT_EMAIL,
+          private_key: privateKey,
+          project_id: process.env.FIREBASE_PROJECT_ID,
+        },
+        scopes: ['https://www.googleapis.com/auth/firebase.messaging'],
       });
-      console.log('[FCM v1] Initialized with service account');
+      console.log('[FCM v1] Initialized with environment variables');
     } else {
-      console.warn('[FCM v1] Service account file not found - push notifications disabled');
+      // Fallback to local file
+      const serviceAccountPath = './firebase-service-account.json';
+      if (fs.existsSync(serviceAccountPath)) {
+        fcmAuth = new GoogleAuth({
+          keyFile: serviceAccountPath,
+          scopes: ['https://www.googleapis.com/auth/firebase.messaging']
+        });
+        console.log('[FCM v1] Initialized with service account file');
+      } else {
+        console.warn('[FCM v1] Service account file not found and ENV vars missing - push notifications may be disabled');
+      }
     }
   } catch (err) {
     console.error('[FCM v1] Init error:', err.message);
   }
-
 }
 
 // ==========================================
@@ -3778,7 +3792,7 @@ app.post('/api/payment/callback', async (req, res) => {
 
       // AUTO-REDIRECT TO APP IF DETECTED (Even if isApp param is missing)
       if (isAndroidApp) {
-        const intentUrl = `intent://payment-failed?reason=no_response#Intent;scheme=astro5;package=com.astro5star.app;end`;
+        const intentUrl = `intent://payment-failed?reason=no_response#Intent;scheme=astro5;package=com.astroluna.app;end`;
         const customScheme = `astro5://payment-failed?reason=no_response`;
 
         return res.send(`
@@ -3885,7 +3899,7 @@ app.post('/api/payment/callback', async (req, res) => {
 // --- 3. Public Status Pages ---
 app.get('/payment-success', (req, res) => {
   const { amount, txnId } = req.query;
-  const intentUrl = `intent://payment-success?status=success&txnId=${txnId}#Intent;scheme=astro5;package=com.astro5star.app;end`;
+  const intentUrl = `intent://payment-success?status=success&txnId=${txnId}#Intent;scheme=astro5;package=com.astroluna.app;end`;
   const customSchemeUrl = `astro5://payment-success?status=success&txnId=${txnId}`;
 
   res.send(`
@@ -3926,7 +3940,7 @@ app.get('/payment-success', (req, res) => {
 });
 
 app.get('/payment-failed', (req, res) => {
-  const intentUrl = `intent://payment-failed?status=failed#Intent;scheme=astro5;package=com.astro5star.app;end`;
+  const intentUrl = `intent://payment-failed?status=failed#Intent;scheme=astro5;package=com.astroluna.app;end`;
   const customSchemeUrl = `astro5://payment-failed?status=failed`;
   res.send(`
     <!DOCTYPE html>

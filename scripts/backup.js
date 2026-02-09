@@ -4,14 +4,14 @@ const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 /**
- * Astro5Star Total Backup Script (JS version)
+ * astroluna Total Backup Script (JS version)
  * Handles: MongoDB Dump -> Zip -> Google Drive Sync
  */
 
 const MONGO_URI = process.env.MONGODB_URI;
 const BACKUP_DIR = path.join(__dirname, '../backups');
 const TIMESTAMP = new Date().toISOString().replace(/[:.]/g, '-');
-const BACKUP_NAME = `astro5star_db_${TIMESTAMP}`;
+const BACKUP_NAME = `astroluna_db_${TIMESTAMP}`;
 const FULL_PATH = path.join(BACKUP_DIR, BACKUP_NAME);
 
 async function runBackup() {
@@ -42,7 +42,7 @@ async function runBackup() {
         console.log("-> Syncing to Google Drive (rclone)...");
         try {
             // This assumes rclone is configured with 'gdrive' remote
-            execSync(`rclone sync "${BACKUP_DIR}" gdrive:astro5star_backups`);
+            execSync(`rclone sync "${BACKUP_DIR}" gdrive:astroluna_backups`);
             console.log("-> Sync complete!");
         } catch (rcloneErr) {
             console.error("!! Rclone sync failed. Check if rclone is configured.");

@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Configuration
-PROJECT_DIR="/Users/wohozo/Documents/astro5start"
+PROJECT_DIR="/Users/wohozo/Documents/astrolunat"
 BACKUP_DIR="$PROJECT_DIR/backups"
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-BACKUP_NAME="astro5star_db_$TIMESTAMP"
+BACKUP_NAME="astroluna_db_$TIMESTAMP"
 
 # Load environment variables
 if [ -f "$PROJECT_DIR/.env" ]; then
@@ -46,8 +46,8 @@ if [ $? -eq 0 ]; then
     # Trigger Rclone sync (if installed and configured)
     if command -v rclone &> /dev/null; then
         echo "Syncing to Google Drive..."
-        # Change 'gdrive:astro5star_backups' to your rclone remote name and folder
-        rclone sync "$BACKUP_DIR" gdrive:astro5star_backups
+        # Change 'gdrive:astroluna_backups' to your rclone remote name and folder
+        rclone sync "$BACKUP_DIR" gdrive:astroluna_backups
     else
         echo "Rclone not installed. Skipping Google Drive sync."
         echo "Please install rclone and configure a remote named 'gdrive' to enable auto-sync."
