@@ -3386,6 +3386,14 @@ app.post('/api/astrologer/service-toggle', async (req, res) => {
     const astros = await User.find({ role: 'astrologer' });
     io.emit('astrologer-update', astros);
 
+    // Emit lightweight status change for immediate UI update
+    io.emit('astro-status-change', {
+      userId,
+      service,
+      isEnabled: enabled,
+      isOnline: update.isOnline
+    });
+
     console.log(`[Service Toggle] ${userId}: ${service} = ${enabled}`);
     res.json({ ok: true });
   } catch (e) {
