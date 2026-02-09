@@ -1,5 +1,7 @@
-// server.js
-require('dotenv').config(); // Load environment variables from .env file
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+console.log('[Env] Loading .env from:', path.join(__dirname, '.env'));
+console.log('[Env] MONGODB_URI exists:', !!process.env.MONGODB_URI);
 // Force update timestamp: 2026-01-10 (Sync Fix)d
 // Force update timestamp: 2026-01-10
 const https = require('https');
@@ -322,7 +324,12 @@ app.post('/upload', upload.single('file'), (req, res) => {
   // ... (keeping upload logic if valid) ...
   return res.json({ ok: true, url: req.file ? '/uploads/' + req.file.filename : '' });
 });
-const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/astrofive';
+const MONGO_URI = process.env.MONGODB_URI;
+if (!MONGO_URI) {
+  console.error('CRITICAL ERROR: MONGODB_URI is not defined in environment variables!');
+  console.log('Falling back to local development DB (not recommended for production)');
+}
+const ACTUAL_MONGO_URI = MONGO_URI || 'mongodb://localhost:27017/astrofive';
 
 // Helper function to check if MongoDB is connected
 const isMongoConnected = () => {
@@ -346,7 +353,7 @@ const safeDbOperation = async (operation, fallbackValue = null) => {
 // MongoDB Connection with retry logic
 const connectDB = async (retries = 5) => {
   try {
-    await mongoose.connect(MONGO_URI, {
+    await mongoose.connect(ACTUAL_MONGO_URI, {
       serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
       maxPoolSize: 10,
@@ -2135,7 +2142,10 @@ io.on('connection', (socket) => {
   // --- Update Profile ---
   socket.on('update-profile', async (data, cb) => {
     const userId = socketToUser.get(socket.id);
-    if (!userId) return cb({ ok: false, error: 'Not logged in' });
+    if (!userId) {
+      if (typeof cb === 'function') cb({ ok: false, error: 'Not logged in' });
+      return;
+    }
 
     try {
       const user = await User.findOne({ userId });
@@ -2150,13 +2160,13 @@ io.on('connection', (socket) => {
         await user.save();
 
         if (user.role === 'astrologer') broadcastAstroUpdate();
-        cb({ ok: true, user });
+        if (typeof cb === 'function') cb({ ok: true, user });
       } else {
-        cb({ ok: false, error: 'User not found' });
+        if (typeof cb === 'function') cb({ ok: false, error: 'User not found' });
       }
     } catch (e) {
       console.error('Update Profile Error', e);
-      cb({ ok: false, error: 'Internal Error' });
+      if (typeof cb === 'function') cb({ ok: false, error: 'Internal Error' });
     }
   });
 
@@ -2166,15 +2176,22 @@ io.on('connection', (socket) => {
       const { toUserId, type, birthData } = data || {};
       const fromUserId = socketToUser.get(socket.id);
 
-      if (!fromUserId) return cb({ ok: false, error: 'Not registered' });
-      if (!toUserId || !type) return cb({ ok: false, error: 'Missing fields' });
+      if (!fromUserId) {
+        if (typeof cb === 'function') cb({ ok: false, error: 'Not registered' });
+        return;
+      }
+      if (!toUserId || !type) {
+        if (typeof cb === 'function') cb({ ok: false, error: 'Missing fields' });
+        return;
+      }
 
       // Get target user from DB
       const toUser = await User.findOne({ userId: toUserId });
       const fromUser = await User.findOne({ userId: fromUserId });
 
       if (!toUser) {
-        return cb({ ok: false, error: 'User not found' });
+        if (typeof cb === 'function') cb({ ok: false, error: 'User not found' });
+        return;
       }
 
       // Check if astrologer is available (MANUAL ONLY)
@@ -2281,7 +2298,7 @@ io.on('connection', (socket) => {
       }
 
       console.log(`Session request: ${sessionId} (${type})`);
-      cb({ ok: true, sessionId });
+      if (typeof cb === 'function') cb({ ok: true, sessionId });
 
       // --- MISSED CALL TIMEOUT (25s) ---
       setTimeout(async () => {
@@ -2296,10 +2313,10 @@ io.on('connection', (socket) => {
           activeSessions.delete(sessionId);
           await Session.updateOne({ sessionId }, { status: 'missed', endTime: Date.now() }).catch(() => { });
         }
-      }, 25000);
+      }, 250000);
     } catch (err) {
       console.error('request-session error', err);
-      cb({ ok: false, error: 'Internal error' });
+      if (typeof cb === 'function') cb({ ok: false, error: 'Internal error' });
     }
   });
 
@@ -2619,8 +2636,11 @@ io.on('connection', (socket) => {
       // Populate names (Mock style since we don't have populate setup easily, we'll fetch manually or send IDs)
       // Actually client can resolve names from its own list or we just send IDs + Time + Type
 
-      cb({ ok: true, sessions });
-    } catch (e) { console.error(e); cb({ ok: false }); }
+      if (typeof cb === 'function') cb({ ok: true, sessions });
+    } catch (e) {
+      console.error(e);
+      if (typeof cb === 'function') cb({ ok: false });
+    }
   });
 
   // --- message-status (from Android) - handles both delivered and read ---
