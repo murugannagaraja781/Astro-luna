@@ -74,21 +74,45 @@ function initFcmAuth() {
 let mobileTokenStore = new Map();
 let callApp = null;
 
-try {
-  const serviceAccountPath = path.join(__dirname, 'firebase-service-account.json');
+// ==========================================
+// MOBILE APP FIREBASE INITIALIZATION
+// ==========================================
+let mobileTokenStore = new Map();
+let callApp = null;
 
-  if (!fs.existsSync(serviceAccountPath)) {
-    throw new Error(`Service account file not found at: ${serviceAccountPath}`);
+try {
+  // Option 1: Try to use the same Environment Variables as the main app (Preferred)
+  if (process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) {
+    const privateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
+    const serviceAccountParams = {
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: privateKey
+    };
+
+    callApp = admin.initializeApp({
+      credential: admin.credential.cert(serviceAccountParams)
+    }, 'callApp'); // Secondary App Name
+    console.log('✓ Call App: Firebase Admin SDK initialized (using ENV)');
+  }
+  // Option 2: Fallback to File
+  else {
+    const serviceAccountPath = path.join(__dirname, 'firebase-service-account.json');
+    if (fs.existsSync(serviceAccountPath)) {
+      const firebaseServiceAccount = require(serviceAccountPath);
+      callApp = admin.initializeApp({
+        credential: admin.credential.cert(firebaseServiceAccount)
+      }, 'callApp'); // Secondary App Name
+      console.log('✓ Call App: Firebase Admin SDK initialized (using FILE)');
+    } else {
+      console.warn('⚠️ Call App: Service account file missing and ENV vars not set. Call features may fail.');
+    }
   }
 
-  const firebaseServiceAccount = require(serviceAccountPath);
-  callApp = admin.initializeApp({
-    credential: admin.credential.cert(firebaseServiceAccount)
-  }, 'callApp'); // Secondary App Name
-  console.log('✓ Call App: Firebase Admin SDK initialized');
 } catch (error) {
   console.warn('✗ Call App: Failed to initialize Firebase Admin SDK (Mobile App)');
   console.warn('  Error:', error.message);
+  // Do NOT re-throw or crash. Just log it.
   global.callAppInitError = error.message;
 }
 
