@@ -52,7 +52,7 @@ function initFcmAuth() {
       console.log('[FCM v1] Initialized with environment variables');
     } else {
       // Fallback to local file
-      const serviceAccountPath = './firebase-service-account.json';
+      const serviceAccountPath = path.join(__dirname, 'firebase-service-account.json');
       if (fs.existsSync(serviceAccountPath)) {
         fcmAuth = new GoogleAuth({
           keyFile: serviceAccountPath,
