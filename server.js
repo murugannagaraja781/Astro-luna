@@ -8,7 +8,6 @@ const https = require('https');
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
-const path = require('path');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const multer = require('multer');
@@ -73,8 +72,6 @@ function initFcmAuth() {
 // ==========================================
 // MOBILE APP FIREBASE INITIALIZATION
 // ==========================================
-let mobileTokenStore = new Map();
-let callApp = null;
 
 // ==========================================
 // MOBILE APP FIREBASE INITIALIZATION
@@ -359,7 +356,7 @@ const connectDB = async (retries = 5) => {
       maxPoolSize: 10,
       minPoolSize: 2
     });
-    console.log('✅ MongoDB Connected to:', MONGO_URI.split('@').pop().split('?')[0]);
+    console.log('✅ MongoDB Connected');
     if (process.env.NODE_ENV !== 'test') {
       seedDatabase();
     }
