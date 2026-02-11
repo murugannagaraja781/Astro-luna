@@ -158,7 +158,8 @@ class ChatActivity : ComponentActivity() {
                              Toast.makeText(this, "Waiting for Client Data...", Toast.LENGTH_SHORT).show()
                         }
                     },
-                    isAstrologer = TokenManager(this).getUserSession()?.role == "astrologer",
+                    isPartnerAstrologer = TokenManager(this).getUserSession()?.role == "client",
+                    amIAstrologer = TokenManager(this).getUserSession()?.role == "astrologer",
                     toUserId = toUserId,
                     toUserImage = toUserImage,
                     sessionId = sessionId,
@@ -368,7 +369,8 @@ fun ChatScreen(
     onEndChat: () -> Unit,
     onEditIntake: () -> Unit,
     onViewChart: () -> Unit,
-    isAstrologer: Boolean,
+    isPartnerAstrologer: Boolean,
+    amIAstrologer: Boolean,
     toUserId: String?,
     toUserImage: String?,
     sessionId: String?,
@@ -412,7 +414,7 @@ fun ChatScreen(
                                     color = Color.White,
                                     fontWeight = FontWeight.SemiBold
                                 )
-                                if (isAstrologer) {
+                                if (isPartnerAstrologer) {
                                     Spacer(Modifier.width(4.dp))
                                     VerifiedBadge()
                                 }
@@ -420,6 +422,8 @@ fun ChatScreen(
                             Text("Online", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = 0.8f))
                         }
                     }
+
+                    Spacer(modifier = Modifier.weight(1f))
 
                     Surface(
                         onClick = onEndChat,
@@ -447,7 +451,7 @@ fun ChatScreen(
                         Icon(Icons.Default.AccessTime, null, tint = Color(0xFFFF9800), modifier = Modifier.size(14.dp))
                         Spacer(Modifier.width(4.dp))
                         Text(
-                            if (isAstrologer && remainingTime.isNotEmpty()) "Rem: $remainingTime" else "Time: $sessionDuration",
+                            if (amIAstrologer && remainingTime.isNotEmpty()) "Rem: $remainingTime" else "Time: $sessionDuration",
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                             color = Color(0xFFFF9800),
                             maxLines = 1
@@ -477,6 +481,7 @@ fun ChatScreen(
             ChatInputBar(
                 text = inputText,
                 replyingTo = replyingTo,
+                amIAstrologer = amIAstrologer,
                 onTextChange = {
                     inputText = it
                     if (toUserId != null) viewModel.sendTyping(toUserId)
@@ -484,28 +489,27 @@ fun ChatScreen(
                 onCancelReply = { replyingTo = null },
                 onSend = {
                     if (inputText.isNotBlank() && toUserId != null && sessionId != null) {
-                         var finalText = inputText
-                         if (replyingTo != null) {
-                             val snippet = replyingTo!!.text.take(50).replace("\n", " ")
-                             finalText = "> Replying to: $snippet\n$inputText"
-                         }
+                        val msgText = if (replyingTo != null) {
+                            val snippet = replyingTo!!.text.take(50).replace("\n", " ")
+                            "> Replying to: $snippet\n$inputText"
+                        } else inputText
 
-                         val payload = JSONObject().apply {
+                        val payload = JSONObject().apply {
                             put("toUserId", toUserId)
                             put("sessionId", sessionId)
-                            put("messageId", UUID.randomUUID().toString())
+                            put("messageId", java.util.UUID.randomUUID().toString())
                             put("timestamp", System.currentTimeMillis())
-                            put("content", JSONObject().put("text", finalText))
-                         }
-                         viewModel.sendMessage(payload)
-                         SoundManager.playSentSound()
-                         inputText = ""
-                         replyingTo = null
-                         viewModel.sendStopTyping(toUserId)
+                            put("content", JSONObject().put("text", msgText))
+                        }
+                        viewModel.sendMessage(payload)
+                        SoundManager.playSentSound()
+                        inputText = ""
+                        replyingTo = null
+                        if (toUserId != null) viewModel.sendStopTyping(toUserId)
                     }
                 },
-                onViewChart = if (isAstrologer) onViewChart else null,
-                clientBirthData = clientBirthData
+                onViewChart = onViewChart,
+                onEditIntake = onEditIntake
             )
         }
     ) { padding ->
@@ -536,13 +540,13 @@ fun ChatScreen(
                 }
 
                 items(displayedMessages) { msg ->
-                    ChatBubble(msg, isAstrologer, toUserImage, onReply = { replyingTo = msg })
+                    ChatBubble(msg, amIAstrologer, toUserImage, onReply = { replyingTo = msg })
                 }
                 if (isTyping) item { TypingBubble() }
             }
 
             // WATERMARK: Remaining Time for Astrologer (Big overlay if needed, or subtle)
-            if (isAstrologer && remainingTime.isNotEmpty() && remainingTime != "00:00") {
+            if (amIAstrologer && remainingTime.isNotEmpty() && remainingTime != "00:00") {
                  // Already detailed in TopBar, but can keep watermark if critical
             }
         }
@@ -652,108 +656,109 @@ fun TypingBubble() {
 fun ChatInputBar(
     text: String,
     replyingTo: ChatMessage?,
+    amIAstrologer: Boolean,
     onTextChange: (String) -> Unit,
     onCancelReply: () -> Unit,
     onSend: () -> Unit,
-    onViewChart: (() -> Unit)?,
-    clientBirthData: JSONObject? = null
+    onViewChart: () -> Unit,
+    onEditIntake: () -> Unit
 ) {
     val quickChips = listOf("My birth time is...", "When will I get promoted?", "Share my career details")
 
     Column(modifier = Modifier.navigationBarsPadding().background(Color.White).shadow(4.dp).padding(vertical = 4.dp)) {
-        // Quick Action Chips
-        LazyRow(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 16.dp),
-            spacing = Arrangement.spacedBy(8.dp)
-        ) {
-            items(quickChips) { chipText ->
-                Surface(
-                    onClick = { onTextChange(chipText) },
-                    shape = RoundedCornerShape(12.dp),
-                    color = Color.DarkGray.copy(alpha = 0.8f),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.1f))
-                ) {
-                    Text(
-                        chipText,
-                        style = MaterialTheme.typography.labelMedium,
-                        color = Color.White,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
-                    )
+        // Reply Preview
+        if (replyingTo != null) {
+            Row(
+                modifier = Modifier.fillMaxWidth().background(Color.LightGray.copy(alpha = 0.2f)).padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(modifier = Modifier.width(4.dp).height(40.dp).background(ColorPrimary))
+                Column(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
+                    Text("Replying to", style = MaterialTheme.typography.labelSmall, color = ColorPrimary)
+                    Text(replyingTo.text, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+                }
+                IconButton(onClick = onCancelReply) {
+                    Icon(Icons.Default.Close, null, tint = Color.Gray)
                 }
             }
         }
 
-        Surface(
-            color = Color.Transparent,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+        // Quick Action Chips
+        if (!amIAstrologer) {
+            androidx.compose.foundation.lazy.LazyRow(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(quickChips) { chipText ->
+                    Surface(
+                        onClick = { onTextChange(chipText) },
+                        shape = RoundedCornerShape(50),
+                        color = Color.White,
+                        border = androidx.compose.foundation.BorderStroke(1.dp, ColorDivider)
+                    ) {
+                        Text(
+                            chipText,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = ColorTextSecondary
+                        )
+                    }
+                }
+            }
+        } else {
+             Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                 QuickActionChip("View Chart", onAction = onViewChart)
+                 QuickActionChip("Edit Intake", onAction = onEditIntake)
+             }
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Column {
-                if (replyingTo != null) {
-                    Row(
-                        Modifier.fillMaxWidth().background(Color.White.copy(alpha = 0.1f), RoundedCornerShape(8.dp)).padding(8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                       Column {
-                           Text("Replying to", style = MaterialTheme.typography.labelSmall, color = ColorPrimary)
-                           Text(replyingTo!!.text.take(30), style = MaterialTheme.typography.bodySmall, color = ColorTextSecondary)
-                       }
-                       IconButton(onClick = onCancelReply) {
-                           Icon(Icons.Default.Close, "Cancel", tint = ColorTextSecondary)
-                       }
-                    }
-                    Spacer(Modifier.height(8.dp))
-                }
+            OutlinedTextField(
+                value = text,
+                onValueChange = onTextChange,
+                modifier = Modifier.weight(1f),
+                placeholder = { Text("Type your message...", color = Color.Gray) },
+                shape = RoundedCornerShape(24.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    focusedBorderColor = ColorPrimary.copy(alpha = 0.5f),
+                    unfocusedBorderColor = ColorDivider
+                ),
+                maxLines = 4
+            )
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    // Left Plus Icon
-                    IconButton(
-                        onClick = { /* attachments */ },
-                        modifier = Modifier.size(40.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.2f))
-                    ) {
-                        Icon(Icons.Default.Add, null, tint = Color.White)
-                    }
+            Spacer(Modifier.width(8.dp))
 
-                    Spacer(Modifier.width(8.dp))
-
-                    OutlinedTextField(
-                        value = text,
-                        onValueChange = onTextChange,
-                        modifier = Modifier.weight(1f),
-                        shape = RoundedCornerShape(24.dp),
-                        placeholder = { Text("Type your message...", color = Color.Gray) },
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = ColorPrimary.copy(alpha = 0.5f),
-                            unfocusedBorderColor = Color.LightGray,
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White,
-                            focusedTextColor = ColorTextPrimary,
-                            unfocusedTextColor = ColorTextPrimary
-                        ),
-                        trailingIcon = {
-                            Icon(Icons.Default.Mic, null, tint = Color.Gray)
-                        },
-                        maxLines = 4
-                    )
-
-                    Spacer(Modifier.width(8.dp))
-
-                    FloatingActionButton(
-                        onClick = onSend,
-                        containerColor = ColorPrimary,
-                        contentColor = Color.White,
-                        shape = CircleShape,
-                        modifier = Modifier.size(48.dp)
-                    ) {
-                        Icon(Icons.Default.Send, null)
-                    }
-                }
+            FloatingActionButton(
+                onClick = onSend,
+                containerColor = ColorPrimary,
+                contentColor = Color.White,
+                shape = CircleShape,
+                modifier = Modifier.size(48.dp)
+            ) {
+                Icon(Icons.Default.Send, "Send")
             }
         }
     }
 }
 
 @Composable
-private fun LazyRow(modifier: Modifier, spacing: Arrangement.HorizontalOrVertical, content: LazyListScope.() -> Unit) {
-    androidx.compose.foundation.lazy.LazyRow(modifier = modifier, horizontalArrangement = spacing, content = content)
+fun QuickActionChip(text: String, onAction: () -> Unit) {
+    Surface(
+        onClick = onAction,
+        shape = RoundedCornerShape(8.dp),
+        color = ColorPrimary.copy(alpha = 0.1f),
+        border = androidx.compose.foundation.BorderStroke(1.dp, ColorPrimary.copy(alpha = 0.3f))
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+            color = ColorPrimary
+        )
+    }
 }

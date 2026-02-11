@@ -140,6 +140,17 @@ class FCMService : FirebaseMessagingService() {
 
             when (messageType) {
                 "INCOMING_CALL" -> handleIncomingCall(data)
+                "CANCEL_CALL" -> {
+                    val sessionId = data["sessionId"] ?: ""
+                    Log.d(TAG, "Cancelling notification for session: $sessionId")
+                    val notificationManager = getSystemService(NotificationManager::class.java)
+                    notificationManager.cancel(CALL_NOTIFICATION_ID)
+
+                    // Also notify IncomingCallActivity if it's alive
+                    val cancelIntent = Intent("com.astroluna.app.CANCEL_CALL")
+                    cancelIntent.putExtra("callId", sessionId)
+                    sendBroadcast(cancelIntent)
+                }
                 "INCOMING_CHAT" -> {
                     val callerName = data["callerName"] ?: "Unknown"
                     val callerId = data["callerId"] ?: ""

@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -60,6 +61,16 @@ class IncomingCallActivity : ComponentActivity() {
     private var vibrator: Vibrator? = null
     private val handler = Handler(Looper.getMainLooper())
     private var shouldStopServiceOnDestroy = true
+
+    private val cancelReceiver = object : android.content.BroadcastReceiver() {
+        override fun onReceive(context: android.content.Context?, intent: android.content.Intent?) {
+            val incomingCallId = intent?.getStringExtra("callId")
+            if (incomingCallId == callId || incomingCallId.isNullOrEmpty()) {
+                Log.d(TAG, "CANCEL_CALL broadcast received for session $callId")
+                onCallRejected()
+            }
+        }
+    }
 
     private var callerId: String = ""
     private var callerName: String = ""
@@ -109,6 +120,14 @@ class IncomingCallActivity : ComponentActivity() {
             startRingtone()
             startVibration()
             handler.postDelayed(timeoutRunnable, CALL_TIMEOUT_MS)
+        }
+
+        // Register cancel receiver
+        val filter = android.content.IntentFilter("com.astroluna.app.CANCEL_CALL")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(cancelReceiver, filter, android.content.Context.RECEIVER_EXPORTED)
+        } else {
+            registerReceiver(cancelReceiver, filter)
         }
 
         // --- AUTO ACCEPT LOGIC ---
@@ -321,6 +340,9 @@ class IncomingCallActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        try {
+            unregisterReceiver(cancelReceiver)
+        } catch (e: Exception) { }
         stopRingtoneAndVibration()
         handler.removeCallbacks(timeoutRunnable)
 

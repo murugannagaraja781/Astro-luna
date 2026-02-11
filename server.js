@@ -1662,6 +1662,11 @@ async function endSessionRecord(sessionId) {
   if (s.clientId) io.to(s.clientId).emit('session-ended', payload);
   if (s.astrologerId) io.to(s.astrologerId).emit('session-ended', payload);
 
+  // NEW: If the session was still ringing, send a cancellation push to the callee
+  if (s.status === 'ringing' && s.astrologerId) {
+    sendCancelPush(s.astrologerId, sessionId);
+  }
+
   // Mark astrologer as NOT busy (Wait for DB update before broadcast)
   User.updateMany({ userId: { $in: s.users }, role: 'astrologer' }, { isBusy: false })
     .then(() => broadcastAstroUpdate())
@@ -2324,6 +2329,7 @@ io.on('connection', (socket) => {
           console.log(`[Session] Ringing timeout for ${sessionId}. Marking as MISSED.`);
           io.to(fromUserId).emit('session-ended', { sessionId, reason: 'no_answer' });
           io.to(toUserId).emit('session-ended', { sessionId, reason: 'missed' });
+          sendCancelPush(toUserId, sessionId); // Dismiss ringing push
 
           userActiveSession.delete(fromUserId);
           userActiveSession.delete(toUserId);
@@ -2654,6 +2660,25 @@ io.on('connection', (socket) => {
         await sendFcmV1Push(toUser.fcmToken, payload, notification);
       }
     } catch (e) { console.error('Chat Push Error:', e); }
+  }
+
+  // --- Helper: Send Cancel Push ---
+  async function sendCancelPush(toUserId, sessionId) {
+    try {
+      const toUser = await User.findOne({ userId: toUserId });
+      if (toUser && toUser.fcmToken) {
+        const payload = {
+          type: 'CANCEL_CALL',
+          sessionId: sessionId || '',
+          timestamp: Date.now().toString()
+        };
+        // Data-only message for dismissal
+        await sendFcmV1Push(toUser.fcmToken, payload, null);
+        console.log(`[FCM] Cancel push sent to ${toUserId} for session ${sessionId}`);
+      }
+    } catch (e) {
+      console.error('Cancel Push Error:', e);
+    }
   }
 
   // --- Get History ---

@@ -654,11 +654,6 @@ class CallActivity : ComponentActivity() {
             return
         }
 
-        startBackgroundService()
-        setupSocketListeners()
-        timerHandler.post(timerRunnable)
-    }
-
         val myUserId = session?.userId
         if (myUserId == null) {
             Log.e(TAG, "Cannot start call: userId is null")
@@ -708,6 +703,10 @@ class CallActivity : ComponentActivity() {
                 }
             }
         }
+
+        startBackgroundService()
+        setupSocketListeners()
+        timerHandler.post(timerRunnable)
     }
 
     private fun initWebRTC(): Boolean {
