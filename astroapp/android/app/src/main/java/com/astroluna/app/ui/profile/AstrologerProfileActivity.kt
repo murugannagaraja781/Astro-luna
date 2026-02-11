@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.rounded.VideoCall
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,6 +37,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.astroluna.app.R
 import com.astroluna.app.ui.theme.CosmicAppTheme
+
+// --- Visual Constants ---
+private val ColorPrimary = Color(0xFF673AB7) // Deep Purple
+private val ColorSecondary = Color(0xFF9575CD) // Lighter Purple
+private val ColorBackground = Color(0xFFF7F9FC)
+private val ColorSurface = Color(0xFFFFFFFF)
+private val ColorTextPrimary = Color(0xFF1A1C1E)
+private val ColorTextSecondary = Color(0xFF757575)
+private val ColorDivider = Color(0xFFEEEEEE)
+private val ColorCall = Color(0xFF43A047)
+private val ColorVideo = Color(0xFFE53935)
+private val ColorChat = Color(0xFF039BE5)
+private val ColorGold = Color(0xFFFFC107)
 
 class AstrologerProfileActivity : ComponentActivity() {
 
@@ -96,229 +110,242 @@ fun AstrologerProfileScreen(
     onAction: (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val peacockTeal = Color(0xFF004D40)
-    val yellowAccent = Color(0xFFFFD54F)
 
     Scaffold(
+        containerColor = ColorBackground,
         topBar = {
-            SmallTopAppBar(
-                title = { Text("Profile", color = Color.White, fontWeight = FontWeight.Bold) },
+            // Using a transparent top bar over the profile header
+            TopAppBar(
+                title = { },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)
+                        Surface(shape = CircleShape, color = Color.Black.copy(alpha=0.3f)) {
+                            Icon(Icons.Default.ArrowBack, "Back", tint = Color.White, modifier = Modifier.padding(8.dp))
+                        }
                     }
                 },
                 actions = {
                     IconButton(onClick = {}) {
-                        Icon(Icons.Default.Share, "Share", tint = Color.White)
+                         Surface(shape = CircleShape, color = Color.Black.copy(alpha=0.3f)) {
+                            Icon(Icons.Default.Share, "Share", tint = Color.White, modifier = Modifier.padding(8.dp))
+                        }
                     }
                 },
-                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = peacockTeal)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
         }
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
                 .verticalScroll(scrollState)
-                .background(Color.White)
+                .background(ColorBackground)
         ) {
+            // New Header Design
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(80.dp)
+                    .height(300.dp)
             ) {
-                // Header extension
+                 // Background Gradient
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .background(peacockTeal)
-                )
-
-                // Avatar
-                Box(
-                    modifier = Modifier
-                        .size(100.dp)
-                        .align(Alignment.BottomCenter)
-                        .offset(y = 20.dp)
+                        .fillMaxSize()
+                        .background(
+                            Brush.verticalGradient(
+                                listOf(ColorPrimary, ColorSecondary)
+                            )
+                        )
                 ) {
-                    androidx.compose.ui.viewinterop.AndroidView(
-                        factory = { context ->
-                           android.widget.ImageView(context).apply {
-                               scaleType = android.widget.ImageView.ScaleType.CENTER_CROP
-                               // Simple circle mask using background if needed, but better to use Image with clip
-                           }
-                        },
+                     // Decor
+                     Box(modifier = Modifier.size(200.dp).offset(x = (-50).dp, y = (-50).dp).background(Color.White.copy(alpha=0.1f), CircleShape))
+                     Box(modifier = Modifier.size(150.dp).align(Alignment.BottomEnd).offset(x = 50.dp, y = 50.dp).background(Color.White.copy(alpha=0.1f), CircleShape))
+                }
+
+                // Profile Image & Info
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(top = 40.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
                         modifier = Modifier
-                            .fillMaxSize()
+                            .size(120.dp)
+                            .shadow(8.dp, CircleShape, spotColor = Color.Black.copy(alpha=0.5f))
                             .clip(CircleShape)
-                            .border(4.dp, Color(0xFF1B5E20), CircleShape)
+                            .background(Color.White)
+                            .border(4.dp, Color.White, CircleShape)
+                    ) {
+                         Image(
+                            painter = painterResource(id = R.drawable.ic_person_placeholder),
+                            contentDescription = "Avatar",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = name,
+                        style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                        color = Color.White
                     )
-                    // Simplified: Since Coil implementation is harder in AndroidView here, I'll use icon placeholder for now
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_person_placeholder),
-                        contentDescription = "Avatar",
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clip(CircleShape)
-                            .border(4.dp, Color(0xFF1B5E20), CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
-                   // Verified Badge
-                    Icon(
-                        imageVector = Icons.Default.CheckCircle,
-                        contentDescription = "Verified",
-                        tint = Color(0xFF4CAF50),
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .size(24.dp)
-                            .background(Color.White, CircleShape)
-                            .padding(2.dp)
-                    )
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(skills, color = Color.White.copy(alpha = 0.9f), style = MaterialTheme.typography.bodyMedium)
+                    }
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
-
+            // Content Body
             Column(
-                modifier = Modifier.fillMaxWidth().offset(y = (-10).dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .offset(y = (-30).dp) // Overlap header
+                    .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                    .background(ColorBackground)
+                    .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Background for name to make it white
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(
-                            Brush.verticalGradient(
-                                listOf(peacockTeal, Color(0xFF00332E))
-                            )
-                        )
-                        .shadow(4.dp, RoundedCornerShape(16.dp))
-                        .padding(12.dp),
-                    contentAlignment = Alignment.Center
+                // Key Stats Row
+                Card(
+                     shape = RoundedCornerShape(16.dp),
+                     colors = CardDefaults.cardColors(containerColor = ColorSurface),
+                     elevation = CardDefaults.cardElevation(2.dp),
+                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(name, fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                    Row(
+                        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        StatItem(icon = Icons.Default.CheckCircle, value = "$exp Years", label = "Experience")
+                        StatDivider()
+                        StatItem(icon = Icons.Default.Call, value = "30k+", label = "Consultations")
+                        StatDivider()
+                        StatItem(icon = Icons.Default.Star, value = "4.9", label = "Rating")
+                    }
                 }
 
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top=4.dp)) {
-                    Text("★★★★★", color = Color(0xFFFFC107))
-                    Text(" 8942 orders", fontSize = 12.sp, color = Color.Gray, modifier = Modifier.padding(start=4.dp))
-                }
+                Spacer(modifier = Modifier.height(24.dp))
 
-                Text(skills, color = Color.Gray, modifier = Modifier.padding(top=4.dp))
-                Text("₹$price/min", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFFD32F2F), modifier = Modifier.padding(top=4.dp))
+                // Pricing
+                Text(
+                     text = "₹$price/min",
+                     style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                     color = ColorPrimary
+                )
+                Text(
+                    text = "Consultation Charge",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = ColorTextSecondary
+                )
 
-                // Stats
-                Row(
-                   modifier = Modifier
-                       .fillMaxWidth()
-                       .padding(16.dp),
-                   horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    StatItem(icon = Icons.Default.Chat, value = "49k Mins")
-                    StatItem(icon = Icons.Default.Call, value = "31k Mins")
-                    StatItem(icon = Icons.Default.CheckCircle, value = "$exp years Exp")
-                }
+                Spacer(modifier = Modifier.height(24.dp))
 
                 // Bio
                 Text(
-                    text = "$name is a Tarot Reader in India. She loves to help her clients when they are in need. Her ...show more",
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                    textAlign = TextAlign.Center,
-                    color = Color.Gray,
-                    fontSize = 14.sp
+                    text = "About Me",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.fillMaxWidth(),
+                    color = ColorTextPrimary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "$name is an expert in Vedic Astrology and Tarot Reading with over $exp years of experience. She specializes in relationship and career counseling.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = ColorTextSecondary,
+                    lineHeight = 22.sp
                 )
 
-                // Actions
+                Spacer(modifier = Modifier.height(32.dp))
+
+                // Action Buttons
+                Text(
+                    text = "Connect Now",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.fillMaxWidth(),
+                    color = ColorTextPrimary
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    // Only show buttons for services the astrologer has enabled
                     if (isChatOnline) {
                         ActionButton(
                             icon = Icons.Default.Chat,
                             label = "Chat",
-                            color = Color(0xFF00BCD4),
-                            isEnabled = true,
+                            color = ColorChat,
+                            modifier = Modifier.weight(1f),
                             onClick = { onAction("chat") }
                         )
                     }
-
                     if (isAudioOnline) {
-                        ActionButton(
+                         ActionButton(
                             icon = Icons.Default.Call,
                             label = "Call",
-                            color = Color(0xFF00796B),
-                            isEnabled = true,
-                            onClick = { onAction("audio") }
+                            color = ColorCall,
+                             modifier = Modifier.weight(1f),
+                            onClick = { onAction("call") }
                         )
                     }
-
                     if (isVideoOnline) {
-                        ActionButton(
-                            icon = androidx.compose.material.icons.Icons.Rounded.VideoCall,
+                         ActionButton(
+                            icon = Icons.Rounded.VideoCall,
                             label = "Video",
-                            color = Color(0xFFD32F2F),
-                            isEnabled = true,
+                            color = ColorVideo,
+                             modifier = Modifier.weight(1f),
                             onClick = { onAction("video") }
                         )
                     }
-                }
 
-                // Reviews Section Placeholder
-                Text(
-                    "User Reviews",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, top = 16.dp)
-                )
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(16.dp)
-                ) {
-                    // Placeholder review avatars
-                     Box(modifier = Modifier.size(50.dp).background(Color(0xFF1A237E), CircleShape))
-                     Spacer(modifier = Modifier.width(8.dp))
-                     Box(modifier = Modifier.size(50.dp).background(Color(0xFF004D40), CircleShape))
-                     Spacer(modifier = Modifier.width(8.dp))
-                     Box(modifier = Modifier.size(50.dp).background(Color(0xFFD81B60), CircleShape))
+                    if(!isChatOnline && !isAudioOnline && !isVideoOnline) {
+                         Text("Astrologer is currently offline.", style = MaterialTheme.typography.bodyMedium, color = ColorTextSecondary)
+                    }
                 }
             }
         }
+     }
+}
+
+@Composable
+fun StatDivide() {
+    Divider(modifier = Modifier.height(40.dp).width(1.dp), color = ColorDivider)
+}
+@Composable
+fun StatDivider() {
+    Box(modifier = Modifier.height(40.dp).width(1.dp).background(ColorDivider))
+}
+
+@Composable
+fun StatItem(icon: ImageVector, value: String, label: String) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(horizontal = 8.dp)) {
+        Icon(icon, null, tint = ColorPrimary, modifier = Modifier.size(20.dp))
+        Spacer(Modifier.height(4.dp))
+        Text(value, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall, color = ColorTextPrimary)
+        Text(label, style = MaterialTheme.typography.labelSmall, color = ColorTextSecondary)
     }
 }
 
 @Composable
-fun StatItem(icon: ImageVector, value: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Icon(icon, null, tint = Color.Black, modifier = Modifier.size(24.dp))
-        Text(value, fontWeight = FontWeight.Bold, fontSize = 12.sp, color = Color.Black, modifier = Modifier.padding(top=4.dp))
-    }
-}
-
-@Composable
-fun ActionButton(icon: ImageVector, label: String, color: Color, isEnabled: Boolean, onClick: () -> Unit) {
-    val finalColor = if (isEnabled) color else Color.Gray
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        IconButton(
-            onClick = onClick,
-            enabled = isEnabled,
-            modifier = Modifier
-                .size(56.dp)
-                .background(finalColor.copy(alpha = 0.1f), CircleShape)
-                .border(1.dp, finalColor.copy(alpha = 0.5f), CircleShape)
-        ) {
-            Icon(imageVector = icon, contentDescription = label, tint = finalColor)
+fun ActionButton(icon: ImageVector, label: String, color: Color, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = modifier.height(50.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = color.copy(alpha = 0.1f)),
+        shape = RoundedCornerShape(12.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, color.copy(alpha = 0.2f)),
+        contentPadding = PaddingValues(0.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(icon, null, tint = color, modifier = Modifier.size(20.dp))
+            Spacer(Modifier.width(8.dp))
+            Text(label, color = color, fontWeight = FontWeight.Bold)
         }
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(text = label, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = finalColor)
     }
 }

@@ -2497,19 +2497,35 @@ io.on('connection', (socket) => {
   // --- WebRTC signaling relay ---
   socket.on('signal', (data) => {
     try {
-      const { sessionId, toUserId, signal } = data || {};
       const fromUserId = socketToUser.get(socket.id);
+
+      // Robust extraction: find these fields even if nested or flat
+      let sessionId = data?.sessionId || data?.signal?.sessionId;
+      let toUserId = data?.toUserId || data?.signal?.toUserId;
+      let signal = data?.signal;
+
+      // If 'signal' wasn't nested, maybe the whole 'data' (minus id fields) IS the signal
+      if (!signal) {
+        const { sessionId: s, toUserId: t, ...rest } = data || {};
+        signal = rest;
+        if (Object.keys(signal).length === 0) signal = null;
+      }
+
+      console.log(`[Signal] From:${fromUserId} To:${toUserId} Session:${sessionId} Type:${signal?.type || 'unknown'}`);
+
       if (!fromUserId || !sessionId || !toUserId || !signal) {
-        console.warn(`[Signal] Missing data: from=${fromUserId}, session=${sessionId}, to=${toUserId}`);
+        console.warn(`[Signal] Filtered/Missing data: from=${fromUserId}, session=${sessionId}, to=${toUserId}, signalPresent=${!!signal}`);
         return;
       }
 
-      // Emit to Room (userId) - works even after reconnect!
+      // Emit to Room (userId)
       io.to(toUserId).emit('signal', {
         sessionId,
         fromUserId,
         signal,
       });
+
+      console.log(`[Signal] Relayed to ${toUserId}`);
     } catch (err) {
       console.error('signal error', err);
     }
@@ -2821,13 +2837,13 @@ io.on('connection', (socket) => {
       const ratePerMinute = astro?.price || 10;
       const availableMinutes = Math.floor(clientBalance / ratePerMinute);
 
-      // Notify both parties
-      io.to(userSockets.get(session.clientId)).emit('billing-started', {
+      // Notify both parties via their userId rooms (more reliable than single socketId)
+      io.to(session.clientId).emit('billing-started', {
         startTime: billingStart,
         clientBalance,
         availableMinutes
       });
-      io.to(userSockets.get(session.astrologerId)).emit('billing-started', {
+      io.to(session.astrologerId).emit('billing-started', {
         startTime: billingStart,
         clientBalance,
         ratePerMinute,

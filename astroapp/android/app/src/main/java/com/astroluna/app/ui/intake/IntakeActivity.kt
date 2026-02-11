@@ -1,6 +1,8 @@
 package com.astroluna.app.ui.intake
 
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,36 +12,36 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.LocationOn
-import com.astroluna.app.ui.theme.*
+import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.foundation.border
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import coil.compose.AsyncImage
 import com.astroluna.app.data.local.TokenManager
 import com.astroluna.app.data.remote.SocketManager
 import com.astroluna.app.ui.chat.ChatActivity
@@ -53,6 +55,22 @@ import java.util.TimeZone
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
+// --- Visual Constants (Consistent with Home/Horoscope) ---
+private val CornerRadiusLarge = 24.dp
+private val CornerRadiusMedium = 16.dp
+private val CornerRadiusSmall = 12.dp
+private val PaddingScreen = 16.dp
+private val SpacingSection = 24.dp
+
+// Premium Colors
+private val ColorSurface = Color(0xFFFFFFFF)
+private val ColorBackground = Color(0xFFF7F9FC)
+private val ColorPrimary = Color(0xFF673AB7) // Deep Purple
+private val ColorTextPrimary = Color(0xFF1A1C1E)
+private val ColorTextSecondary = Color(0xFF757575)
+private val ColorAccent = Color(0xFF2E7D32)
+private val ColorDivider = Color(0xFFEEEEEE)
+
 class IntakeActivity : ComponentActivity() {
 
     private var partnerId: String? = null
@@ -64,10 +82,6 @@ class IntakeActivity : ComponentActivity() {
     private var targetUserId: String? = null
 
     private lateinit var tokenManager: TokenManager
-
-    // Lat/Lon state needed for submission/timezone fetch
-    // We'll manage these in the Composable state, but need to pass them to API
-    // Actually, we can handle everything within the Compose screen logic.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,6 +130,7 @@ class IntakeActivity : ComponentActivity() {
                 putExtra("sessionId", sessionId)
                 putExtra("toUserId", partnerId)
                 putExtra("toUserName", partnerName)
+                putExtra("toUserImage", partnerImage)
             }
             startActivity(intent)
         } else {
@@ -591,642 +606,305 @@ fun IntakeScreen(
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(Color(0xFF003300), EmeraldGreen, MintGreen)
+    Scaffold(
+        containerColor = ColorBackground,
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        if(isEditMode) "Edit Details" else "New Consultation",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        color = ColorTextPrimary
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onClose) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = ColorTextPrimary)
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = ColorBackground,
+                    scrolledContainerColor = ColorSurface
                 )
             )
-    ) {
-        Scaffold(
-            containerColor = Color.Transparent,
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            "Consultation Details",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = onClose) {
-                            Icon(Icons.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = PaddingScreen, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(SpacingSection)
+        ) {
+
+            // Personal Details Card
+            Card(
+                colors = CardDefaults.cardColors(containerColor = ColorSurface),
+                shape = RoundedCornerShape(CornerRadiusMedium),
+                border = androidx.compose.foundation.BorderStroke(1.dp, ColorDivider),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    SectionHeader("Personal Details")
+
+                    PremiumTextField(value = name, onValueChange = { name = it }, label = "Full Name")
+
+                    // Gender
+                    Column {
+                        Text("Gender", style = MaterialTheme.typography.labelMedium, color = ColorTextSecondary)
+                        Spacer(Modifier.height(8.dp))
+                        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                            GenderOption(label = "Male", selected = gender == "Male", onClick = { gender = "Male" })
+                            GenderOption(label = "Female", selected = gender == "Female", onClick = { gender = "Female" })
                         }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.Transparent
+                    }
+
+                    // Date
+                    SectionHeader("Date of Birth")
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        PremiumTextField(value = day, onValueChange = { if(it.length<=2) day=it }, label = "Day", modifier = Modifier.weight(1f), keyboardType = KeyboardType.Number)
+                        PremiumTextField(value = month, onValueChange = { if(it.length<=2) month=it }, label = "Month", modifier = Modifier.weight(1f), keyboardType = KeyboardType.Number)
+                        PremiumTextField(value = year, onValueChange = { if(it.length<=4) year=it }, label = "Year", modifier = Modifier.weight(1.5f), keyboardType = KeyboardType.Number)
+                    }
+
+                    // Time
+                    SectionHeader("Time of Birth")
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        PremiumTextField(value = hour, onValueChange = { if(it.length<=2) hour=it }, label = "Hour", modifier = Modifier.weight(1f), keyboardType = KeyboardType.Number)
+                        Text(":", style = MaterialTheme.typography.titleLarge, color = ColorTextSecondary)
+                        PremiumTextField(value = minute, onValueChange = { if(it.length<=2) minute=it }, label = "Min", modifier = Modifier.weight(1f), keyboardType = KeyboardType.Number)
+
+                        AMPMToggle(selected = amPm, onSelect = { amPm = it }, modifier = Modifier.weight(1.5f))
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Checkbox(
+                            checked = unknownTime,
+                            onCheckedChange = { unknownTime = it },
+                            colors = CheckboxDefaults.colors(checkedColor = ColorPrimary)
+                        )
+                        Text("Don't know exact time", style = MaterialTheme.typography.bodySmall, color = ColorTextPrimary)
+                    }
+
+                    // Place
+                    SectionHeader("Birth Place")
+                    PremiumTextField(
+                        value = cityName, onValueChange = {}, label = "City",
+                        readOnly = true, enabled = false,
+                        icon = Icons.Default.LocationOn,
+                        modifier = Modifier.clickable { launchLocationPicker() }
                     )
+                    if (stateName.isNotBlank() || countryName.isNotBlank()) {
+                         Text("$stateName, $countryName", style = MaterialTheme.typography.bodySmall, color = ColorTextSecondary)
+                    }
+                     if (timezoneDisplay.isNotBlank()) {
+                         Text("Timezone: $timezoneDisplay", style = MaterialTheme.typography.bodySmall, color = ColorTextSecondary)
+                    }
+
+                    SectionHeader("Metadata")
+                    PremiumTextField(value = occupation, onValueChange = { occupation = it }, label = "Occupation (Optional)")
+                    SpinnerDropdown(label = "Marital Status", selected = maritalStatus, items = listOf("Single", "Married", "Divorced", "Widowed"), onSelect = { maritalStatus = it })
+                    SpinnerDropdown(label = "Topic", selected = topic, items = listOf("Career / Job", "Marriage / Relationship", "Health", "Finance", "Legal", "General"), onSelect = { topic = it })
+                }
+            }
+
+            // Partner Section
+            if (callType != "match") {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(checked = includePartner, onCheckedChange = { includePartner = it }, colors = CheckboxDefaults.colors(checkedColor = ColorPrimary))
+                    Text("Include Details of Partner?", style = MaterialTheme.typography.titleMedium, color = ColorTextPrimary)
+                }
+            }
+
+            if (includePartner || callType == "match") {
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = ColorSurface),
+                    shape = RoundedCornerShape(CornerRadiusMedium),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, ColorDivider),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(modifier = Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                        SectionHeader("Partner Details")
+                        PremiumTextField(value = pName, onValueChange = { pName = it }, label = "Partner Name")
+
+                        SectionHeader("Partner DOB")
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            PremiumTextField(value = pDay, onValueChange = { if(it.length<=2) pDay=it }, label = "DD", modifier = Modifier.weight(1f), keyboardType = KeyboardType.Number)
+                            PremiumTextField(value = pMonth, onValueChange = { if(it.length<=2) pMonth=it }, label = "MM", modifier = Modifier.weight(1f), keyboardType = KeyboardType.Number)
+                            PremiumTextField(value = pYear, onValueChange = { if(it.length<=4) pYear=it }, label = "YYYY", modifier = Modifier.weight(1.5f), keyboardType = KeyboardType.Number)
+                        }
+
+                        SectionHeader("Partner Time")
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                            PremiumTextField(value = pHour, onValueChange = { if(it.length<=2) pHour=it }, label = "HH", modifier = Modifier.weight(1f), keyboardType = KeyboardType.Number)
+                            Text(":", style = MaterialTheme.typography.titleLarge, color = ColorTextSecondary)
+                            PremiumTextField(value = pMinute, onValueChange = { if(it.length<=2) pMinute=it }, label = "MM", modifier = Modifier.weight(1f), keyboardType = KeyboardType.Number)
+                            AMPMToggle(selected = pAmPm, onSelect = { pAmPm = it }, modifier = Modifier.weight(1.5f))
+                        }
+
+                        SectionHeader("Partner Place")
+                        PremiumTextField(
+                            value = pCityName, onValueChange = {}, label = "Partner City",
+                            readOnly = true, enabled = false,
+                            icon = Icons.Default.LocationOn,
+                            modifier = Modifier.clickable { launchPartnerLocationPicker() }
+                        )
+                        if (pStateName.isNotBlank() || pCountryName.isNotBlank()) {
+                            Text("$pStateName, $pCountryName", style = MaterialTheme.typography.bodySmall, color = ColorTextSecondary)
+                        }
+                    }
+                }
+            }
+
+            // CTAs
+            Button(
+                onClick = { submit() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .shadow(8.dp, RoundedCornerShape(50), spotColor = ColorPrimary.copy(alpha = 0.4f)),
+                shape = RoundedCornerShape(50),
+                colors = ButtonDefaults.buttonColors(containerColor = ColorPrimary)
+            ) {
+                Text(
+                     if (isEditMode) "Update Details" else "Begin Consultation",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                 )
             }
-        ) { padding ->
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp)
+
+            Spacer(Modifier.height(32.dp))
+        }
+
+        // Waiting Dialog
+        if (isWaiting) {
+            Dialog(onDismissRequest = {}) {
+                Card(
+                     shape = RoundedCornerShape(CornerRadiusLarge),
+                     colors = CardDefaults.cardColors(containerColor = ColorSurface),
+                     modifier = Modifier.padding(16.dp).fillMaxWidth()
                 ) {
-                    // Personal Details Card
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(24.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.95f)),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                    Column(
+                        modifier = Modifier.padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Column(
-                            modifier = Modifier.padding(24.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            Text(
-                                "Personal Details",
-                                style = MaterialTheme.typography.titleLarge,
-                                fontWeight = FontWeight.Bold,
-                                color = ForestDarkGreen
-                            )
-
-                            OutlinedTextField(
-                                value = name,
-                                onValueChange = { name = it },
-                                label = { Text("Full Name") },
-                                modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(12.dp),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    focusedBorderColor = EmeraldGreen,
-                                    focusedLabelColor = EmeraldGreen,
-                                    cursorColor = EmeraldGreen,
-                                    focusedTextColor = ForestDarkGreen,
-                                    unfocusedTextColor = ForestDarkGreen
-                                )
-                            )
-
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text("Gender:", fontWeight = FontWeight.SemiBold, color = ForestDarkGreen)
-                                Spacer(Modifier.width(16.dp))
-                                RadioButton(
-                                    selected = gender == "Male",
-                                    onClick = { gender = "Male" },
-                                    colors = RadioButtonDefaults.colors(selectedColor = EmeraldGreen)
-                                )
-                                Text("Male", color = ForestDarkGreen)
-                                Spacer(Modifier.width(16.dp))
-                                RadioButton(
-                                    selected = gender == "Female",
-                                    onClick = { gender = "Female" },
-                                    colors = RadioButtonDefaults.colors(selectedColor = EmeraldGreen)
-                                )
-                                Text("Female", color = ForestDarkGreen)
-                            }
-
-                            Text("Date of Birth", fontWeight = FontWeight.SemiBold, color = ForestDarkGreen)
-                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                OutlinedTextField(
-                                    value = day,
-                                    onValueChange = { if (it.length <= 2) day = it },
-                                    label = { Text("DD") },
-                                    modifier = Modifier.weight(1f),
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedBorderColor = EmeraldGreen,
-                                        focusedLabelColor = EmeraldGreen,
-                                        cursorColor = EmeraldGreen
-                                    )
-                                )
-                                OutlinedTextField(
-                                    value = month,
-                                    onValueChange = { if (it.length <= 2) month = it },
-                                    label = { Text("MM") },
-                                    modifier = Modifier.weight(1f),
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedBorderColor = EmeraldGreen,
-                                        focusedLabelColor = EmeraldGreen,
-                                        cursorColor = EmeraldGreen
-                                    )
-                                )
-                                OutlinedTextField(
-                                    value = year,
-                                    onValueChange = { if (it.length <= 4) year = it },
-                                    label = { Text("YYYY") },
-                                    modifier = Modifier.weight(1.5f),
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedBorderColor = EmeraldGreen,
-                                        focusedLabelColor = EmeraldGreen,
-                                        cursorColor = EmeraldGreen
-                                    )
-                                )
-                            }
-
-                            Text("Time of Birth", fontWeight = FontWeight.SemiBold, color = ForestDarkGreen)
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                OutlinedTextField(
-                                    value = hour,
-                                    onValueChange = { if (it.length <= 2) hour = it },
-                                    label = { Text("Hour") },
-                                    modifier = Modifier.weight(1f),
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedBorderColor = EmeraldGreen,
-                                        focusedLabelColor = EmeraldGreen,
-                                        cursorColor = EmeraldGreen
-                                    )
-                                )
-                                Text(":", fontWeight = FontWeight.Bold, color = ForestDarkGreen, fontSize = 20.sp)
-                                OutlinedTextField(
-                                    value = minute,
-                                    onValueChange = { if (it.length <= 2) minute = it },
-                                    label = { Text("Min") },
-                                    modifier = Modifier.weight(1f),
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedBorderColor = EmeraldGreen,
-                                        focusedLabelColor = EmeraldGreen,
-                                        cursorColor = EmeraldGreen
-                                    )
-                                )
-
-                                Row(
-                                    modifier = Modifier
-                                        .weight(1.5f)
-                                        .clip(RoundedCornerShape(12.dp))
-                                        .background(Color(0xFFF0F0F0))
-                                        .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(12.dp))
-                                ) {
-                                    Text(
-                                        "AM",
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .clickable { amPm = "AM" }
-                                            .background(if (amPm == "AM") EmeraldGreen else Color.Transparent)
-                                            .padding(12.dp),
-                                        textAlign = TextAlign.Center,
-                                        color = if (amPm == "AM") Color.White else ForestDarkGreen,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                    Text(
-                                        "PM",
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .clickable { amPm = "PM" }
-                                            .background(if (amPm == "PM") EmeraldGreen else Color.Transparent)
-                                            .padding(12.dp),
-                                        textAlign = TextAlign.Center,
-                                        color = if (amPm == "PM") Color.White else ForestDarkGreen,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                }
-                            }
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Checkbox(
-                                    checked = unknownTime,
-                                    onCheckedChange = { unknownTime = it },
-                                    colors = CheckboxDefaults.colors(checkedColor = EmeraldGreen)
-                                )
-                                Text("Don't know exact time", color = ForestDarkGreen)
-                            }
-
-                            Text("Place of Birth", fontWeight = FontWeight.SemiBold, color = ForestDarkGreen)
-                            OutlinedTextField(
-                                value = countryName,
-                                onValueChange = {},
-                                label = { Text("Country") },
-                                readOnly = true,
-                                enabled = false,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable { launchLocationPicker() },
-                                trailingIcon = { Icon(Icons.Default.LocationOn, "Pick", tint = EmeraldGreen) },
-                                shape = RoundedCornerShape(12.dp),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    disabledTextColor = ForestDarkGreen,
-                                    disabledBorderColor = Color.Gray,
-                                    disabledLabelColor = ForestDarkGreen,
-                                    disabledContainerColor = Color.Transparent
-                                )
-                            )
-
-                            OutlinedTextField(
-                                value = stateName,
-                                onValueChange = {},
-                                label = { Text("State") },
-                                readOnly = true,
-                                enabled = false,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable { launchLocationPicker() },
-                                trailingIcon = { Icon(Icons.Default.LocationOn, "Pick", tint = EmeraldGreen) },
-                                shape = RoundedCornerShape(12.dp),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    disabledTextColor = ForestDarkGreen,
-                                    disabledBorderColor = Color.Gray,
-                                    disabledLabelColor = ForestDarkGreen,
-                                    disabledContainerColor = Color.Transparent
-                                )
-                            )
-
-                            OutlinedTextField(
-                                value = cityName,
-                                onValueChange = {},
-                                label = { Text("City") },
-                                readOnly = true,
-                                enabled = false,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable { launchLocationPicker() },
-                                trailingIcon = { Icon(Icons.Default.LocationOn, "Pick", tint = EmeraldGreen) },
-                                shape = RoundedCornerShape(12.dp),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    disabledTextColor = ForestDarkGreen,
-                                    disabledBorderColor = Color.Gray,
-                                    disabledLabelColor = ForestDarkGreen,
-                                    disabledContainerColor = Color.Transparent
-                                )
-                            )
-
-                            OutlinedTextField(
-                                value = timezoneDisplay,
-                                onValueChange = {},
-                                label = { Text("Timezone") },
-                                readOnly = true,
-                                enabled = false,
-                                modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(12.dp),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    disabledTextColor = ForestDarkGreen,
-                                    disabledBorderColor = Color.Gray,
-                                    disabledLabelColor = ForestDarkGreen,
-                                    disabledContainerColor = Color.Transparent
-                                )
-                            )
-
-                            // Optional
-                            OutlinedTextField(
-                                value = occupation,
-                                onValueChange = { occupation = it },
-                                label = { Text("Occupation (Optional)") },
-                                modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(12.dp),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    focusedBorderColor = EmeraldGreen,
-                                    focusedLabelColor = EmeraldGreen,
-                                    cursorColor = EmeraldGreen
-                                )
-                            )
-
-                            SpinnerDropdown(
-                                label = "Marital Status",
-                                selected = maritalStatus,
-                                items = listOf("Single", "Married", "Divorced", "Widowed"),
-                                onSelect = { maritalStatus = it }
-                            )
-
-                            SpinnerDropdown(
-                                label = "Topic of Concern",
-                                selected = topic,
-                                items = listOf(
-                                    "Career / Job",
-                                    "Marriage / Relationship",
-                                    "Health",
-                                    "Finance",
-                                    "Legal",
-                                    "General"
-                                ),
-                                onSelect = { topic = it }
-                            )
-                        }
-                    }
-
-                    HorizontalDivider(color = Color.White.copy(alpha = 0.3f), thickness = 1.dp)
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        if (callType != "match") {
-                            Checkbox(
-                                checked = includePartner,
-                                onCheckedChange = { includePartner = it },
-                                colors = CheckboxDefaults.colors(checkedColor = EmeraldGreen)
-                            )
-                            Text(
-                                "Include Partner Details",
-                                modifier = Modifier.padding(start = 8.dp),
-                                color = Color.White,
-                                fontWeight = FontWeight.Bold
-                            )
-                        } else {
-                            Text(
-                                "Partner Details",
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White,
-                                fontSize = 20.sp
-                            )
-                        }
-                    }
-
-                    if (includePartner) {
-                        Card(
+                        CircularProgressIndicator(color = ColorPrimary, strokeWidth = 5.dp, modifier = Modifier.size(50.dp))
+                        Spacer(Modifier.height(20.dp))
+                        Text("Connecting with $partnerName...", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
+                        Spacer(Modifier.height(8.dp))
+                        Text("Please wait while we set up the secure line.", style = MaterialTheme.typography.bodyMedium, color = ColorTextSecondary, textAlign = TextAlign.Center)
+                        Spacer(Modifier.height(24.dp))
+                        Text("${waitTimeLeft}s", style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold, color = ColorPrimary))
+                        Spacer(Modifier.height(24.dp))
+                        OutlinedButton(
+                            onClick = { isWaiting = false },
                             modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(24.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.95f)),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                            border = androidx.compose.foundation.BorderStroke(1.dp, Color.Red.copy(alpha=0.5f)),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Red)
                         ) {
-                            Column(
-                                modifier = Modifier.padding(24.dp),
-                                verticalArrangement = Arrangement.spacedBy(16.dp)
-                            ) {
-                                OutlinedTextField(
-                                    value = pName,
-                                    onValueChange = { pName = it },
-                                    label = { Text("Partner Name") },
-                                    modifier = Modifier.fillMaxWidth(),
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedBorderColor = EmeraldGreen,
-                                        focusedLabelColor = EmeraldGreen,
-                                        cursorColor = EmeraldGreen
-                                    )
-                                )
-                                Text("Partner DOB", fontWeight = FontWeight.Bold, color = ForestDarkGreen)
-                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                    OutlinedTextField(
-                                        value = pDay,
-                                        onValueChange = { if (it.length <= 2) pDay = it },
-                                        label = { Text("DD") },
-                                        modifier = Modifier.weight(1f),
-                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                        shape = RoundedCornerShape(12.dp),
-                                        colors = OutlinedTextFieldDefaults.colors(
-                                            focusedBorderColor = EmeraldGreen,
-                                            focusedLabelColor = EmeraldGreen,
-                                            cursorColor = EmeraldGreen
-                                        )
-                                    )
-                                    OutlinedTextField(
-                                        value = pMonth,
-                                        onValueChange = { if (it.length <= 2) pMonth = it },
-                                        label = { Text("MM") },
-                                        modifier = Modifier.weight(1f),
-                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                        shape = RoundedCornerShape(12.dp),
-                                        colors = OutlinedTextFieldDefaults.colors(
-                                            focusedBorderColor = EmeraldGreen,
-                                            focusedLabelColor = EmeraldGreen,
-                                            cursorColor = EmeraldGreen
-                                        )
-                                    )
-                                    OutlinedTextField(
-                                        value = pYear,
-                                        onValueChange = { if (it.length <= 4) pYear = it },
-                                        label = { Text("YYYY") },
-                                        modifier = Modifier.weight(1.5f),
-                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                        shape = RoundedCornerShape(12.dp),
-                                        colors = OutlinedTextFieldDefaults.colors(
-                                            focusedBorderColor = EmeraldGreen,
-                                            focusedLabelColor = EmeraldGreen,
-                                            cursorColor = EmeraldGreen
-                                        )
-                                    )
-                                }
-                                Text("Partner Time", fontWeight = FontWeight.Bold, color = ForestDarkGreen)
-                                Row(
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    OutlinedTextField(
-                                        value = pHour,
-                                        onValueChange = { if (it.length <= 2) pHour = it },
-                                        label = { Text("Hour") },
-                                        modifier = Modifier.weight(1f),
-                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                        shape = RoundedCornerShape(12.dp),
-                                        colors = OutlinedTextFieldDefaults.colors(
-                                            focusedBorderColor = EmeraldGreen,
-                                            focusedLabelColor = EmeraldGreen,
-                                            cursorColor = EmeraldGreen
-                                        )
-                                    )
-                                    Text(":", fontWeight = FontWeight.Bold, color = ForestDarkGreen)
-                                    OutlinedTextField(
-                                        value = pMinute,
-                                        onValueChange = { if (it.length <= 2) pMinute = it },
-                                        label = { Text("Min") },
-                                        modifier = Modifier.weight(1f),
-                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                        shape = RoundedCornerShape(12.dp),
-                                        colors = OutlinedTextFieldDefaults.colors(
-                                            focusedBorderColor = EmeraldGreen,
-                                            focusedLabelColor = EmeraldGreen,
-                                            cursorColor = EmeraldGreen
-                                        )
-                                    )
-
-                                    Row(
-                                        modifier = Modifier
-                                            .weight(1.5f)
-                                            .clip(RoundedCornerShape(12.dp))
-                                            .background(Color(0xFFF0F0F0))
-                                            .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(12.dp))
-                                    ) {
-                                        Text(
-                                            "AM",
-                                            modifier = Modifier
-                                                .weight(1f)
-                                                .clickable { pAmPm = "AM" }
-                                                .background(if (pAmPm == "AM") EmeraldGreen else Color.Transparent)
-                                                .padding(12.dp),
-                                            textAlign = TextAlign.Center,
-                                            color = if (pAmPm == "AM") Color.White else ForestDarkGreen,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                        Text(
-                                            "PM",
-                                            modifier = Modifier
-                                                .weight(1f)
-                                                .clickable { pAmPm = "PM" }
-                                                .background(if (pAmPm == "PM") EmeraldGreen else Color.Transparent)
-                                                .padding(12.dp),
-                                            textAlign = TextAlign.Center,
-                                            color = if (pAmPm == "PM") Color.White else ForestDarkGreen,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                    }
-                                }
-                                Text(
-                                    "Partner Place of Birth",
-                                    fontWeight = FontWeight.Bold,
-                                    color = ForestDarkGreen
-                                )
-                                OutlinedTextField(
-                                    value = pCountryName,
-                                    onValueChange = {},
-                                    label = { Text("Country") },
-                                    readOnly = true,
-                                    enabled = false,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable { launchPartnerLocationPicker() },
-                                    trailingIcon = { Icon(Icons.Default.LocationOn, "Pick", tint = EmeraldGreen) },
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        disabledTextColor = ForestDarkGreen,
-                                        disabledBorderColor = Color.Gray,
-                                        disabledLabelColor = ForestDarkGreen,
-                                        disabledContainerColor = Color.Transparent
-                                    )
-                                )
-                                OutlinedTextField(
-                                    value = pStateName,
-                                    onValueChange = {},
-                                    label = { Text("State") },
-                                    readOnly = true,
-                                    enabled = false,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable { launchPartnerLocationPicker() },
-                                    trailingIcon = { Icon(Icons.Default.LocationOn, "Pick", tint = EmeraldGreen) },
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        disabledTextColor = ForestDarkGreen,
-                                        disabledBorderColor = Color.Gray,
-                                        disabledLabelColor = ForestDarkGreen,
-                                        disabledContainerColor = Color.Transparent
-                                    )
-                                )
-                                OutlinedTextField(
-                                    value = pCityName,
-                                    onValueChange = {},
-                                    label = { Text("City") },
-                                    readOnly = true,
-                                    enabled = false,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable { launchPartnerLocationPicker() },
-                                    trailingIcon = { Icon(Icons.Default.LocationOn, "Pick", tint = EmeraldGreen) },
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        disabledTextColor = ForestDarkGreen,
-                                        disabledBorderColor = Color.Gray,
-                                        disabledLabelColor = ForestDarkGreen,
-                                        disabledContainerColor = Color.Transparent
-                                    )
-                                )
-                                OutlinedTextField(
-                                    value = partnerTimezoneDisplay,
-                                    onValueChange = {},
-                                    label = { Text("Timezone") },
-                                    readOnly = true,
-                                    enabled = false,
-                                    modifier = Modifier.fillMaxWidth(),
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        disabledTextColor = ForestDarkGreen,
-                                        disabledBorderColor = Color.Gray,
-                                        disabledLabelColor = ForestDarkGreen,
-                                        disabledContainerColor = Color.Transparent
-                                    )
-                                )
-                            }
-                        }
-                    }
-
-                    Button(
-                        onClick = { submit() },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp)
-                            .shadow(
-                                elevation = 8.dp,
-                                shape = RoundedCornerShape(16.dp),
-                                spotColor = EmeraldGreen
-                            ),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = EmeraldGreen)
-                    ) {
-                        Text(
-                            if (isEditMode) "Update Details" else "Start Consultation",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = ForestDarkGreen
-                        )
-                    }
-
-                    Spacer(Modifier.height(32.dp))
-                }
-
-                // Simple Waiting Dialog
-                if (isWaiting) {
-                    Dialog(onDismissRequest = { /* Prevent dismiss */ }) {
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(24.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color.White
-                            ),
-                            elevation = CardDefaults.cardElevation(8.dp),
-                            shape = RoundedCornerShape(24.dp)
-                        ) {
-                            Column(
-                                modifier = Modifier.padding(24.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                // Circular Progress Indicator
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(64.dp),
-                                    color = EmeraldGreen,
-                                    strokeWidth = 6.dp
-                                )
-
-                                Spacer(Modifier.height(16.dp))
-
-                                // Connecting message
-                                Text(
-                                    text = "Connecting to $partnerName...",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    textAlign = TextAlign.Center,
-                                    color = ForestDarkGreen
-                                )
-
-                                Spacer(Modifier.height(8.dp))
-
-                                // Timer countdown
-                                Text(
-                                    text = "${waitTimeLeft}s",
-                                    style = MaterialTheme.typography.headlineLarge,
-                                    fontWeight = FontWeight.Bold,
-                                    color = EmeraldGreen
-                                )
-
-                                Spacer(Modifier.height(16.dp))
-
-                                // Cancel button
-                                Button(
-                                    onClick = { isWaiting = false },
-                                    modifier = Modifier.fillMaxWidth(),
-                                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red.copy(alpha = 0.8f))
-                                ) {
-                                    Text("Cancel Request", color = Color.White)
-                                }
-                            }
+                            Text("Cancel")
                         }
                     }
                 }
             }
         }
     }
+}
+
+// --- Helper Components ---
+
+@Composable
+fun SectionHeader(title: String) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold, color = ColorPrimary),
+        modifier = Modifier.padding(bottom = 8.dp)
+    )
+}
+
+@Composable
+fun GenderOption(label: String, selected: Boolean, onClick: () -> Unit) {
+    Surface(
+        shape = RoundedCornerShape(50),
+        color = if(selected) ColorPrimary else Color.Transparent,
+        border = if(selected) null else androidx.compose.foundation.BorderStroke(1.dp, ColorDivider),
+        modifier = Modifier.height(36.dp).clickable { onClick() }
+    ) {
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(horizontal = 24.dp)) {
+            Text(label, color = if(selected) Color.White else ColorTextSecondary, style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold))
+        }
+    }
+}
+
+@Composable
+fun AMPMToggle(selected: String, onSelect: (String) -> Unit, modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier
+            .height(56.dp)
+            .clip(RoundedCornerShape(CornerRadiusSmall))
+            .border(1.dp, ColorDivider, RoundedCornerShape(CornerRadiusSmall))
+            .background(ColorSurface)
+    ) {
+        Box(modifier = Modifier.weight(1f).fillMaxHeight().clickable{ onSelect("AM") }.background(if(selected=="AM") ColorPrimary else Color.Transparent), contentAlignment = Alignment.Center) {
+            Text("AM", color = if(selected=="AM") Color.White else ColorTextSecondary, fontWeight = FontWeight.Bold)
+        }
+        Box(modifier = Modifier.width(1.dp).fillMaxHeight().background(ColorDivider))
+        Box(modifier = Modifier.weight(1f).fillMaxHeight().clickable{ onSelect("PM") }.background(if(selected=="PM") ColorPrimary else Color.Transparent), contentAlignment = Alignment.Center) {
+            Text("PM", color = if(selected=="PM") Color.White else ColorTextSecondary, fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PremiumTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    modifier: Modifier = Modifier,
+    placeholder: String = "",
+    icon: androidx.compose.ui.graphics.vector.ImageVector? = null,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    readOnly: Boolean = false,
+    enabled: Boolean = true
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(label) },
+        placeholder = { Text(placeholder) },
+        modifier = modifier.fillMaxWidth(),
+        singleLine = true,
+        textStyle = MaterialTheme.typography.bodyMedium.copy(color = ColorTextPrimary),
+        shape = RoundedCornerShape(CornerRadiusSmall),
+        trailingIcon = if (icon != null) {
+            { Icon(icon, contentDescription = null, tint = ColorTextSecondary, modifier = Modifier.size(20.dp)) }
+        } else null,
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Sentences,
+            keyboardType = keyboardType,
+            imeAction = ImeAction.Next
+        ),
+        readOnly = readOnly,
+        enabled = enabled,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = ColorPrimary,
+            unfocusedBorderColor = ColorDivider,
+            focusedLabelColor = ColorPrimary,
+            unfocusedLabelColor = ColorTextSecondary,
+            cursorColor = ColorPrimary,
+            focusedContainerColor = ColorSurface,
+            unfocusedContainerColor = ColorSurface,
+            disabledContainerColor = ColorSurface, // Make it look active even if pseudo-disabled for click
+            disabledBorderColor = ColorDivider,
+            disabledTextColor = ColorTextPrimary,
+            disabledLabelColor = ColorTextSecondary
+        )
+    )
 }
 
 @Composable
@@ -1241,46 +919,34 @@ fun SpinnerDropdown(
     Column {
         Text(
             label,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(vertical = 4.dp),
-            color = ForestDarkGreen,
-            fontSize = 15.sp
+            style = MaterialTheme.typography.bodySmall,
+            color = ColorTextSecondary,
+            modifier = Modifier.padding(bottom = 4.dp)
         )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp))
-                .background(Color(0xFFF0F0F0)) // Light gray bg
-                .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(12.dp))
-                .clickable { expanded = true }
-        ) {
-            OutlinedTextField(
-                value = selected,
-                onValueChange = {},
-                readOnly = true,
-                enabled = false,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { expanded = true },
-                trailingIcon = { Icon(Icons.Default.ArrowDropDown, "", tint = EmeraldGreen) },
-                shape = RoundedCornerShape(12.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    disabledTextColor = ForestDarkGreen,
-                    disabledBorderColor = Color.Transparent, // Border handled by Box
-                    disabledLabelColor = ForestDarkGreen,
-                    disabledContainerColor = Color.Transparent
-                )
-            )
+        Box {
+            Surface(
+                shape = RoundedCornerShape(CornerRadiusSmall),
+                border = androidx.compose.foundation.BorderStroke(1.dp, ColorDivider),
+                color = ColorSurface,
+                modifier = Modifier.fillMaxWidth().height(56.dp).clickable { expanded = true }
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(selected, style = MaterialTheme.typography.bodyMedium, color = ColorTextPrimary)
+                    Icon(Icons.Default.ArrowDropDown, null, tint = ColorTextSecondary)
+                }
+            }
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .background(Color.White)
+                modifier = Modifier.background(ColorSurface)
             ) {
                 items.forEach { item ->
                     DropdownMenuItem(
-                        text = { Text(item, color = ForestDarkGreen, fontWeight = FontWeight.Medium) },
+                        text = { Text(item, color = ColorTextPrimary) },
                         onClick = {
                             onSelect(item)
                             expanded = false
@@ -1291,6 +957,7 @@ fun SpinnerDropdown(
         }
     }
 }
+
 
 private fun buildPlaceName(city: String, state: String, country: String): String {
     return listOf(city, state, country).filter { it.isNotBlank() }.joinToString(", ")

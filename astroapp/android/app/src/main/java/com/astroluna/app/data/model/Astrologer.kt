@@ -9,6 +9,7 @@ data class Astrologer(
     val name: String,
     val phone: String = "",
     val skills: List<String> = emptyList(),
+    val languages: List<String> = emptyList(),
     val price: Int = 15,
     val isOnline: Boolean = false,
     val isChatOnline: Boolean = false,

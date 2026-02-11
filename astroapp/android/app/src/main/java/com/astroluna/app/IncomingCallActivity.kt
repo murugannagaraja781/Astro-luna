@@ -98,12 +98,21 @@ class IncomingCallActivity : ComponentActivity() {
             return
         }
 
-        setupWindowFlags()
+        // DE-DUPLICATION: If we already received this call ID, don't start everything again
+        if (callId.isNotEmpty() && callId == CallState.lastReceivedCallId) {
+            Log.d(TAG, "Duplicate call intent for session $callId - ignoring setup")
+            // Just refresh content
+        } else {
+            CallState.lastReceivedCallId = callId
+            setupWindowFlags()
+            startCallForegroundService()
+            startRingtone()
+            startVibration()
+            handler.postDelayed(timeoutRunnable, CALL_TIMEOUT_MS)
+        }
 
-        startCallForegroundService()
-        startRingtone()
-        startVibration()
-        handler.postDelayed(timeoutRunnable, CALL_TIMEOUT_MS)
+        // --- AUTO ACCEPT LOGIC ---
+        startAutoAcceptTimer()
 
         // Ensure socket is connecting and user is registered
         try {
@@ -111,6 +120,14 @@ class IncomingCallActivity : ComponentActivity() {
             val userId = TokenManager(this).getUserSession()?.userId
             if (userId != null) {
                 SocketManager.registerUser(userId)
+            }
+
+            // Listen for session-ended to auto-dismiss if caller hangs up
+            SocketManager.onSessionEnded {
+                Log.d(TAG, "Session ended event received in IncomingCallActivity")
+                runOnUiThread {
+                    onCallRejected()
+                }
             }
         } catch(e: Exception) { e.printStackTrace() }
 
@@ -125,6 +142,23 @@ class IncomingCallActivity : ComponentActivity() {
                 )
             }
         }
+    }
+
+    private fun startAutoAcceptTimer() {
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                if (isFinishing || isDestroyed) return
+
+                val connected = SocketManager.getSocket()?.connected() == true
+                if (connected) {
+                    Log.d(TAG, "Auto-accepting call (Socket connected)")
+                    onCallAccepted()
+                } else {
+                    // Wait for connection and retry
+                    handler.postDelayed(this, 500)
+                }
+            }
+        }, 2000) // 2 second delay before auto-accept
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -294,6 +328,8 @@ class IncomingCallActivity : ComponentActivity() {
             stopService(Intent(this, CallForegroundService::class.java))
             clearAllCallNotifications()
         }
+
+        SocketManager.off("session-ended")
 
         Log.d(TAG, "IncomingCallActivity destroyed")
     }

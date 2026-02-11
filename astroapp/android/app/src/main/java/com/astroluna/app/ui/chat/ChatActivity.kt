@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,14 +18,20 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.DoneAll
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.*
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,6 +44,31 @@ import com.astroluna.app.ui.theme.CosmicAppTheme
 import com.astroluna.app.utils.SoundManager
 import org.json.JSONObject
 import java.util.UUID
+import coil.compose.AsyncImage
+import androidx.compose.material.icons.filled.CallEnd
+import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.foundation.lazy.LazyListScope
+
+// --- Visual Constants ---
+private val ColorPrimary = Color(0xFF673AB7) // Deep Purple
+private val ColorSecondary = Color(0xFF9575CD) // Lighter Purple
+private val ColorBackground = Color(0xFFF7F9FC)
+private val ColorSurface = Color(0xFFFFFFFF)
+private val ColorTextPrimary = Color(0xFF1A1C1E)
+private val ColorTextSecondary = Color(0xFF757575)
+private val ColorBubbleMe = ColorPrimary
+private val ColorBubbleOther = ColorSurface
+private val ColorTextMe = Color.White
+private val ColorTextOther = ColorTextPrimary
+private val ColorDivider = Color(0xFFEEEEEE)
+private val ColorStatusBlue = Color(0xFF2196F3)
+
+private fun formatTime(timestamp: Long): String {
+    if (timestamp == 0L) return ""
+    return java.text.SimpleDateFormat("hh:mm a", java.util.Locale.getDefault()).format(java.util.Date(timestamp))
+}
 
 data class ChatMessage(val id: String, val text: String, val isSent: Boolean, var status: String = "sent", val timestamp: Long = 0)
 
@@ -44,6 +76,7 @@ class ChatActivity : ComponentActivity() {
 
     private val viewModel: ChatViewModel by viewModels()
     private var toUserId: String? = null
+    private var toUserImage: String? = null
     private var sessionId: String? = null
     private var clientBirthData by mutableStateOf<JSONObject?>(null)
     private var sessionDuration by mutableStateOf("00:00")
@@ -92,8 +125,8 @@ class ChatActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Ensure socket is initialized and connected
-        com.astroluna.app.data.remote.SocketManager.init()
-        com.astroluna.app.data.remote.SocketManager.ensureConnection()
+        SocketManager.init()
+        SocketManager.ensureConnection()
         handleIntent(intent)
 
         // --- GLOBAL STATE FIX: Mark chat as active to prevent incoming calls during session ---
@@ -127,6 +160,7 @@ class ChatActivity : ComponentActivity() {
                     },
                     isAstrologer = TokenManager(this).getUserSession()?.role == "astrologer",
                     toUserId = toUserId,
+                    toUserImage = toUserImage,
                     sessionId = sessionId,
                     remainingTime = remainingTime,
                     clientBirthData = clientBirthData
@@ -137,7 +171,7 @@ class ChatActivity : ComponentActivity() {
         timerHandler.post(timerRunnable)
 
         // Listen for client birth data updates during session
-        com.astroluna.app.data.remote.SocketManager.getSocket()?.on("client-birth-chart") { args ->
+        SocketManager.getSocket()?.on("client-birth-chart") { args ->
             if (args != null && args.isNotEmpty()) {
                 val data = args[0] as? JSONObject
                 val updatedData = data?.optJSONObject("birthData")
@@ -168,6 +202,7 @@ class ChatActivity : ComponentActivity() {
 
     private fun handleIntent(intent: Intent?) {
         toUserId = intent?.getStringExtra("toUserId")
+        toUserImage = intent?.getStringExtra("toUserImage")
         sessionId = intent?.getStringExtra("sessionId")
         val birthDataStr = intent?.getStringExtra("birthData")
         if (!birthDataStr.isNullOrEmpty()) {
@@ -319,6 +354,7 @@ fun ChatScreen(
     onViewChart: () -> Unit,
     isAstrologer: Boolean,
     toUserId: String?,
+    toUserImage: String?,
     sessionId: String?,
     remainingTime: String,
     clientBirthData: JSONObject? = null
@@ -327,13 +363,7 @@ fun ChatScreen(
     val isTyping by viewModel.typingStatus.observeAsState(false)
     val listState = rememberLazyListState()
     var inputText by remember { mutableStateOf("") }
-
-    // Reply State
-    // Reply State
     var replyingTo by remember { mutableStateOf<ChatMessage?>(null) }
-
-    // History Visibility State
-    // Filter messages: Show all messages by default to ensure no data loss
     val displayedMessages = remember(messages) { messages }
 
     LaunchedEffect(displayedMessages.size) {
@@ -341,29 +371,87 @@ fun ChatScreen(
     }
 
     Scaffold(
+        containerColor = ColorBackground,
         topBar = {
-            TopAppBar(
-                title = {
-                    Column {
-                        Text(title, fontWeight = FontWeight.Bold, fontSize = 16.sp, maxLines = 1)
-                        if (isAstrologer && remainingTime.isNotEmpty() && remainingTime != "00:00") {
-                             Text("Time: $remainingTime", fontSize = 12.sp, color = Color.Red, fontWeight = FontWeight.Bold)
-                        } else {
-                             Text("Online", fontSize = 12.sp, color = Color.White.copy(alpha=0.7f))
+            Column(modifier = Modifier.background(ColorPrimary)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)
+                    }
+
+                    AsyncImage(
+                        model = toUserImage ?: R.drawable.ic_person_placeholder,
+                        contentDescription = null,
+                        modifier = Modifier.size(40.dp).clip(CircleShape).border(1.dp, ColorPrimary, CircleShape)
+                    )
+
+                    Column(modifier = Modifier.weight(1f).padding(horizontal = 12.dp)) {
+                        Text(
+                            title,
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            color = Color.White
+                        )
+                        Text(
+                            "Vedic Astrologer • Online",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.White.copy(alpha = 0.6f)
+                        )
+                    }
+
+                    Surface(
+                        onClick = onEndChat,
+                        shape = RoundedCornerShape(50),
+                        color = Color.Red.copy(alpha = 0.2f),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, Color.Red)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(Icons.Default.CallEnd, null, tint = Color.Red, modifier = Modifier.size(16.dp))
+                            Spacer(Modifier.width(4.dp))
+                            Text("End Chat", color = Color.Red, style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold))
                         }
                     }
-                },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Back", tint = Color.White) } },
-                actions = {
-                    Text(sessionDuration, color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.padding(end=12.dp))
-                    IconButton(onClick = onEditIntake) { Icon(Icons.Default.Edit, "Intake", tint = Color.White) }
-                    TextButton(onClick = onEndChat) { Text("End", color = Color.Red, fontWeight = FontWeight.Bold) }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF5B3CC4), // Deep Purple
-                    titleContentColor = Color.White
-                )
-            )
+                }
+
+                // Stats Bar
+                Row(
+                    modifier = Modifier.fillMaxWidth().background(Color(0xFF000000).copy(alpha = 0.2f)).padding(horizontal = 16.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
+                        Icon(Icons.Default.AccessTime, null, tint = Color(0xFFFF9800), modifier = Modifier.size(14.dp))
+                        Spacer(Modifier.width(4.dp))
+                        Text(
+                            if (isAstrologer && remainingTime.isNotEmpty()) "Rem: $remainingTime" else "Time: $sessionDuration",
+                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                            color = Color(0xFFFF9800),
+                            maxLines = 1
+                        )
+                    }
+
+                    Text(
+                        "Rate: ₹20/min",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Color.White.copy(alpha = 0.9f),
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        maxLines = 1
+                    )
+
+                    Text(
+                        "₹84 deducted",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Color(0xFFFF9800),
+                        maxLines = 1,
+                        modifier = Modifier.weight(1f),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.End
+                    )
+                }
+            }
         },
         bottomBar = {
             ChatInputBar(
@@ -378,7 +466,6 @@ fun ChatScreen(
                     if (inputText.isNotBlank() && toUserId != null && sessionId != null) {
                          var finalText = inputText
                          if (replyingTo != null) {
-                             // Prepend Reply Quote
                              val snippet = replyingTo!!.text.take(50).replace("\n", " ")
                              finalText = "> Replying to: $snippet\n$inputText"
                          }
@@ -406,13 +493,13 @@ fun ChatScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .background(Color(0xFFF8F9FC)) // Light Neutral
+                .background(ColorBackground)
         ) {
 
             LazyColumn(
                 state = listState,
                 contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
 
@@ -420,175 +507,118 @@ fun ChatScreen(
                     item {
                         Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
                              Text(
-                                 text = "No messages yet",
-                                 color = Color.Gray,
-                                 fontSize = 16.sp
+                                 text = "Start the consultation safely...",
+                                 color = ColorTextSecondary,
+                                 style = MaterialTheme.typography.bodyMedium
                              )
                         }
                     }
                 }
 
                 items(displayedMessages) { msg ->
-                    ChatBubble(msg, isAstrologer, onReply = { replyingTo = msg })
+                    ChatBubble(msg, isAstrologer, toUserImage, onReply = { replyingTo = msg })
                 }
                 if (isTyping) item { TypingBubble() }
             }
 
-            // WATERMARK: Remaining Time for Astrologer
+            // WATERMARK: Remaining Time for Astrologer (Big overlay if needed, or subtle)
             if (isAstrologer && remainingTime.isNotEmpty() && remainingTime != "00:00") {
-                 Box(
-                     modifier = Modifier.fillMaxSize(),
-                     contentAlignment = Alignment.Center
-                 ) {
-                     Text(
-                         text = "REMAINING: $remainingTime",
-                         color = Color.Red.copy(alpha = 0.15f),
-                         fontSize = 32.sp,
-                         fontWeight = FontWeight.Black,
-                         textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                         modifier = Modifier.padding(16.dp)
-                     )
-                 }
+                 // Already detailed in TopBar, but can keep watermark if critical
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, onReply: () -> Unit) {
+fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, otherUserImage: String?, onReply: () -> Unit) {
     val isMe = msg.isSent
-    val isMsgFromAstrologer = if (isMe) amIAstrologer else !amIAstrologer
-
-    // Colors: Me = Deep Purple, Other = White
-    val bubbleColor = if (isMe) Color(0xFF5B3CC4) else Color.White
-    val textColor = if (isMe) Color.White else Color(0xFF111827)
-    val borderStroke = if (!isMe) androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE5E7EB)) else null
+    val bubbleColor = if (isMe) Color.White else ColorPrimary
+    val textColor = if (isMe) ColorTextPrimary else Color.White
+    val shape = if (isMe) RoundedCornerShape(16.dp, 16.dp, 4.dp, 16.dp) else RoundedCornerShape(16.dp, 16.dp, 16.dp, 4.dp)
     val align = if (isMe) Alignment.End else Alignment.Start
 
-    // Swipe State
-    val dismissState = rememberSwipeToDismissBoxState(
-        confirmValueChange = {
-            if (it == SwipeToDismissBoxValue.StartToEnd) {
-                onReply()
-                return@rememberSwipeToDismissBoxState false // Snap back
-            }
-            return@rememberSwipeToDismissBoxState false
-        }
-    )
-
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = align
+    Row(
+        modifier = Modifier.fillMaxWidth().combinedClickable(onClick = {}, onLongClick = onReply),
+        horizontalArrangement = if (isMe) Arrangement.End else Arrangement.Start,
+        verticalAlignment = Alignment.Bottom
     ) {
-        SwipeToDismissBox(
-            state = dismissState,
-            backgroundContent = {
-                val color = Color.Transparent
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 20.dp),
-                    contentAlignment = Alignment.CenterStart
-                ) {
-                    // Only show icon when swiping
-                    if (dismissState.dismissDirection == SwipeToDismissBoxValue.StartToEnd) {
-                         Icon(Icons.Default.Send, contentDescription = "Reply", tint = Color.Gray)
-                    }
-                }
-            },
-            content = {
-                Surface(
-                    color = bubbleColor,
-                    shape = RoundedCornerShape(12.dp),
-                    shadowElevation = 1.dp,
-                    border = borderStroke,
-                    modifier = Modifier
-                        .widthIn(max = 280.dp)
-                        .combinedClickable(
-                            onClick = {},
-                            onLongClick = onReply
-                        )
-                ) {
-                    Column(modifier = Modifier.padding(12.dp)) {
+        if (!isMe) {
+            AsyncImage(
+                model = otherUserImage ?: R.drawable.ic_person_placeholder,
+                contentDescription = null,
+                modifier = Modifier.size(24.dp).clip(CircleShape).background(ColorDivider)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+        }
 
-                        var displayText = msg.text
-                        // Check if this is a reply message
-                        if (msg.text.contains("> Replying to:")) {
-                            // Robust splitting
-                            val parts = msg.text.split("\n", limit = 2)
-                            if (parts.size >= 1 && parts[0].startsWith("> Replying to:")) {
-                                val quoteText = parts[0].removePrefix("> Replying to: ").trim()
-                                if (parts.size > 1) displayText = parts[1] else displayText = ""
+        Column(horizontalAlignment = align) {
+            Surface(
+                color = bubbleColor,
+                shape = shape,
+                shadowElevation = 1.dp,
+                modifier = Modifier.widthIn(max = 280.dp)
+            ) {
+                Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)) {
+                    if (msg.text.contains("> Replying to:")) {
+                        val parts = msg.text.split("\n", limit = 2)
+                        if (parts.size >= 1 && parts[0].startsWith("> Replying to:")) {
+                            val quoteText = parts[0].removePrefix("> Replying to: ").trim()
+                            val actualText = if (parts.size > 1) parts[1] else ""
 
-                                // WhatsApp Style Quote Block
-                                Surface(
-                                    color = Color.Black.copy(alpha = 0.1f), // Slightly dimmed
-                                    shape = RoundedCornerShape(8.dp),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = 6.dp)
-                                ) {
-                                    Row(modifier = Modifier.height(IntrinsicSize.Min)) {
-                                        // Accent Bar
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxHeight()
-                                                .width(4.dp)
-                                                .background(if(isMe) Color.White.copy(alpha=0.5f) else Color(0xFF5B3CC4))
-                                        )
-                                        // Quote Content
-                                        Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
-                                            Text(
-                                                text = "Replying to:",
-                                                style = MaterialTheme.typography.bodySmall,
-                                                color = if(isMe) Color.White.copy(alpha=0.9f) else Color(0xFF5B3CC4),
-                                                fontWeight = FontWeight.Bold
-                                            )
-                                            Text(
-                                                text = quoteText,
-                                                style = MaterialTheme.typography.bodySmall,
-                                                color = if(isMe) Color.White.copy(alpha=0.8f) else Color.Black.copy(alpha = 0.7f),
-                                                maxLines = 3
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        Text(displayText, fontSize = 16.sp, color = textColor)
-
-                        if (isMe) {
-                            Row(
-                                modifier = Modifier.align(Alignment.End).padding(top = 4.dp),
-                                 verticalAlignment = Alignment.CenterVertically
+                            Surface(
+                                color = Color.Black.copy(alpha = 0.05f),
+                                shape = RoundedCornerShape(8.dp),
+                                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
                             ) {
-                                val icon = when(msg.status) {
-                                    "read" -> Icons.Default.DoneAll
-                                    "delivered" -> Icons.Default.DoneAll
-                                    else -> Icons.Default.Check
-                                }
-                                val tint = Color.White.copy(alpha = 0.7f) // White checks on purple
-
-                                Icon(icon, null, tint = tint, modifier = Modifier.size(16.dp))
+                               Row(modifier = Modifier.height(IntrinsicSize.Min)) {
+                                    Box(modifier = Modifier.fillMaxHeight().width(4.dp).background(if(isMe) ColorPrimary else Color.White.copy(alpha=0.5f)))
+                                    Column(modifier = Modifier.padding(8.dp)) {
+                                        Text("Replying to", style = MaterialTheme.typography.labelSmall, color = if(isMe) ColorPrimary else Color.White.copy(alpha=0.8f))
+                                        Text(quoteText, style = MaterialTheme.typography.bodySmall, maxLines = 2, color = if(isMe) ColorTextSecondary else Color.White.copy(alpha=0.7f))
+                                    }
+                               }
                             }
+                            Text(actualText, style = MaterialTheme.typography.bodyLarge, color = textColor)
+                        } else {
+                            Text(msg.text, style = MaterialTheme.typography.bodyLarge, color = textColor)
                         }
+                    } else {
+                        Text(msg.text, style = MaterialTheme.typography.bodyLarge, color = textColor)
                     }
                 }
             }
-        )
+            Text(
+                text = buildString {
+                    append(formatTime(msg.timestamp))
+                },
+                style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, color = ColorTextSecondary),
+                modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
+            )
+
+            if (isMe) {
+                Icon(
+                    imageVector = if (msg.status == "read") Icons.Default.DoneAll else if (msg.status == "delivered") Icons.Default.DoneAll else Icons.Default.Check,
+                    contentDescription = null,
+                    modifier = Modifier.size(12.dp).padding(start = 2.dp),
+                    tint = if (msg.status == "read") ColorStatusBlue else ColorTextSecondary
+                )
+            }
+        }
     }
 }
 
 @Composable
 fun TypingBubble() {
     Surface(
-        color = Color(0xFFE0E0E0),
+        color = ColorSurface,
         shape = RoundedCornerShape(16.dp),
+        shadowElevation = 1.dp,
         modifier = Modifier.padding(8.dp)
     ) {
-        Text("Typing...", modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp), fontSize = 12.sp, fontStyle = androidx.compose.ui.text.font.FontStyle.Italic)
+        Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text("Typing...", style = MaterialTheme.typography.bodySmall, color = ColorTextSecondary)
+        }
     }
 }
 
@@ -602,66 +632,102 @@ fun ChatInputBar(
     onViewChart: (() -> Unit)?,
     clientBirthData: JSONObject? = null
 ) {
-    Surface(color = Color.White, shadowElevation = 8.dp) {
-        Column {
-            if (replyingTo != null) {
-                Row(
-                    Modifier.fillMaxWidth().background(Color(0xFFEEEEEE)).padding(8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+    val quickChips = listOf("My birth time is...", "When will I get promoted?", "Share my career details")
+
+    Column(modifier = Modifier.navigationBarsPadding().background(Color.White).shadow(8.dp).padding(vertical = 4.dp)) {
+        // Quick Action Chips
+        LazyRow(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 16.dp),
+            spacing = Arrangement.spacedBy(8.dp)
+        ) {
+            items(quickChips) { chipText ->
+                Surface(
+                    onClick = { onTextChange(chipText) },
+                    shape = RoundedCornerShape(12.dp),
+                    color = Color.DarkGray.copy(alpha = 0.8f),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.1f))
                 ) {
-                   Text("Replying to: ${replyingTo.text.take(30)}...", fontSize = 12.sp, color = Color.Gray)
-                   IconButton(onClick = onCancelReply, modifier = Modifier.size(24.dp)) {
-                       Icon(Icons.Default.Close, "Cancel", tint = Color.Gray)
-                   }
+                    Text(
+                        chipText,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = Color.White,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                    )
                 }
             }
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (onViewChart != null) {
-                    val isReady = clientBirthData != null
-                    IconButton(onClick = onViewChart) {
-                        if (isReady) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_chart),
-                                contentDescription = "Chart",
-                                tint = Color(0xFF4CAF50) // Green when ready
-                            )
-                        } else {
-                            // Spin icon replacement - Use Refresh as a placeholder for "loading/pending"
-                            Icon(
-                                Icons.Default.Refresh,
-                                contentDescription = "Waiting for data",
-                                tint = Color.Gray
-                            )
-                        }
+        }
+
+        Surface(
+            color = Color.Transparent,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+            Column {
+                if (replyingTo != null) {
+                    Row(
+                        Modifier.fillMaxWidth().background(Color.White.copy(alpha = 0.1f), RoundedCornerShape(8.dp)).padding(8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                       Column {
+                           Text("Replying to", style = MaterialTheme.typography.labelSmall, color = ColorPrimary)
+                           Text(replyingTo!!.text.take(30), style = MaterialTheme.typography.bodySmall, color = ColorTextSecondary)
+                       }
+                       IconButton(onClick = onCancelReply) {
+                           Icon(Icons.Default.Close, "Cancel", tint = ColorTextSecondary)
+                       }
                     }
+                    Spacer(Modifier.height(8.dp))
                 }
-                OutlinedTextField(
-                    value = text,
-                    onValueChange = onTextChange,
-                    modifier = Modifier.weight(1f).padding(horizontal = 8.dp),
-                    shape = RoundedCornerShape(24.dp),
-                    placeholder = { Text("Type a message") },
-                    colors = TextFieldDefaults.colors(
-                       focusedContainerColor = Color.White,
-                       unfocusedContainerColor = Color.White,
-                       focusedIndicatorColor = Color.Transparent,
-                       unfocusedIndicatorColor = Color.Transparent
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    // Left Plus Icon
+                    IconButton(
+                        onClick = { /* attachments */ },
+                        modifier = Modifier.size(40.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.2f))
+                    ) {
+                        Icon(Icons.Default.Add, null, tint = Color.White)
+                    }
+
+                    Spacer(Modifier.width(8.dp))
+
+                    OutlinedTextField(
+                        value = text,
+                        onValueChange = onTextChange,
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(24.dp),
+                        placeholder = { Text("Type your message...", color = Color.Gray) },
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = ColorPrimary.copy(alpha = 0.5f),
+                            unfocusedBorderColor = Color.LightGray,
+                            focusedContainerColor = ColorBackground,
+                            unfocusedContainerColor = ColorBackground,
+                            focusedTextColor = ColorTextPrimary,
+                            unfocusedTextColor = ColorTextPrimary
+                        ),
+                        trailingIcon = {
+                            Icon(Icons.Default.Mic, null, tint = Color.Gray)
+                        },
+                        maxLines = 4
                     )
-                )
-                FloatingActionButton(
-                    onClick = onSend,
-                    containerColor = Color(0xFF1DBF73), // Emerald
-                    contentColor = Color.White,
-                    shape = CircleShape,
-                    modifier = Modifier.size(48.dp)
-                ) {
-                    Icon(Icons.Default.Send, "Send")
+
+                    Spacer(Modifier.width(8.dp))
+
+                    FloatingActionButton(
+                        onClick = onSend,
+                        containerColor = ColorPrimary,
+                        contentColor = Color.White,
+                        shape = CircleShape,
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(Icons.Default.Send, null)
+                    }
                 }
             }
         }
     }
+}
+
+@Composable
+private fun LazyRow(modifier: Modifier, spacing: Arrangement.HorizontalOrVertical, content: LazyListScope.() -> Unit) {
+    androidx.compose.foundation.lazy.LazyRow(modifier = modifier, horizontalArrangement = spacing, content = content)
 }

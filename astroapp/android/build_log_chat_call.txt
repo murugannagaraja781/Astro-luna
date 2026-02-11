@@ -55,8 +55,8 @@ to this project's gradle.properties.
 > Task :app:writeDebugSigningConfigVersions UP-TO-DATE
 
 > Task :app:compileDebugKotlin
-e: file:///Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/java/com/astroluna/app/ui/profile/AstrologerProfileActivity.kt:228:80 Unresolved reference 'Star'.
-e: file:///Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/java/com/astroluna/app/ui/profile/UserProfileActivity.kt:251:22 Unresolved reference 'shadow'.
+e: file:///Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/java/com/astroluna/app/ui/call/CallActivity.kt:1146:29 Unresolved reference 'Brush'.
+e: file:///Users/wohozo/Documents/Astro-luna/astroapp/android/app/src/main/java/com/astroluna/app/ui/call/CallActivity.kt:1205:29 Unresolved reference 'Brush'.
 
 > Task :app:compileDebugKotlin FAILED
 

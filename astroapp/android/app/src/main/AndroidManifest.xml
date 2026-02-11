@@ -123,6 +123,7 @@
         <activity android:name=".ui.auth.LoginActivity" />
         <activity android:name=".ui.auth.OtpVerificationActivity" />
         <activity android:name=".ui.home.HomeActivity" />
+        <activity android:name=".ui.home.VideoStoryActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.wallet.WalletActivity" />
         <activity android:name=".ui.chat.ChatActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.call.CallActivity" android:screenOrientation="portrait"/>
@@ -225,6 +226,12 @@
 
         <activity
             android:name=".ui.profile.UserProfileActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:theme="@style/Theme.FCMCallApp"/>
+
+        <activity
+            android:name=".ui.astro.AstrologerEditProfileActivity"
             android:screenOrientation="portrait"
             android:exported="false"
             android:theme="@style/Theme.FCMCallApp"/>

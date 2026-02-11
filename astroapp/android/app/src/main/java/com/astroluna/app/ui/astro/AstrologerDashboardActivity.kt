@@ -23,6 +23,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -231,15 +232,16 @@ fun AstrologerDashboardScreen(
     }
 
     Scaffold(
+        containerColor = Color(0xFF0F0F2D), // Deep Midnight Blue
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { },
-                containerColor = Color(0xFF7B42F6),
-                contentColor = Color.White,
+                containerColor = Color(0xFFFFD700), // Gold
+                contentColor = Color.Black,
                 shape = CircleShape,
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
-                Icon(Icons.Default.Brightness4, null)
+                Icon(Icons.Default.SupportAgent, null)
             }
         }
     ) { padding ->
@@ -247,144 +249,188 @@ fun AstrologerDashboardScreen(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
-                .background(Color(0xFFF8F9FE))
                 .verticalScroll(rememberScrollState())
         ) {
-            // 1. Purple Header
+            // 1. Premium Animated Header
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp))
+                    .height(300.dp)
                     .background(
                         Brush.verticalGradient(
-                            colors = listOf(Color(0xFF7B42F6), Color(0xFF6C3BFF))
+                            colors = listOf(Color(0xFF1A1A40), Color(0xFF0F0F2D))
                         )
                     )
-                    .padding(top = 40.dp, bottom = 60.dp, start = 20.dp, end = 20.dp)
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box {
-                        Surface(
-                            modifier = Modifier.size(64.dp),
-                            shape = CircleShape,
-                            color = Color.White.copy(alpha=0.3f)
-                        ) {
-                            Icon(Icons.Default.Person, null, modifier = Modifier.padding(12.dp), tint = Color.White)
+                // Background Glow
+                Box(
+                    modifier = Modifier
+                        .size(300.dp)
+                        .offset(x = (-100).dp, y = (-100).dp)
+                        .background(Color(0xFF7B42F6).copy(alpha = 0.2f), CircleShape)
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 40.dp, start = 24.dp, end = 24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column {
+                            Text("Namaste,", color = Color.White.copy(alpha = 0.6f), fontSize = 14.sp)
+                            Text(sessionName, color = Color.White, fontSize = 26.sp, fontWeight = FontWeight.ExtraBold)
                         }
-                        Box(
-                            modifier = Modifier
-                                .size(16.dp)
-                                .background(Color(0xFF21D0B2), CircleShape)
-                                .border(2.dp, Color(0xFF7B42F6), CircleShape)
-                                .align(Alignment.BottomEnd)
+                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            IconButton(
+                                onClick = { },
+                                modifier = Modifier.size(40.dp).background(Color.White.copy(alpha = 0.1f), CircleShape)
+                            ) {
+                                Icon(Icons.Default.Notifications, null, tint = Color.White, modifier = Modifier.size(20.dp))
+                            }
+                            IconButton(
+                                onClick = onLogout,
+                                modifier = Modifier.size(40.dp).background(Color.White.copy(alpha = 0.1f), CircleShape)
+                            ) {
+                                Icon(Icons.Default.Logout, null, tint = Color.White, modifier = Modifier.size(20.dp))
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(30.dp))
+
+                    // Premium Glass Metrics
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        MetricCard(
+                            label = "Earnings",
+                            value = "₹${String.format("%.0f", walletBalance)}",
+                            icon = Icons.Default.AccountBalanceWallet,
+                            color = Color(0xFFFFD700),
+                            modifier = Modifier.weight(1f)
                         )
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text("Welcome back,", color = Color.White.copy(alpha = 0.7f), fontSize = 14.sp)
-                        Text(sessionName, color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        IconButton(
-                            onClick = { },
-                            modifier = Modifier.size(44.dp).background(Color.White.copy(alpha = 0.2f), CircleShape)
-                        ) {
-                            Icon(Icons.Default.Notifications, null, tint = Color.White)
-                        }
-                        IconButton(
-                            onClick = onLogout,
-                            modifier = Modifier.size(44.dp).background(Color.White.copy(alpha = 0.2f), CircleShape)
-                        ) {
-                            Icon(Icons.Default.Logout, null, tint = Color.White)
-                        }
+                        MetricCard(
+                            label = "Rating",
+                            value = "4.9 ★",
+                            icon = Icons.Default.Star,
+                            color = Color(0xFF00FFCC),
+                            modifier = Modifier.weight(1f)
+                        )
+                        MetricCard(
+                            label = "Calls",
+                            value = "1.2k",
+                            icon = Icons.Default.Call,
+                            color = Color(0xFF7B42F6),
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                 }
             }
 
-            // 2. Service Availability Card
-            Card(
+            // 2. Service Visibility (Fixed Offset)
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp)
-                    .offset(y = (-30).dp)
-                    .shadow(12.dp, RoundedCornerShape(24.dp)),
-                shape = RoundedCornerShape(24.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
+                    .offset(y = (-40).dp)
             ) {
-                Column(modifier = Modifier.padding(24.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.Wifi, null, tint = Color(0xFF7B42F6), modifier = Modifier.size(20.dp))
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Text("Service Availability", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color(0xFF111827))
+                Text(
+                    "LIVE AVAILABILITY",
+                    color = Color.White.copy(alpha = 0.5f),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 2.sp,
+                    modifier = Modifier.padding(start = 8.dp, bottom = 12.dp)
+                )
+
+                Card(
+                    shape = RoundedCornerShape(28.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E3F)),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                    modifier = Modifier.border(1.dp, Color.White.copy(alpha = 0.05f), RoundedCornerShape(28.dp))
+                ) {
+                    Column(modifier = Modifier.padding(24.dp)) {
+                        PremiumToggleRow(
+                            label = "Chat",
+                            icon = Icons.AutoMirrored.Filled.Chat,
+                            checked = isChatOnline,
+                            activeColor = Color(0xFFA162F7),
+                            onCheckedChange = {
+                                isChatOnline = it
+                                scope.launch(Dispatchers.IO) { updateServiceStatus(sessionId, "chat", it) }
+                            }
+                        )
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp), color = Color.White.copy(alpha = 0.05f))
+                        PremiumToggleRow(
+                            label = "Audio Call",
+                            icon = Icons.Default.Call,
+                            checked = isAudioOnline,
+                            activeColor = Color(0xFF42A5F5),
+                            onCheckedChange = {
+                                isAudioOnline = it
+                                scope.launch(Dispatchers.IO) { updateServiceStatus(sessionId, "audio", it) }
+                            }
+                        )
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp), color = Color.White.copy(alpha = 0.05f))
+                        PremiumToggleRow(
+                            label = "Video Call",
+                            icon = Icons.Default.VideoCall,
+                            checked = isVideoOnline,
+                            activeColor = Color(0xFFF06292),
+                            onCheckedChange = {
+                                isVideoOnline = it
+                                scope.launch(Dispatchers.IO) { updateServiceStatus(sessionId, "video", it) }
+                            }
+                        )
                     }
-                    Spacer(modifier = Modifier.height(24.dp))
-                    ServiceToggleRow(
-                        label = "Chat",
-                        icon = Icons.AutoMirrored.Filled.Chat,
-                        iconBg = Color(0xFFF3E5F5),
-                        iconTint = Color(0xFF7B1FA2),
-                        checked = isChatOnline,
-                        onCheckedChange = {
-                            isChatOnline = it
-                            scope.launch(Dispatchers.IO) { updateServiceStatus(sessionId, "chat", it) }
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
-                    ServiceToggleRow(
-                        label = "Audio Call",
-                        icon = Icons.Default.Call,
-                        iconBg = Color(0xFFE3F2FD),
-                        iconTint = Color(0xFF1976D2),
-                        checked = isAudioOnline,
-                        onCheckedChange = {
-                            isAudioOnline = it
-                            scope.launch(Dispatchers.IO) { updateServiceStatus(sessionId, "audio", it) }
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
-                    ServiceToggleRow(
-                        label = "Video Call",
-                        icon = Icons.Default.VideoCall,
-                        iconBg = Color(0xFFFCE4EC),
-                        iconTint = Color(0xFFC2185B),
-                        checked = isVideoOnline,
-                        onCheckedChange = {
-                            isVideoOnline = it
-                            scope.launch(Dispatchers.IO) { updateServiceStatus(sessionId, "video", it) }
-                        }
-                    )
                 }
             }
 
-            // 3. Action Grid
-            val actions = listOf(
-                DashboardAction("CALL", Icons.Default.Call, Color(0xFFE0F2F1), Color(0xFF00897B)),
-                DashboardAction("CHAT", Icons.AutoMirrored.Filled.Chat, Color(0xFFE8EAF6), Color(0xFF3F51B5)),
-                DashboardAction("EARNINGS", Icons.Default.AccountBalanceWallet, Color(0xFFFFF8E1), Color(0xFFFFA000)),
-                DashboardAction("REVIEWS", Icons.Default.Star, Color(0xFFFBE9E7), Color(0xFFD84315)),
-                DashboardAction("HISTORY", Icons.Default.History, Color(0xFFE1F5FE), Color(0xFF0288D1)),
-                DashboardAction("PROFILE", Icons.Default.Person, Color(0xFFF3E5F5), Color(0xFF8E24AA))
-            )
-
+            // 3. Quick Actions
             Column(
-                modifier = Modifier.padding(horizontal = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .offset(y = (-20).dp)
             ) {
-                actions.chunked(3).forEach { rowItems ->
+                Text(
+                    "QUICK ACTIONS",
+                    color = Color.White.copy(alpha = 0.5f),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 2.sp,
+                    modifier = Modifier.padding(start = 8.dp, bottom = 12.dp)
+                )
+
+                val actions = listOf(
+                    DashboardAction("Recordings", Icons.Default.Mic, Color(0xFF7B42F6).copy(alpha = 0.1f), Color(0xFF7B42F6)),
+                    DashboardAction("Chat History", Icons.AutoMirrored.Filled.Chat, Color(0xFF42A5F5).copy(alpha = 0.1f), Color(0xFF42A5F5)),
+                    DashboardAction("Earnings", Icons.Default.AccountBalanceWallet, Color(0xFFFFD700).copy(alpha = 0.1f), Color(0xFFFFD700)),
+                    DashboardAction("Reviews", Icons.Default.AutoAwesome, Color(0xFF00FFCC).copy(alpha = 0.1f), Color(0xFF00FFCC)),
+                    DashboardAction("History", Icons.Default.Timeline, Color(0xFFF06292).copy(alpha = 0.1f), Color(0xFFF06292)),
+                    DashboardAction("Settings", Icons.Default.ManageAccounts, Color.White.copy(alpha = 0.05f), Color.White)
+                )
+
+                actions.chunked(2).forEach { rowItems ->
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         rowItems.forEach { action ->
-                            ActionCard(
+                            PremiumActionCard(
                                 action = action,
                                 modifier = Modifier.weight(1f),
                                 onClick = {
                                     when(action.label) {
-                                        "EARNINGS" -> context.startActivity(Intent(context, EarningsActivity::class.java))
-                                        "HISTORY" -> context.startActivity(Intent(context, AstrologerHistoryActivity::class.java))
-                                        "PROFILE" -> context.startActivity(Intent(context, com.astroluna.app.ui.settings.SettingsActivity::class.java))
-                                        "CALL" -> showRecordingsDialog(context)
+                                        "Earnings" -> context.startActivity(Intent(context, EarningsActivity::class.java))
+                                        "History" -> context.startActivity(Intent(context, AstrologerHistoryActivity::class.java))
+                                        "Settings" -> context.startActivity(Intent(context, com.astroluna.app.ui.astro.AstrologerEditProfileActivity::class.java))
+                                        "Recordings" -> showRecordingsDialog(context)
                                         else -> Toast.makeText(context, "${action.label} Clicked", Toast.LENGTH_SHORT).show()
                                     }
                                 }
@@ -396,86 +442,84 @@ fun AstrologerDashboardScreen(
 
             Spacer(modifier = Modifier.height(40.dp))
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 80.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Text("TERMS", fontSize = 11.sp, color = Color.Gray)
-                    Text("|", fontSize = 11.sp, color = Color.LightGray)
-                    Text("REFUNDS", fontSize = 11.sp, color = Color.Gray)
-                    Text("|", fontSize = 11.sp, color = Color.LightGray)
-                    Text("SHIPPING", fontSize = 11.sp, color = Color.Gray)
-                    Text("|", fontSize = 11.sp, color = Color.LightGray)
-                    Text("RETURNS", fontSize = 11.sp, color = Color.Gray)
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-                Text("© 2024 Astro Luna. All Rights Reserved.", fontSize = 11.sp, color = Color.LightGray)
-                Spacer(modifier = Modifier.height(80.dp))
+                Text("Version 1.2.0 (Premium Tier)", color = Color.White.copy(alpha = 0.2f), fontSize = 10.sp)
             }
         }
     }
 }
 
 @Composable
-fun ServiceToggleRow(label: String, icon: ImageVector, iconBg: Color, iconTint: Color, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+fun MetricCard(label: String, value: String, icon: ImageVector, color: Color, modifier: Modifier) {
+    Card(
+        modifier = modifier
+            .height(100.dp),
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
+        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.1f))
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(12.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(icon, null, tint = color, modifier = Modifier.size(20.dp))
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(value, color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            Text(label, color = Color.White.copy(alpha = 0.5f), fontSize = 11.sp)
+        }
+    }
+}
+
+@Composable
+fun PremiumToggleRow(label: String, icon: ImageVector, checked: Boolean, activeColor: Color, onCheckedChange: (Boolean) -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(modifier = Modifier.size(48.dp).background(iconBg, RoundedCornerShape(12.dp)), contentAlignment = Alignment.Center) {
-            Icon(icon, null, tint = iconTint, modifier = Modifier.size(24.dp))
+        Surface(
+            modifier = Modifier.size(44.dp),
+            shape = RoundedCornerShape(14.dp),
+            color = if (checked) activeColor.copy(alpha = 0.2f) else Color.White.copy(alpha = 0.05f)
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(icon, null, tint = if (checked) activeColor else Color.White.copy(alpha = 0.4f), modifier = Modifier.size(22.dp))
+            }
         }
         Spacer(modifier = Modifier.width(16.dp))
-        Text(label, modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold, color = Color(0xFF1F2937))
-        Text(if (checked) "ON" else "OFF", fontSize = 12.sp, fontWeight = FontWeight.Black, color = if(checked) Color(0xFF21D0B2) else Color.Gray, modifier = Modifier.padding(end = 8.dp))
+        Text(label, modifier = Modifier.weight(1f), fontWeight = FontWeight.SemiBold, color = Color.White, fontSize = 16.sp)
         Switch(
-            checked = checked, onCheckedChange = onCheckedChange,
-            colors = SwitchDefaults.colors(checkedThumbColor = Color.White, checkedTrackColor = Color(0xFF21D0B2), uncheckedThumbColor = Color.White)
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = Color.White,
+                checkedTrackColor = activeColor,
+                uncheckedThumbColor = Color.White.copy(alpha = 0.4f),
+                uncheckedTrackColor = Color.White.copy(alpha = 0.1f)
+            )
         )
     }
 }
 
 @Composable
-fun ActionCard(action: DashboardAction, modifier: Modifier, onClick: () -> Unit) {
-    Card(
-        modifier = modifier
-            .aspectRatio(1f)
-            .shadow(8.dp, RoundedCornerShape(22.dp), spotColor = action.tint.copy(alpha = 0.3f))
-            .clickable { onClick() },
-        shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+fun PremiumActionCard(action: DashboardAction, modifier: Modifier, onClick: () -> Unit) {
+    Surface(
+        onClick = onClick,
+        modifier = modifier.height(110.dp),
+        shape = RoundedCornerShape(24.dp),
+        color = Color(0xFF1E1E3F),
+        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.05f))
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.linearGradient(
-                        colors = listOf(Color.White, action.bg.copy(alpha = 0.5f)),
-                        start = Offset(0f, 0f),
-                        end = Offset(100f, 100f)
-                    )
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.Center
         ) {
-            Box(
-                modifier = Modifier
-                    .size(50.dp)
-                    .background(
-                        Brush.verticalGradient(listOf(action.bg, Color.White.copy(alpha = 0.5f))),
-                        CircleShape
-                    )
-                    .shadow(4.dp, CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(action.icon, null, tint = action.tint, modifier = Modifier.size(24.dp))
-            }
-            Spacer(modifier = Modifier.height(14.dp))
+            Icon(action.icon, null, tint = action.tint, modifier = Modifier.size(26.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = action.label,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color(0xFF374151), // Slate-800 equivalent
-                letterSpacing = 0.5.sp,
-                maxLines = 1,
-                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
             )
         }
     }
