@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="gcm_defaultSenderId" translatable="false">587691116180</string>
-    <string name="google_api_key" translatable="false">AIzaSyAeTzwwRh7EYI7KFlenYtPHI9Ck2a7vIPo</string>
-    <string name="google_app_id" translatable="false">1:587691116180:android:b039652f609d845a9cd681</string>
-    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAeTzwwRh7EYI7KFlenYtPHI9Ck2a7vIPo</string>
-    <string name="google_storage_bucket" translatable="false">astroluna-76da1.firebasestorage.app</string>
-    <string name="project_id" translatable="false">astroluna-76da1</string>
-</resources>
