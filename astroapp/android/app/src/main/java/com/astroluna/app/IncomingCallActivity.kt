@@ -130,8 +130,9 @@ class IncomingCallActivity : ComponentActivity() {
             registerReceiver(cancelReceiver, filter)
         }
 
-        // --- AUTO ACCEPT LOGIC ---
-        startAutoAcceptTimer()
+        // --- AUTO ACCEPT LOGIC REMOVED ---
+        // Users must now manually press Accept
+        // startAutoAcceptTimer()
 
         // Ensure socket is connecting and user is registered
         try {
@@ -161,23 +162,6 @@ class IncomingCallActivity : ComponentActivity() {
                 )
             }
         }
-    }
-
-    private fun startAutoAcceptTimer() {
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                if (isFinishing || isDestroyed) return
-
-                val connected = SocketManager.getSocket()?.connected() == true
-                if (connected) {
-                    Log.d(TAG, "Auto-accepting call (Socket connected)")
-                    onCallAccepted()
-                } else {
-                    // Wait for connection and retry
-                    handler.postDelayed(this, 500)
-                }
-            }
-        }, 2000) // 2 second delay before auto-accept
     }
 
     override fun onNewIntent(intent: Intent) {

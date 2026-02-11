@@ -200,20 +200,7 @@ class CallActivity : ComponentActivity() {
         }
     }
 
-    private val startCallWatchdog = object : Runnable {
-        override fun run() {
-            if (isInitiator && !isBillingActive && !isSessionEnded) {
-                Log.w(TAG, "Watchdog: Billing-started not received. Forcing WebRTC Offer.")
-                statusText = "Connecting..."
-                if (isWebRTCInitialized) {
-                    createOffer()
-                } else {
-                    pendingCreateOffer = true
-                    // initWebRTC is usually called in onCreate, but if it failed or hasn't run...
-                }
-            }
-        }
-    }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -642,10 +629,7 @@ class CallActivity : ComponentActivity() {
         // Initialize status
         statusText = if (isInitiator) "Ringing..." else "Connecting..."
 
-        // Start watchdog for initiator
-        if (isInitiator) {
-            timerHandler.postDelayed(startCallWatchdog, 5000)
-        }
+
 
         // Start WebRTC initialization
         if (!initWebRTC()) {
@@ -671,15 +655,7 @@ class CallActivity : ComponentActivity() {
                         }
                         SocketManager.getSocket()?.emit("session-connect", connectPayload)
 
-                        // PROACTIVE OFFER: If we are initiator, don't just wait for billing-started
-                        // Sometimes the event is missed or billing is already active.
-                        // We'll try to create an offer after a small delay once we've joined.
-                        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-                            if (isInitiator && !isSessionEnded && ::peerConnection.isInitialized && !isWebRTCConnected) {
-                                Log.d(TAG, "Proactive offer attempt...")
-                                createOffer()
-                            }
-                        }, 2000)
+
                     }
                 }
             }
@@ -923,7 +899,7 @@ class CallActivity : ComponentActivity() {
                 Log.d(TAG, "Billing started - initiator? $isInitiator, ready? $isWebRTCInitialized")
                 statusText = "Call Active"
                 isBillingActive = true
-                timerHandler.removeCallbacks(startCallWatchdog) // Success!
+
 
                 if (isInitiator) {
                     if (isWebRTCInitialized) {

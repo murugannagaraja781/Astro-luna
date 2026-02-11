@@ -2538,14 +2538,7 @@ io.on('connection', (socket) => {
         signal,
       });
 
-      // ALSO: Emit to sessionId room as backup if they joined it
-      socket.to(sessionId).emit('signal', {
-        sessionId,
-        fromUserId,
-        signal
-      });
-
-      console.log(`[Signal] Relayed to ${toUserId} and room ${sessionId}`);
+      console.log(`[Signal] Relayed to ${toUserId}`);
     } catch (err) {
       console.error('signal error', err);
     }
