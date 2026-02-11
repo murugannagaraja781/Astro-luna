@@ -21,11 +21,11 @@
 > Task :app:kaptDebugKotlin UP-TO-DATE
 
 > Task :app:compileDebugKotlin
-e: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/chat/ChatActivity.kt:402:26 This foundation API is experimental and is likely to change or be removed in the future.
+e: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/chat/ChatActivity.kt:402:26 This foundation API is experimental and is likely to change or be removed in the future.
 
 > Task :app:compileDebugKotlin FAILED
 
-[Incubating] Problems report is available at: file:///Users/wohozo/Documents/astro5start/astroapp/android/build/reports/problems/problems-report.html
+[Incubating] Problems report is available at: file:///Users/wohozo/Documents/astrolunat/astroapp/android/build/reports/problems/problems-report.html
 
 FAILURE: Build failed with an exception.
 

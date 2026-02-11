@@ -42,7 +42,7 @@ w: Kapt currently doesn't support language version 2.0+. Falling back to 1.9.
 > Task :app:kaptDebugKotlin UP-TO-DATE
 
 > Task :app:compileDebugKotlin
-w: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/academy/AcademyActivity.kt:136:44 'val Icons.Filled.ArrowBack: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.ArrowBack.
+w: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/academy/AcademyActivity.kt:136:44 'val Icons.Filled.ArrowBack: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.ArrowBack.
 
 > Task :app:compileDebugJavaWithJavac UP-TO-DATE
 > Task :app:dexBuilderDebug
@@ -54,7 +54,7 @@ w: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java
 > Task :app:createDebugApkListingFileRedirect UP-TO-DATE
 > Task :app:assembleDebug
 
-[Incubating] Problems report is available at: file:///Users/wohozo/Documents/astro5start/astroapp/android/build/reports/problems/problems-report.html
+[Incubating] Problems report is available at: file:///Users/wohozo/Documents/astrolunat/astroapp/android/build/reports/problems/problems-report.html
 
 Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
 

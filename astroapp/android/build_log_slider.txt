@@ -49,10 +49,10 @@ w: Kapt currently doesn't support language version 2.0+. Falling back to 1.9.
 > Task :app:kaptReleaseKotlin
 
 > Task :app:compileReleaseKotlin
-w: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/home/HomeScreen.kt:847:103 'val Icons.Rounded.Chat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.Chat.
-w: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/home/HomeScreen.kt:864:74 'val Icons.Rounded.Chat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.Chat.
-w: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/home/HomeScreen.kt:1327:78 'val Icons.Rounded.Chat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.Chat.
-w: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/intake/IntakeActivity.kt:612:47 'val Icons.Filled.ArrowBack: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.ArrowBack.
+w: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/home/HomeScreen.kt:847:103 'val Icons.Rounded.Chat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.Chat.
+w: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/home/HomeScreen.kt:864:74 'val Icons.Rounded.Chat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.Chat.
+w: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/home/HomeScreen.kt:1327:78 'val Icons.Rounded.Chat: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Rounded.Chat.
+w: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/intake/IntakeActivity.kt:612:47 'val Icons.Filled.ArrowBack: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.ArrowBack.
 
 > Task :app:compileReleaseJavaWithJavac UP-TO-DATE
 > Task :app:generateReleaseLintVitalReportModel
@@ -69,7 +69,7 @@ w: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java
 > Task :app:createReleaseApkListingFileRedirect UP-TO-DATE
 > Task :app:assembleRelease
 
-[Incubating] Problems report is available at: file:///Users/wohozo/Documents/astro5start/astroapp/android/build/reports/problems/problems-report.html
+[Incubating] Problems report is available at: file:///Users/wohozo/Documents/astrolunat/astroapp/android/build/reports/problems/problems-report.html
 
 Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
 

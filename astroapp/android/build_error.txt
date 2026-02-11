@@ -1,5 +1,5 @@
 To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.12/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
-Daemon will be stopped at the end of the build 
+Daemon will be stopped at the end of the build
 > Task :app:buildKotlinToolingMetadata UP-TO-DATE
 > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
 > Task :app:preBuild UP-TO-DATE
@@ -48,11 +48,11 @@ Daemon will be stopped at the end of the build
 > Task :app:writeReleaseSigningConfigVersions UP-TO-DATE
 
 > Task :app:compileReleaseKotlin
-e: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/chat/ChatActivity.kt:406:67 Unresolved reference 'entryTimestamp'.
+e: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/chat/ChatActivity.kt:406:67 Unresolved reference 'entryTimestamp'.
 
 > Task :app:compileReleaseKotlin FAILED
 
-[Incubating] Problems report is available at: file:///Users/wohozo/Documents/astro5start/astroapp/android/build/reports/problems/problems-report.html
+[Incubating] Problems report is available at: file:///Users/wohozo/Documents/astrolunat/astroapp/android/build/reports/problems/problems-report.html
 
 FAILURE: Build failed with an exception.
 

@@ -21,17 +21,17 @@
 > Task :app:kaptDebugKotlin UP-TO-DATE
 
 > Task :app:compileDebugKotlin
-e: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/chat/ChatActivity.kt:24:35 Unresolved reference 'rememberDismissState'.
-e: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/chat/ChatActivity.kt:368:24 Unresolved reference 'rememberDismissState'.
-e: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/chat/ChatActivity.kt:370:17 Unresolved reference 'it'.
-e: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/chat/ChatActivity.kt:384:26 Argument type mismatch: actual type is 'kotlin.collections.Set<androidx.compose.material3.DismissDirection>', but 'kotlin.collections.Set<androidx.compose.material3.SwipeToDismissBoxValue>' was expected.
-e: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/chat/ChatActivity.kt:387:17 @Composable invocations can only happen from the context of a @Composable function
-e: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/chat/ChatActivity.kt:400:18 @Composable invocations can only happen from the context of a @Composable function
-e: file:///Users/wohozo/Documents/astro5start/astroapp/android/app/src/main/java/com/astro5star/app/ui/chat/ChatActivity.kt:406:26 This foundation API is experimental and is likely to change or be removed in the future.
+e: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/chat/ChatActivity.kt:24:35 Unresolved reference 'rememberDismissState'.
+e: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/chat/ChatActivity.kt:368:24 Unresolved reference 'rememberDismissState'.
+e: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/chat/ChatActivity.kt:370:17 Unresolved reference 'it'.
+e: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/chat/ChatActivity.kt:384:26 Argument type mismatch: actual type is 'kotlin.collections.Set<androidx.compose.material3.DismissDirection>', but 'kotlin.collections.Set<androidx.compose.material3.SwipeToDismissBoxValue>' was expected.
+e: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/chat/ChatActivity.kt:387:17 @Composable invocations can only happen from the context of a @Composable function
+e: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/chat/ChatActivity.kt:400:18 @Composable invocations can only happen from the context of a @Composable function
+e: file:///Users/wohozo/Documents/astrolunat/astroapp/android/app/src/main/java/com/astroluna/app/ui/chat/ChatActivity.kt:406:26 This foundation API is experimental and is likely to change or be removed in the future.
 
 > Task :app:compileDebugKotlin FAILED
 
-[Incubating] Problems report is available at: file:///Users/wohozo/Documents/astro5start/astroapp/android/build/reports/problems/problems-report.html
+[Incubating] Problems report is available at: file:///Users/wohozo/Documents/astrolunat/astroapp/android/build/reports/problems/problems-report.html
 
 FAILURE: Build failed with an exception.
 

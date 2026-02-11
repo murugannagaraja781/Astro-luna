@@ -116,6 +116,13 @@ try {
 }
 
 
+async function broadcastAstroUpdate() {
+  try {
+    const astros = await User.find({ role: 'astrologer' });
+    io.emit('astrologer-update', astros);
+  } catch (e) { }
+}
+
 // Send FCM v1 Push Notification
 async function sendFcmV1Push(fcmToken, data, notification) {
   if (!fcmAuth) {
@@ -480,7 +487,6 @@ const SessionSchema = new mongoose.Schema({
   fromUserId: String,
   toUserId: String,
   type: String,
-  startTime: Number,
   startTime: Number,
   endTime: Number,
   duration: Number,
@@ -1998,12 +2004,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  async function broadcastAstroUpdate() {
-    try {
-      const astros = await User.find({ role: 'astrologer' });
-      io.emit('astrologer-update', astros);
-    } catch (e) { }
-  }
+
 
   // --- Get Astrologers List ---
   socket.on('get-astrologers', async (cb) => {
@@ -2223,10 +2224,14 @@ io.on('connection', (socket) => {
       let clientId = null;
       let astrologerId = null;
 
-      if (fromUser && fromUser.role === 'client') clientId = fromUserId;
-      if (fromUser && fromUser.role === 'astrologer') astrologerId = fromUserId;
-      if (toUser && toUser.role === 'client') clientId = toUserId;
-      if (toUser && toUser.role === 'astrologer') astrologerId = toUserId;
+      if (fromUser) {
+        if (fromUser.role === 'astrologer') astrologerId = fromUserId;
+        else clientId = fromUserId;
+      }
+      if (toUser) {
+        if (toUser.role === 'astrologer') astrologerId = toUserId;
+        else clientId = toUserId;
+      }
 
       await Session.create({
         sessionId, fromUserId, toUserId, type, startTime: Date.now(),
@@ -2235,6 +2240,7 @@ io.on('connection', (socket) => {
 
       activeSessions.set(sessionId, {
         type,
+        status: 'ringing', // INITIAL STATUS
         users: [fromUserId, toUserId],
         startedAt: Date.now(),
         clientId,
@@ -2247,6 +2253,13 @@ io.on('connection', (socket) => {
       });
       userActiveSession.set(fromUserId, sessionId);
       userActiveSession.set(toUserId, sessionId);
+
+      // MARK ASTROLOGER AS BUSY IN DB
+      if (astrologerId) {
+        User.updateOne({ userId: astrologerId }, { isBusy: true })
+          .then(() => broadcastAstroUpdate())
+          .catch(e => console.error('Error marking busy:', e));
+      }
 
       // Try socket notification (might fail if in background - that's OK!)
       let socketSent = false;
@@ -2310,7 +2323,7 @@ io.on('connection', (socket) => {
           activeSessions.delete(sessionId);
           await Session.updateOne({ sessionId }, { status: 'missed', endTime: Date.now() }).catch(() => { });
         }
-      }, 250000);
+      }, 25000);
     } catch (err) {
       console.error('request-session error', err);
       if (typeof cb === 'function') cb({ ok: false, error: 'Internal error' });
