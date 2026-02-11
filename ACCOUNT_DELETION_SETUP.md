@@ -7,7 +7,7 @@ Complete account deletion system with user-facing request form and admin managem
 
 ### 1. User-Facing Page
 **File**: `public/delete-account.html`
-**URL**: `https://astro5star.com/delete-account.html`
+**URL**: `https://astroluna.com/delete-account.html`
 
 **Features**:
 - Clean, responsive UI with gradient background
@@ -19,7 +19,7 @@ Complete account deletion system with user-facing request form and admin managem
 
 ### 2. Admin Management Panel
 **File**: `public/admin/deletion-requests.html`
-**URL**: `https://astro5star.com/admin/deletion-requests.html`
+**URL**: `https://astroluna.com/admin/deletion-requests.html`
 
 **Features**:
 - View all deletion requests
@@ -140,14 +140,14 @@ When a request is approved, the following data is deleted:
 ## Usage Instructions
 
 ### For Users:
-1. Visit `https://astro5star.com/delete-account.html`
+1. Visit `https://astroluna.com/delete-account.html`
 2. Enter email or phone number
 3. Optionally provide reason
 4. Click "Request Account Deletion"
 5. Wait for admin to process (24-48 hours)
 
 ### For Admins:
-1. Visit `https://astro5star.com/admin/deletion-requests.html`
+1. Visit `https://astroluna.com/admin/deletion-requests.html`
 2. View pending requests
 3. Click "Approve" to delete account or "Reject" to deny
 4. Add notes if needed
@@ -165,7 +165,7 @@ When a request is approved, the following data is deleted:
 
 ### Test Deletion Request:
 ```bash
-curl -X POST https://astro5star.com/api/delete-account-request \
+curl -X POST https://astroluna.com/api/delete-account-request \
   -H "Content-Type: application/json" \
   -d '{
     "user_identifier": "9000000001",

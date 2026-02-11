@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "com.astro5star.app"
+    namespace = "com.astroluna.app"
     compileSdk = 35
     defaultConfig {
         applicationId = "com.astroluna"

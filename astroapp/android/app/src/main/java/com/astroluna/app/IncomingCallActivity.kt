@@ -43,6 +43,7 @@ import androidx.core.content.ContextCompat
 import com.astroluna.app.ui.theme.CosmicAppTheme
 import kotlinx.coroutines.delay
 import com.astroluna.app.data.remote.SocketManager
+import com.astroluna.app.data.local.TokenManager
 import com.astroluna.app.utils.CallState
 
 /**
@@ -104,9 +105,13 @@ class IncomingCallActivity : ComponentActivity() {
         startVibration()
         handler.postDelayed(timeoutRunnable, CALL_TIMEOUT_MS)
 
-        // Ensure socket is connecting
+        // Ensure socket is connecting and user is registered
         try {
             SocketManager.init()
+            val userId = TokenManager(this).getUserSession()?.userId
+            if (userId != null) {
+                SocketManager.registerUser(userId)
+            }
         } catch(e: Exception) { e.printStackTrace() }
 
         setContent {

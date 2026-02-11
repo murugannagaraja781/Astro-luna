@@ -360,7 +360,7 @@ fun ChatScreen(
                     TextButton(onClick = onEndChat) { Text("End", color = Color.Red, fontWeight = FontWeight.Bold) }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF1B5E20),
+                    containerColor = Color(0xFF5B3CC4), // Deep Purple
                     titleContentColor = Color.White
                 )
             )
@@ -406,7 +406,7 @@ fun ChatScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .background(Color(0xFFF5F5F5))
+                .background(Color(0xFFF8F9FC)) // Light Neutral
         ) {
 
             LazyColumn(
@@ -433,6 +433,23 @@ fun ChatScreen(
                 }
                 if (isTyping) item { TypingBubble() }
             }
+
+            // WATERMARK: Remaining Time for Astrologer
+            if (isAstrologer && remainingTime.isNotEmpty() && remainingTime != "00:00") {
+                 Box(
+                     modifier = Modifier.fillMaxSize(),
+                     contentAlignment = Alignment.Center
+                 ) {
+                     Text(
+                         text = "REMAINING: $remainingTime",
+                         color = Color.Red.copy(alpha = 0.15f),
+                         fontSize = 32.sp,
+                         fontWeight = FontWeight.Black,
+                         textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                         modifier = Modifier.padding(16.dp)
+                     )
+                 }
+            }
         }
     }
 }
@@ -443,8 +460,10 @@ fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, onReply: () -> Unit) {
     val isMe = msg.isSent
     val isMsgFromAstrologer = if (isMe) amIAstrologer else !amIAstrologer
 
-    // Colors: Astrologer = Pink, Client = Violet
-    val bubbleColor = if (isMsgFromAstrologer) Color(0xFFFFD1DC) else Color(0xFFE1BEE7)
+    // Colors: Me = Deep Purple, Other = White
+    val bubbleColor = if (isMe) Color(0xFF5B3CC4) else Color.White
+    val textColor = if (isMe) Color.White else Color(0xFF111827)
+    val borderStroke = if (!isMe) androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE5E7EB)) else null
     val align = if (isMe) Alignment.End else Alignment.Start
 
     // Swipe State
@@ -479,10 +498,11 @@ fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, onReply: () -> Unit) {
                 }
             },
             content = {
-                 Surface(
+                Surface(
                     color = bubbleColor,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(12.dp),
                     shadowElevation = 1.dp,
+                    border = borderStroke,
                     modifier = Modifier
                         .widthIn(max = 280.dp)
                         .combinedClickable(
@@ -490,7 +510,7 @@ fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, onReply: () -> Unit) {
                             onLongClick = onReply
                         )
                 ) {
-                    Column(modifier = Modifier.padding(8.dp)) {
+                    Column(modifier = Modifier.padding(12.dp)) {
 
                         var displayText = msg.text
                         // Check if this is a reply message
@@ -503,8 +523,8 @@ fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, onReply: () -> Unit) {
 
                                 // WhatsApp Style Quote Block
                                 Surface(
-                                    color = Color.Black.copy(alpha = 0.05f), // Slightly dimmed inside bubble
-                                    shape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp),
+                                    color = Color.Black.copy(alpha = 0.1f), // Slightly dimmed
+                                    shape = RoundedCornerShape(8.dp),
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(bottom = 6.dp)
@@ -515,20 +535,20 @@ fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, onReply: () -> Unit) {
                                             modifier = Modifier
                                                 .fillMaxHeight()
                                                 .width(4.dp)
-                                                .background(Color(0xFF6200EE))
+                                                .background(if(isMe) Color.White.copy(alpha=0.5f) else Color(0xFF5B3CC4))
                                         )
                                         // Quote Content
                                         Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
                                             Text(
                                                 text = "Replying to:",
                                                 style = MaterialTheme.typography.bodySmall,
-                                                color = Color(0xFF6200EE),
+                                                color = if(isMe) Color.White.copy(alpha=0.9f) else Color(0xFF5B3CC4),
                                                 fontWeight = FontWeight.Bold
                                             )
                                             Text(
                                                 text = quoteText,
                                                 style = MaterialTheme.typography.bodySmall,
-                                                color = Color.Black.copy(alpha = 0.7f),
+                                                color = if(isMe) Color.White.copy(alpha=0.8f) else Color.Black.copy(alpha = 0.7f),
                                                 maxLines = 3
                                             )
                                         }
@@ -537,7 +557,7 @@ fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, onReply: () -> Unit) {
                             }
                         }
 
-                        Text(displayText, fontSize = 16.sp, color = Color.Black)
+                        Text(displayText, fontSize = 16.sp, color = textColor)
 
                         if (isMe) {
                             Row(
@@ -549,7 +569,7 @@ fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, onReply: () -> Unit) {
                                     "delivered" -> Icons.Default.DoneAll
                                     else -> Icons.Default.Check
                                 }
-                                val tint = Color(0xFF2196F3)
+                                val tint = Color.White.copy(alpha = 0.7f) // White checks on purple
 
                                 Icon(icon, null, tint = tint, modifier = Modifier.size(16.dp))
                             }
@@ -634,7 +654,7 @@ fun ChatInputBar(
                 )
                 FloatingActionButton(
                     onClick = onSend,
-                    containerColor = Color(0xFFC9A227),
+                    containerColor = Color(0xFF1DBF73), // Emerald
                     contentColor = Color.White,
                     shape = CircleShape,
                     modifier = Modifier.size(48.dp)

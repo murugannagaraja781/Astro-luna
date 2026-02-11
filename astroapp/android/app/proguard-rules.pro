@@ -5,8 +5,8 @@
 -keep class com.google.android.gms.** { *; }
 
 # Keep our service classes
--keep class com.astro5star.app.FCMService { *; }
--keep class com.astro5star.app.CallForegroundService { *; }
+-keep class com.astroluna.app.FCMService { *; }
+-keep class com.astroluna.app.CallForegroundService { *; }
 
 # OkHttp
 -dontwarn okhttp3.**

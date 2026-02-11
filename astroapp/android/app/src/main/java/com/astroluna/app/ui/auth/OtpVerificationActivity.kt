@@ -77,7 +77,7 @@ class OtpVerificationActivity : AppCompatActivity() {
                 ok = true,
                 userId = "dummy_client_001",
                 name = "Test Client",
-                role = "user",
+                role = "client",
                 phone = "9999999999",
                 walletBalance = 500.0,
                 image = "",
