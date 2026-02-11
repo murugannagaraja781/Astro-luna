@@ -278,6 +278,7 @@ class IncomingCallActivity : ComponentActivity() {
         Log.d(TAG, "Call accepted: $callId")
         stopRingtoneAndVibration()
         handler.removeCallbacks(timeoutRunnable)
+        clearAllCallNotifications()
 
         val intent: Intent
         if (callType == "chat") {
@@ -366,10 +367,44 @@ fun IncomingCallScreen(
         )
     )
 
+    val backgroundGradient = Brush.verticalGradient(
+        colors = listOf(
+            Color(0xFF1A1C1E),
+            Color(0xFF2C1C4A), // Deep Purple
+            Color(0xFF121212)
+        )
+    )
+
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF121212) // Dark background
+        modifier = Modifier.fillMaxSize()
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(backgroundGradient)
+        ) {
+            // Subtle animated overlay
+            val transition = rememberInfiniteTransition()
+            val alpha by transition.animateFloat(
+                initialValue = 0.3f,
+                targetValue = 0.5f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(3000, easing = FastOutSlowInEasing),
+                    repeatMode = RepeatMode.Reverse
+                )
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.radialGradient(
+                            colors = listOf(Color(0xFF673AB7).copy(alpha = alpha), Color.Transparent),
+                            radius = 2000f
+                        )
+                    )
+            )
+        }
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -400,13 +435,14 @@ fun IncomingCallScreen(
                 Surface(
                     shape = CircleShape,
                     color = Color.DarkGray,
-                    modifier = Modifier.size(140.dp)
+                    modifier = Modifier.size(140.dp),
+                    border = androidx.compose.foundation.BorderStroke(2.dp, Brush.linearGradient(listOf(Color(0xFFFFD700), Color(0xFFFF8C00)))) // Gold border
                 ) {
                     Icon(
                         Icons.Default.Person,
                         contentDescription = "Caller",
-                        tint = Color.Gray,
-                        modifier = Modifier.padding(24.dp).fillMaxSize()
+                        tint = Color.White.copy(alpha = 0.7f),
+                        modifier = Modifier.padding(32.dp).fillMaxSize()
                     )
                 }
             }

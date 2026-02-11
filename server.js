@@ -1561,10 +1561,17 @@ app.post('/api/native/accept-call', async (req, res) => {
 });
 
 function startSessionRecord(sessionId, type, u1, u2) {
+  // Try to resolve roles if possible (u1 is often the initiator/client in some flows)
+  // But more robust is to just store the pair and let them both receive events.
   activeSessions.set(sessionId, {
     type,
     users: [u1, u2],
     startedAt: Date.now(),
+    clientId: u1, // Fallback: assuming u1 is client, u2 is astro (common in request-session)
+    astrologerId: u2,
+    elapsedBillableSeconds: 0,
+    totalDeducted: 0,
+    totalEarned: 0
   });
   userActiveSession.set(u1, sessionId);
   userActiveSession.set(u2, sessionId);
@@ -2525,7 +2532,14 @@ io.on('connection', (socket) => {
         signal,
       });
 
-      console.log(`[Signal] Relayed to ${toUserId}`);
+      // ALSO: Emit to sessionId room as backup if they joined it
+      socket.to(sessionId).emit('signal', {
+        sessionId,
+        fromUserId,
+        signal
+      });
+
+      console.log(`[Signal] Relayed to ${toUserId} and room ${sessionId}`);
     } catch (err) {
       console.error('signal error', err);
     }

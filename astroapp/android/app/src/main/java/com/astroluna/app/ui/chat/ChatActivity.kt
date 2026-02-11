@@ -215,6 +215,11 @@ class ChatActivity : ComponentActivity() {
             finish()
             return
         }
+
+        // Clear all notifications when opening chat
+        val notificationManager = getSystemService(android.content.Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+        notificationManager.cancelAll()
+
         val isNewRequest = intent?.getBooleanExtra("isNewRequest", false) == true
         if (isNewRequest && sessionId != null && toUserId != null) {
             SoundManager.playAcceptSound()
@@ -240,25 +245,17 @@ class ChatActivity : ComponentActivity() {
                 .show()
         }
         viewModel.sessionEnded.observe(this) { ended ->
-            if (ended && viewModel.sessionSummary.value == null) {
-                Toast.makeText(this, "Chat Ended by Partner", Toast.LENGTH_SHORT).show()
-
-                // Clear all notifications
-                val notificationManager = getSystemService(android.content.Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
-                notificationManager.cancelAll()
-
-                // Navigate to appropriate dashboard
-                val userSession = TokenManager(this).getUserSession()
-                if (userSession?.role == "astrologer") {
-                    val intent = android.content.Intent(this, com.astroluna.app.ui.astro.AstrologerDashboardActivity::class.java)
-                    intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
-                } else {
-                    val intent = android.content.Intent(this, com.astroluna.app.MainActivity::class.java)
-                    intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
+            if (ended) {
+                // If summary hasn't arrived yet, wait briefly or fall back
+                if (viewModel.sessionSummary.value == null) {
+                    android.util.Log.d("ChatActivity", "Session ended received without summary. Waiting briefly...")
+                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                        if (viewModel.sessionSummary.value == null) {
+                            Toast.makeText(this, "Chat Ended", Toast.LENGTH_SHORT).show()
+                            navigateToDashboard()
+                        }
+                    }, 1000)
                 }
-                finish()
             }
         }
         viewModel.availableMinutes.observe(this) { mins ->
@@ -279,26 +276,29 @@ class ChatActivity : ComponentActivity() {
             val notificationManager = getSystemService(android.content.Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
             notificationManager.cancelAll()
 
-            // Delay to ensure socket emit completes, then navigate
+            // Fallback: If no event arrives from server within 3 seconds, just finish
             android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-                // Check if user is Astrologer
-                val userSession = TokenManager(this).getUserSession()
-                if (userSession?.role == "astrologer") {
-                    // Navigate to Astrologer Dashboard
-                    val intent = android.content.Intent(this, com.astroluna.app.ui.astro.AstrologerDashboardActivity::class.java)
-                    intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
-                } else {
-                    // Client - go to MainActivity
-                    val intent = android.content.Intent(this, com.astroluna.app.MainActivity::class.java)
-                    intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
+                if (!isFinishing) {
+                    android.util.Log.w("ChatActivity", "Timeout waiting for session-ended. Forcing closure.")
+                    navigateToDashboard()
                 }
-                finish()
-            }, 500)
+            }, 3000)
         } else {
              Toast.makeText(this, "Error: Session ID is null", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun navigateToDashboard() {
+        if (isFinishing) return
+        val userSession = TokenManager(this).getUserSession()
+        val intent = if (userSession?.role == "astrologer") {
+            android.content.Intent(this, com.astroluna.app.ui.astro.AstrologerDashboardActivity::class.java)
+        } else {
+            android.content.Intent(this, com.astroluna.app.MainActivity::class.java)
+        }
+        intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     override fun onResume() {
@@ -344,6 +344,22 @@ class ChatActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+fun VerifiedBadge(modifier: Modifier = Modifier) {
+    Surface(
+        color = Color(0xFFFFD700), // Gold
+        shape = CircleShape,
+        modifier = modifier.size(14.dp)
+    ) {
+        Icon(
+            Icons.Default.Check,
+            contentDescription = "Verified",
+            tint = Color(0xFF1A1C1E),
+            modifier = Modifier.padding(2.dp)
+        )
+    }
+}
+
+@Composable
 fun ChatScreen(
     viewModel: ChatViewModel,
     sessionDuration: String,
@@ -381,24 +397,28 @@ fun ChatScreen(
                     IconButton(onClick = onBack) {
                         Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)
                     }
-
-                    AsyncImage(
-                        model = toUserImage ?: R.drawable.ic_person_placeholder,
-                        contentDescription = null,
-                        modifier = Modifier.size(40.dp).clip(CircleShape).border(1.dp, ColorPrimary, CircleShape)
-                    )
-
-                    Column(modifier = Modifier.weight(1f).padding(horizontal = 12.dp)) {
-                        Text(
-                            title,
-                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = Color.White
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        AsyncImage(
+                            model = toUserImage ?: R.drawable.ic_person_placeholder,
+                            contentDescription = null,
+                            modifier = Modifier.size(40.dp).clip(CircleShape).background(ColorDivider)
                         )
-                        Text(
-                            "Vedic Astrologer • Online",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Color.White.copy(alpha = 0.6f)
-                        )
+                        Spacer(Modifier.width(12.dp))
+                        Column {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    title,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = Color.White,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                                if (isAstrologer) {
+                                    Spacer(Modifier.width(4.dp))
+                                    VerifiedBadge()
+                                }
+                            }
+                            Text("Online", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = 0.8f))
+                        }
                     }
 
                     Surface(
@@ -533,7 +553,6 @@ fun ChatScreen(
 @Composable
 fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, otherUserImage: String?, onReply: () -> Unit) {
     val isMe = msg.isSent
-    val bubbleColor = if (isMe) Color.White else ColorPrimary
     val textColor = if (isMe) ColorTextPrimary else Color.White
     val shape = if (isMe) RoundedCornerShape(16.dp, 16.dp, 4.dp, 16.dp) else RoundedCornerShape(16.dp, 16.dp, 16.dp, 4.dp)
     val align = if (isMe) Alignment.End else Alignment.Start
@@ -553,33 +572,40 @@ fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, otherUserImage: String?
         }
 
         Column(horizontalAlignment = align) {
+            val bubbleBrush = if (isMe) {
+                Brush.verticalGradient(listOf(Color.White, Color(0xFFF0F0F0)))
+            } else {
+                Brush.verticalGradient(listOf(ColorPrimary, Color(0xFF7E57C2))) // Purple gradient
+            }
+
             Surface(
-                color = bubbleColor,
                 shape = shape,
                 shadowElevation = 1.dp,
-                modifier = Modifier.widthIn(max = 280.dp)
+                modifier = Modifier.widthIn(max = 280.dp).background(bubbleBrush, shape)
             ) {
-                Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)) {
+                Box(modifier = Modifier.background(bubbleBrush).padding(horizontal = 12.dp, vertical = 10.dp)) {
                     if (msg.text.contains("> Replying to:")) {
                         val parts = msg.text.split("\n", limit = 2)
                         if (parts.size >= 1 && parts[0].startsWith("> Replying to:")) {
                             val quoteText = parts[0].removePrefix("> Replying to: ").trim()
                             val actualText = if (parts.size > 1) parts[1] else ""
 
-                            Surface(
-                                color = Color.Black.copy(alpha = 0.05f),
-                                shape = RoundedCornerShape(8.dp),
-                                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-                            ) {
-                               Row(modifier = Modifier.height(IntrinsicSize.Min)) {
-                                    Box(modifier = Modifier.fillMaxHeight().width(4.dp).background(if(isMe) ColorPrimary else Color.White.copy(alpha=0.5f)))
-                                    Column(modifier = Modifier.padding(8.dp)) {
-                                        Text("Replying to", style = MaterialTheme.typography.labelSmall, color = if(isMe) ColorPrimary else Color.White.copy(alpha=0.8f))
-                                        Text(quoteText, style = MaterialTheme.typography.bodySmall, maxLines = 2, color = if(isMe) ColorTextSecondary else Color.White.copy(alpha=0.7f))
-                                    }
-                               }
+                            Column {
+                                Surface(
+                                    color = if(isMe) Color.Black.copy(alpha = 0.05f) else Color.White.copy(alpha = 0.15f),
+                                    shape = RoundedCornerShape(8.dp),
+                                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                                ) {
+                                   Row(modifier = Modifier.height(IntrinsicSize.Min)) {
+                                        Box(modifier = Modifier.fillMaxHeight().width(4.dp).background(if(isMe) ColorPrimary else Color.White))
+                                        Column(modifier = Modifier.padding(8.dp)) {
+                                            Text("Replying to", style = MaterialTheme.typography.labelSmall, color = if(isMe) ColorPrimary else Color.White.copy(alpha=0.9f))
+                                            Text(quoteText, style = MaterialTheme.typography.bodySmall, maxLines = 2, color = if(isMe) ColorTextSecondary else Color.White.copy(alpha=0.8f))
+                                        }
+                                   }
+                                }
+                                Text(actualText, style = MaterialTheme.typography.bodyLarge, color = textColor)
                             }
-                            Text(actualText, style = MaterialTheme.typography.bodyLarge, color = textColor)
                         } else {
                             Text(msg.text, style = MaterialTheme.typography.bodyLarge, color = textColor)
                         }
@@ -634,7 +660,7 @@ fun ChatInputBar(
 ) {
     val quickChips = listOf("My birth time is...", "When will I get promoted?", "Share my career details")
 
-    Column(modifier = Modifier.navigationBarsPadding().background(Color.White).shadow(8.dp).padding(vertical = 4.dp)) {
+    Column(modifier = Modifier.navigationBarsPadding().background(Color.White).shadow(4.dp).padding(vertical = 4.dp)) {
         // Quick Action Chips
         LazyRow(
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 16.dp),
@@ -699,8 +725,8 @@ fun ChatInputBar(
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = ColorPrimary.copy(alpha = 0.5f),
                             unfocusedBorderColor = Color.LightGray,
-                            focusedContainerColor = ColorBackground,
-                            unfocusedContainerColor = ColorBackground,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White,
                             focusedTextColor = ColorTextPrimary,
                             unfocusedTextColor = ColorTextPrimary
                         ),

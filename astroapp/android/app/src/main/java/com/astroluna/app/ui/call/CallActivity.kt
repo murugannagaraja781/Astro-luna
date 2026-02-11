@@ -200,6 +200,21 @@ class CallActivity : ComponentActivity() {
         }
     }
 
+    private val startCallWatchdog = object : Runnable {
+        override fun run() {
+            if (isInitiator && !isBillingActive && !isSessionEnded) {
+                Log.w(TAG, "Watchdog: Billing-started not received. Forcing WebRTC Offer.")
+                statusText = "Connecting..."
+                if (isWebRTCInitialized) {
+                    createOffer()
+                } else {
+                    pendingCreateOffer = true
+                    // initWebRTC is usually called in onCreate, but if it failed or hasn't run...
+                }
+            }
+        }
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean("isEditingIntake", isEditingIntake)
@@ -624,9 +639,25 @@ class CallActivity : ComponentActivity() {
     }
 
     private fun startCallLimit() {
-        if (!initWebRTC()) return
+        // Initialize status
+        statusText = if (isInitiator) "Ringing..." else "Connecting..."
+
+        // Start watchdog for initiator
+        if (isInitiator) {
+            timerHandler.postDelayed(startCallWatchdog, 5000)
+        }
+
+        // Start WebRTC initialization
+        if (!initWebRTC()) {
+            Toast.makeText(this, "Camera/Microphone Error", Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
+
         startBackgroundService()
         setupSocketListeners()
+        timerHandler.post(timerRunnable)
+    }
 
         val myUserId = session?.userId
         if (myUserId == null) {
@@ -888,11 +919,13 @@ class CallActivity : ComponentActivity() {
             } catch (e: Exception) { e.printStackTrace() }
         }
 
-        SocketManager.onBillingStarted { startTime ->
+        SocketManager.onBillingStarted { info ->
             runOnUiThread {
                 Log.d(TAG, "Billing started - initiator? $isInitiator, ready? $isWebRTCInitialized")
-                statusText = "Billing Active"
+                statusText = "Call Active"
                 isBillingActive = true
+                timerHandler.removeCallbacks(startCallWatchdog) // Success!
+
                 if (isInitiator) {
                     if (isWebRTCInitialized) {
                         createOffer()
@@ -902,7 +935,7 @@ class CallActivity : ComponentActivity() {
                     }
                 }
                 androidx.core.os.HandlerCompat.postDelayed(android.os.Handler(android.os.Looper.getMainLooper()), {
-                   if(statusText == "Billing Active") statusText = "" // Hide after valid
+                   if(statusText == "Call Active") statusText = "" // Hide after valid
                 }, null, 3000)
             }
         }
@@ -1067,9 +1100,12 @@ class CallActivity : ComponentActivity() {
     }
 
     private fun sendSignal(payload: JSONObject) {
+        // Standardize: ensure sessionId and toUserId are at top level
         payload.put("sessionId", sessionId)
+        payload.put("toUserId", partnerId)
+
         val type = payload.optJSONObject("signal")?.optString("type") ?: "unknown"
-        Log.d(TAG, "Sending signal: type=$type, payload=$payload")
+        Log.d(TAG, "[Signal] Sent: type=$type, to=$partnerId")
         SocketManager.getSocket()?.emit("signal", payload)
     }
 
