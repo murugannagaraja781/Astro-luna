@@ -1,13 +1,12 @@
-const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '.env') });
-console.log('[Env] Loading .env from:', path.join(__dirname, '.env'));
-console.log('[Env] MONGODB_URI exists:', !!process.env.MONGODB_URI);
+// server.js
+require('dotenv').config(); // Load environment variables from .env file
 // Force update timestamp: 2026-01-10 (Sync Fix)d
 // Force update timestamp: 2026-01-10
 const https = require('https');
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
+const path = require('path');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const multer = require('multer');
@@ -53,7 +52,7 @@ function initFcmAuth() {
       console.log('[FCM v1] Initialized with environment variables');
     } else {
       // Fallback to local file
-      const serviceAccountPath = path.join(__dirname, 'firebase-service-account.json');
+      const serviceAccountPath = './firebase-service-account.json';
       if (fs.existsSync(serviceAccountPath)) {
         fcmAuth = new GoogleAuth({
           keyFile: serviceAccountPath,
@@ -72,56 +71,27 @@ function initFcmAuth() {
 // ==========================================
 // MOBILE APP FIREBASE INITIALIZATION
 // ==========================================
-
-// ==========================================
-// MOBILE APP FIREBASE INITIALIZATION
-// ==========================================
 let mobileTokenStore = new Map();
 let callApp = null;
 
 try {
-  // Option 1: Try to use the same Environment Variables as the main app (Preferred)
-  if (process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) {
-    const privateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
-    const serviceAccountParams = {
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey: privateKey
-    };
+  const serviceAccountPath = path.join(__dirname, 'firebase-service-account.json');
 
-    callApp = admin.initializeApp({
-      credential: admin.credential.cert(serviceAccountParams)
-    }, 'callApp'); // Secondary App Name
-    console.log('✓ Call App: Firebase Admin SDK initialized (using ENV)');
-  }
-  // Option 2: Fallback to File
-  else {
-    const serviceAccountPath = path.join(__dirname, 'firebase-service-account.json');
-    if (fs.existsSync(serviceAccountPath)) {
-      const firebaseServiceAccount = require(serviceAccountPath);
-      callApp = admin.initializeApp({
-        credential: admin.credential.cert(firebaseServiceAccount)
-      }, 'callApp'); // Secondary App Name
-      console.log('✓ Call App: Firebase Admin SDK initialized (using FILE)');
-    } else {
-      console.warn('⚠️ Call App: Service account file missing and ENV vars not set. Call features may fail.');
-    }
+  if (!fs.existsSync(serviceAccountPath)) {
+    throw new Error(`Service account file not found at: ${serviceAccountPath}`);
   }
 
+  const firebaseServiceAccount = require(serviceAccountPath);
+  callApp = admin.initializeApp({
+    credential: admin.credential.cert(firebaseServiceAccount)
+  }, 'callApp'); // Secondary App Name
+  console.log('✓ Call App: Firebase Admin SDK initialized');
 } catch (error) {
   console.warn('✗ Call App: Failed to initialize Firebase Admin SDK (Mobile App)');
   console.warn('  Error:', error.message);
-  // Do NOT re-throw or crash. Just log it.
   global.callAppInitError = error.message;
 }
 
-
-async function broadcastAstroUpdate() {
-  try {
-    const astros = await User.find({ role: 'astrologer' });
-    io.emit('astrologer-update', astros);
-  } catch (e) { }
-}
 
 // Send FCM v1 Push Notification
 async function sendFcmV1Push(fcmToken, data, notification) {
@@ -328,12 +298,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
   // ... (keeping upload logic if valid) ...
   return res.json({ ok: true, url: req.file ? '/uploads/' + req.file.filename : '' });
 });
-const MONGO_URI = process.env.MONGODB_URI;
-if (!MONGO_URI) {
-  console.error('CRITICAL ERROR: MONGODB_URI is not defined in environment variables!');
-  console.log('Falling back to local development DB (not recommended for production)');
-}
-const ACTUAL_MONGO_URI = MONGO_URI || 'mongodb://localhost:27017/astrofive';
+const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/astrofive';
 
 // Helper function to check if MongoDB is connected
 const isMongoConnected = () => {
@@ -357,13 +322,13 @@ const safeDbOperation = async (operation, fallbackValue = null) => {
 // MongoDB Connection with retry logic
 const connectDB = async (retries = 5) => {
   try {
-    await mongoose.connect(ACTUAL_MONGO_URI, {
+    await mongoose.connect(MONGO_URI, {
       serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
       maxPoolSize: 10,
       minPoolSize: 2
     });
-    console.log('✅ MongoDB Connected');
+    console.log('✅ MongoDB Connected to:', MONGO_URI.split('@').pop().split('?')[0]);
     if (process.env.NODE_ENV !== 'test') {
       seedDatabase();
     }
@@ -487,6 +452,7 @@ const SessionSchema = new mongoose.Schema({
   fromUserId: String,
   toUserId: String,
   type: String,
+  startTime: Number,
   startTime: Number,
   endTime: Number,
   duration: Number,
@@ -1561,17 +1527,10 @@ app.post('/api/native/accept-call', async (req, res) => {
 });
 
 function startSessionRecord(sessionId, type, u1, u2) {
-  // Try to resolve roles if possible (u1 is often the initiator/client in some flows)
-  // But more robust is to just store the pair and let them both receive events.
   activeSessions.set(sessionId, {
     type,
     users: [u1, u2],
     startedAt: Date.now(),
-    clientId: u1, // Fallback: assuming u1 is client, u2 is astro (common in request-session)
-    astrologerId: u2,
-    elapsedBillableSeconds: 0,
-    totalDeducted: 0,
-    totalEarned: 0
   });
   userActiveSession.set(u1, sessionId);
   userActiveSession.set(u2, sessionId);
@@ -1661,11 +1620,6 @@ async function endSessionRecord(sessionId) {
 
   if (s.clientId) io.to(s.clientId).emit('session-ended', payload);
   if (s.astrologerId) io.to(s.astrologerId).emit('session-ended', payload);
-
-  // NEW: If the session was still ringing, send a cancellation push to the callee
-  if (s.status === 'ringing' && s.astrologerId) {
-    sendCancelPush(s.astrologerId, sessionId);
-  }
 
   // Mark astrologer as NOT busy (Wait for DB update before broadcast)
   User.updateMany({ userId: { $in: s.users }, role: 'astrologer' }, { isBusy: false })
@@ -2016,7 +1970,12 @@ io.on('connection', (socket) => {
     }
   });
 
-
+  async function broadcastAstroUpdate() {
+    try {
+      const astros = await User.find({ role: 'astrologer' });
+      io.emit('astrologer-update', astros);
+    } catch (e) { }
+  }
 
   // --- Get Astrologers List ---
   socket.on('get-astrologers', async (cb) => {
@@ -2152,10 +2111,7 @@ io.on('connection', (socket) => {
   // --- Update Profile ---
   socket.on('update-profile', async (data, cb) => {
     const userId = socketToUser.get(socket.id);
-    if (!userId) {
-      if (typeof cb === 'function') cb({ ok: false, error: 'Not logged in' });
-      return;
-    }
+    if (!userId) return cb({ ok: false, error: 'Not logged in' });
 
     try {
       const user = await User.findOne({ userId });
@@ -2170,13 +2126,13 @@ io.on('connection', (socket) => {
         await user.save();
 
         if (user.role === 'astrologer') broadcastAstroUpdate();
-        if (typeof cb === 'function') cb({ ok: true, user });
+        cb({ ok: true, user });
       } else {
-        if (typeof cb === 'function') cb({ ok: false, error: 'User not found' });
+        cb({ ok: false, error: 'User not found' });
       }
     } catch (e) {
       console.error('Update Profile Error', e);
-      if (typeof cb === 'function') cb({ ok: false, error: 'Internal Error' });
+      cb({ ok: false, error: 'Internal Error' });
     }
   });
 
@@ -2186,22 +2142,15 @@ io.on('connection', (socket) => {
       const { toUserId, type, birthData } = data || {};
       const fromUserId = socketToUser.get(socket.id);
 
-      if (!fromUserId) {
-        if (typeof cb === 'function') cb({ ok: false, error: 'Not registered' });
-        return;
-      }
-      if (!toUserId || !type) {
-        if (typeof cb === 'function') cb({ ok: false, error: 'Missing fields' });
-        return;
-      }
+      if (!fromUserId) return cb({ ok: false, error: 'Not registered' });
+      if (!toUserId || !type) return cb({ ok: false, error: 'Missing fields' });
 
       // Get target user from DB
       const toUser = await User.findOne({ userId: toUserId });
       const fromUser = await User.findOne({ userId: fromUserId });
 
       if (!toUser) {
-        if (typeof cb === 'function') cb({ ok: false, error: 'User not found' });
-        return;
+        return cb({ ok: false, error: 'User not found' });
       }
 
       // Check if astrologer is available (MANUAL ONLY)
@@ -2236,14 +2185,10 @@ io.on('connection', (socket) => {
       let clientId = null;
       let astrologerId = null;
 
-      if (fromUser) {
-        if (fromUser.role === 'astrologer') astrologerId = fromUserId;
-        else clientId = fromUserId;
-      }
-      if (toUser) {
-        if (toUser.role === 'astrologer') astrologerId = toUserId;
-        else clientId = toUserId;
-      }
+      if (fromUser && fromUser.role === 'client') clientId = fromUserId;
+      if (fromUser && fromUser.role === 'astrologer') astrologerId = fromUserId;
+      if (toUser && toUser.role === 'client') clientId = toUserId;
+      if (toUser && toUser.role === 'astrologer') astrologerId = toUserId;
 
       await Session.create({
         sessionId, fromUserId, toUserId, type, startTime: Date.now(),
@@ -2252,7 +2197,6 @@ io.on('connection', (socket) => {
 
       activeSessions.set(sessionId, {
         type,
-        status: 'ringing', // INITIAL STATUS
         users: [fromUserId, toUserId],
         startedAt: Date.now(),
         clientId,
@@ -2265,13 +2209,6 @@ io.on('connection', (socket) => {
       });
       userActiveSession.set(fromUserId, sessionId);
       userActiveSession.set(toUserId, sessionId);
-
-      // MARK ASTROLOGER AS BUSY IN DB
-      if (astrologerId) {
-        User.updateOne({ userId: astrologerId }, { isBusy: true })
-          .then(() => broadcastAstroUpdate())
-          .catch(e => console.error('Error marking busy:', e));
-      }
 
       // Try socket notification (might fail if in background - that's OK!)
       let socketSent = false;
@@ -2320,7 +2257,7 @@ io.on('connection', (socket) => {
       }
 
       console.log(`Session request: ${sessionId} (${type})`);
-      if (typeof cb === 'function') cb({ ok: true, sessionId });
+      cb({ ok: true, sessionId });
 
       // --- MISSED CALL TIMEOUT (25s) ---
       setTimeout(async () => {
@@ -2329,7 +2266,6 @@ io.on('connection', (socket) => {
           console.log(`[Session] Ringing timeout for ${sessionId}. Marking as MISSED.`);
           io.to(fromUserId).emit('session-ended', { sessionId, reason: 'no_answer' });
           io.to(toUserId).emit('session-ended', { sessionId, reason: 'missed' });
-          sendCancelPush(toUserId, sessionId); // Dismiss ringing push
 
           userActiveSession.delete(fromUserId);
           userActiveSession.delete(toUserId);
@@ -2339,7 +2275,7 @@ io.on('connection', (socket) => {
       }, 25000);
     } catch (err) {
       console.error('request-session error', err);
-      if (typeof cb === 'function') cb({ ok: false, error: 'Internal error' });
+      cb({ ok: false, error: 'Internal error' });
     }
   });
 
@@ -2510,35 +2446,19 @@ io.on('connection', (socket) => {
   // --- WebRTC signaling relay ---
   socket.on('signal', (data) => {
     try {
+      const { sessionId, toUserId, signal } = data || {};
       const fromUserId = socketToUser.get(socket.id);
-
-      // Robust extraction: find these fields even if nested or flat
-      let sessionId = data?.sessionId || data?.signal?.sessionId;
-      let toUserId = data?.toUserId || data?.signal?.toUserId;
-      let signal = data?.signal;
-
-      // If 'signal' wasn't nested, maybe the whole 'data' (minus id fields) IS the signal
-      if (!signal) {
-        const { sessionId: s, toUserId: t, ...rest } = data || {};
-        signal = rest;
-        if (Object.keys(signal).length === 0) signal = null;
-      }
-
-      console.log(`[Signal] From:${fromUserId} To:${toUserId} Session:${sessionId} Type:${signal?.type || 'unknown'}`);
-
       if (!fromUserId || !sessionId || !toUserId || !signal) {
-        console.warn(`[Signal] Filtered/Missing data: from=${fromUserId}, session=${sessionId}, to=${toUserId}, signalPresent=${!!signal}`);
+        console.warn(`[Signal] Missing data: from=${fromUserId}, session=${sessionId}, to=${toUserId}`);
         return;
       }
 
-      // Emit to Room (userId)
+      // Emit to Room (userId) - works even after reconnect!
       io.to(toUserId).emit('signal', {
         sessionId,
         fromUserId,
         signal,
       });
-
-      console.log(`[Signal] Relayed to ${toUserId}`);
     } catch (err) {
       console.error('signal error', err);
     }
@@ -2655,25 +2575,6 @@ io.on('connection', (socket) => {
     } catch (e) { console.error('Chat Push Error:', e); }
   }
 
-  // --- Helper: Send Cancel Push ---
-  async function sendCancelPush(toUserId, sessionId) {
-    try {
-      const toUser = await User.findOne({ userId: toUserId });
-      if (toUser && toUser.fcmToken) {
-        const payload = {
-          type: 'CANCEL_CALL',
-          sessionId: sessionId || '',
-          timestamp: Date.now().toString()
-        };
-        // Data-only message for dismissal
-        await sendFcmV1Push(toUser.fcmToken, payload, null);
-        console.log(`[FCM] Cancel push sent to ${toUserId} for session ${sessionId}`);
-      }
-    } catch (e) {
-      console.error('Cancel Push Error:', e);
-    }
-  }
-
   // --- Get History ---
   socket.on('get-history', async (data, cb) => {
     if (typeof data === 'function') { cb = data; data = {}; }
@@ -2694,11 +2595,8 @@ io.on('connection', (socket) => {
       // Populate names (Mock style since we don't have populate setup easily, we'll fetch manually or send IDs)
       // Actually client can resolve names from its own list or we just send IDs + Time + Type
 
-      if (typeof cb === 'function') cb({ ok: true, sessions });
-    } catch (e) {
-      console.error(e);
-      if (typeof cb === 'function') cb({ ok: false });
-    }
+      cb({ ok: true, sessions });
+    } catch (e) { console.error(e); cb({ ok: false }); }
   });
 
   // --- message-status (from Android) - handles both delivered and read ---
@@ -2869,13 +2767,13 @@ io.on('connection', (socket) => {
       const ratePerMinute = astro?.price || 10;
       const availableMinutes = Math.floor(clientBalance / ratePerMinute);
 
-      // Notify both parties via their userId rooms (more reliable than single socketId)
-      io.to(session.clientId).emit('billing-started', {
+      // Notify both parties
+      io.to(userSockets.get(session.clientId)).emit('billing-started', {
         startTime: billingStart,
         clientBalance,
         availableMinutes
       });
-      io.to(session.astrologerId).emit('billing-started', {
+      io.to(userSockets.get(session.astrologerId)).emit('billing-started', {
         startTime: billingStart,
         clientBalance,
         ratePerMinute,
@@ -3488,14 +3386,6 @@ app.post('/api/astrologer/service-toggle', async (req, res) => {
     const astros = await User.find({ role: 'astrologer' });
     io.emit('astrologer-update', astros);
 
-    // Emit lightweight status change for immediate UI update
-    io.emit('astro-status-change', {
-      userId,
-      service,
-      isEnabled: enabled,
-      isOnline: update.isOnline
-    });
-
     console.log(`[Service Toggle] ${userId}: ${service} = ${enabled}`);
     res.json({ ok: true });
   } catch (e) {
@@ -3754,7 +3644,7 @@ app.post('/api/payment/create', async (req, res) => {
         merchantTransactionId: merchantTransactionId,
         merchantUserId: cleanUserId,
         amount: amount * 100, // Amount in Paise
-        redirectUrl: "astroluna://payment-success",
+        redirectUrl: "astro5://payment-success",
         redirectMode: "GET", // Use GET for deep links
         callbackUrl: `https://astroluna.in/api/payment/callback?isApp=true&txnId=${merchantTransactionId}`,
         mobileNumber: userMobile,
@@ -3898,12 +3788,12 @@ app.post('/api/payment/callback', async (req, res) => {
       console.log('[CALLBACK ERROR] No payment data found in Body or Query');
 
       const userAgent = req.headers['user-agent'] || '';
-      const isAndroidApp = req.query.isApp === 'true' || userAgent.includes('Android') || userAgent.includes('astrolunaApp');
+      const isAndroidApp = req.query.isApp === 'true' || userAgent.includes('Android') || userAgent.includes('Astro5App');
 
       // AUTO-REDIRECT TO APP IF DETECTED (Even if isApp param is missing)
       if (isAndroidApp) {
-        const intentUrl = `intent://payment-failed?reason=no_response#Intent;scheme=astroluna;package=com.astroluna.app;end`;
-        const customScheme = `astroluna://payment-failed?reason=no_response`;
+        const intentUrl = `intent://payment-failed?reason=no_response#Intent;scheme=astro5;package=com.astroluna.app;end`;
+        const customScheme = `astro5://payment-failed?reason=no_response`;
 
         return res.send(`
           <html>
@@ -4009,8 +3899,8 @@ app.post('/api/payment/callback', async (req, res) => {
 // --- 3. Public Status Pages ---
 app.get('/payment-success', (req, res) => {
   const { amount, txnId } = req.query;
-  const intentUrl = `intent://payment-success?status=success&txnId=${txnId}#Intent;scheme=astroluna;package=com.astroluna.app;end`;
-  const customSchemeUrl = `astroluna://payment-success?status=success&txnId=${txnId}`;
+  const intentUrl = `intent://payment-success?status=success&txnId=${txnId}#Intent;scheme=astro5;package=com.astroluna.app;end`;
+  const customSchemeUrl = `astro5://payment-success?status=success&txnId=${txnId}`;
 
   res.send(`
     <!DOCTYPE html>
@@ -4039,7 +3929,7 @@ app.get('/payment-success', (req, res) => {
                // Immediate Deep Link fallback
                setTimeout(() => { window.location.href = "${customSchemeUrl}"; }, 100);
                // Backup force link
-               setTimeout(() => { window.location.href = "astroluna://payment-success"; }, 500);
+               setTimeout(() => { window.location.href = "astro5://payment-success"; }, 500);
              }
              openApp();
           </script>
@@ -4050,8 +3940,8 @@ app.get('/payment-success', (req, res) => {
 });
 
 app.get('/payment-failed', (req, res) => {
-  const intentUrl = `intent://payment-failed?status=failed#Intent;scheme=astroluna;package=com.astroluna.app;end`;
-  const customSchemeUrl = `astroluna://payment-failed?status=failed`;
+  const intentUrl = `intent://payment-failed?status=failed#Intent;scheme=astro5;package=com.astroluna.app;end`;
+  const customSchemeUrl = `astro5://payment-failed?status=failed`;
   res.send(`
     <!DOCTYPE html>
     <html>
