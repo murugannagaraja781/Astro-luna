@@ -10,9 +10,6 @@ object CallState {
     @Volatile
     var currentSessionId: String? = null
 
-    @Volatile
-    var lastReceivedCallId: String? = null
-
     /**
      * Determines if a new call/chat session can be received.
      * Block if a session is already active (CallActivity/ChatActivity).

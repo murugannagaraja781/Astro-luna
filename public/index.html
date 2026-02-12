@@ -58,67 +58,173 @@
       width: 100%;
     }
 
-    #screen-login {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, #6C3BFF, #7C3AED, #8B5CF6);
-      /* Purple Gradient */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding-bottom: 80px;
-      /* Space for fixed app-footer */
-      color: white;
-    }
-
-    .form-box {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 32px 0 rgba(108, 59, 255, 0.15);
-      /* Purple Shadow */
-      border-radius: 20px;
-      padding: 30px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-    }
-
-    .cosmic-input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      color: white;
-      font-size: 1rem;
-    }
-
-    .cosmic-input::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .cosmic-btn {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: none;
-      background: linear-gradient(to right, #14B8A6, #0D9488);
-      /* Teal Gradient */
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      color: white;
-      cursor: pointer;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      transition: all 0.2s;
-    }
-
     .cosmic-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 12px rgba(20, 184, 166, 0.3);
+    }
+
+    /* --- New Premium Login UI --- */
+    #screen-login {
+      background: #111111;
+      overflow: hidden;
+      position: fixed;
+    }
+
+    .login-bg-circles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .circle-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.4;
+      animation: float-blob 20s infinite alternate;
+    }
+
+    .blob-1 {
+      width: 300px;
+      height: 300px;
+      background: #6C3BFF;
+      top: -100px;
+      left: -50px;
+    }
+
+    .blob-2 {
+      width: 400px;
+      height: 400px;
+      background: #14B8A6;
+      bottom: -150px;
+      right: -100px;
+      animation-duration: 25s;
+    }
+
+    .blob-3 {
+      width: 200px;
+      height: 200px;
+      background: #A78BFA;
+      top: 40%;
+      left: 60%;
+      animation-duration: 15s;
+    }
+
+    @keyframes float-blob {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(30px, 50px) scale(1.1);
+      }
+
+      100% {
+        transform: translate(-20px, -30px) scale(0.9);
+      }
+    }
+
+    .login-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      border-radius: 24px;
+      padding: 40px 30px;
+      width: 90%;
+      max-width: 380px;
+      text-align: center;
+      animation: slide-up-fade 0.6s ease-out;
+    }
+
+    @keyframes slide-up-fade {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #FFFFFF 0%, #A78BFA 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .login-subtitle {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 8px;
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .premium-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: white;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+      letter-spacing: 1px;
+    }
+
+    .premium-input:focus {
+      border-color: #6C3BFF;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 4px rgba(108, 59, 255, 0.2);
+    }
+
+    .premium-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #6C3BFF 0%, #7C3AED 100%);
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 20px -10px rgba(108, 59, 255, 0.5);
+      transition: all 0.3s;
+    }
+
+    .premium-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px -10px rgba(108, 59, 255, 0.6);
+      filter: brightness(1.1);
+    }
+
+    .premium-btn:active {
+      transform: translateY(0);
     }
 
     .admin-notification-popup {
@@ -1747,21 +1853,34 @@
 
   <!-- Screen: Login -->
   <div id="screen-login">
-    <div class="form-box">
-      <h2>✨Astro5 Login</h2>
-      <div id="step-phone">
-        <input id="inputPhone" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="10" class="cosmic-input"
-          placeholder="10 Digit Mobile Number" value="" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-        <button id="btnSendOtp" class="cosmic-btn">Get OTP</button>
-
-      </div>
-      <div id="step-otp" class="hidden">
-        <input id="inputOtp" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="4" class="cosmic-input"
-          placeholder="Enter 4-digit OTP" value="" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-        <button id="btnVerifyOtp" class="cosmic-btn">Verify</button>
-      </div>
+    <div class="login-bg-circles">
+      <div class="circle-blob blob-1"></div>
+      <div class="circle-blob blob-2"></div>
+      <div class="circle-blob blob-3"></div>
     </div>
 
+    <div class="login-card">
+      <div class="login-title">Welcome Back</div>
+      <p class="login-subtitle">Connect with your cosmic destiny</p>
+
+      <div id="step-phone">
+        <div class="input-group">
+          <label class="input-label">Mobile Number</label>
+          <input id="inputPhone" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="10" class="premium-input"
+            placeholder="00000 00000" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        </div>
+        <button id="btnSendOtp" class="premium-btn">Get Secret Key</button>
+      </div>
+
+      <div id="step-otp" class="hidden">
+        <div class="input-group">
+          <label class="input-label">One Time Password</label>
+          <input id="inputOtp" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="4" class="premium-input"
+            placeholder="••••" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        </div>
+        <button id="btnVerifyOtp" class="premium-btn">Unlock Experience</button>
+      </div>
+    </div>
   </div>
 
   <div class="app-footer">
@@ -4608,9 +4727,9 @@
       if (banners.length === 0) {
         // Fallback or Empty State
         wrapper.innerHTML = `
-          <div class="home-slide" style="background-image: url('https://via.placeholder.com/600x300/1e3a8a/FFFFFF?text=Welcome+to+Astro5');">
+          <div class="home-slide" style="background-image: url('https://via.placeholder.com/600x300/1e3a8a/FFFFFF?text=Welcome+to+astroluna');">
             <div class="slide-content">
-               <div class="slide-title">Welcome to Astro5</div>
+               <div class="slide-title">Welcome to astroluna</div>
                <div class="slide-subtitle">Connect with top astrologers instantly.</div>
             </div>
           </div>

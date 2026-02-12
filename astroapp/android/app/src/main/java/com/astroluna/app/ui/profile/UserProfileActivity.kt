@@ -15,20 +15,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -48,16 +44,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
-
-// --- Visual Constants ---
-private val CornerRadiusLarge = 24.dp
-private val CornerRadiusMedium = 16.dp
-private val ColorSurface = Color(0xFFFFFFFF)
-private val ColorBackground = Color(0xFFF7F9FC)
-private val ColorPrimary = Color(0xFF673AB7) // Deep Purple
-private val ColorTextPrimary = Color(0xFF1A1C1E)
-private val ColorTextSecondary = Color(0xFF757575)
-private val ColorDivider = Color(0xFFEEEEEE)
 
 class UserProfileActivity : ComponentActivity() {
     private lateinit var tokenManager: TokenManager
@@ -109,24 +95,15 @@ fun UserProfileScreen(
     }
 
     Scaffold(
-        containerColor = ColorBackground,
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        "Edit Profile",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = ColorTextPrimary
-                    )
-                },
+            TopAppBar(
+                title = { Text("Edit Profile", color = Color.White) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, "Back", tint = ColorTextPrimary)
+                        Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)
                     }
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = ColorBackground
-                )
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF004D40))
             )
         }
     ) { padding ->
@@ -138,88 +115,49 @@ fun UserProfileScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Profile Photo Section
-            Box(contentAlignment = Alignment.BottomEnd) {
+            // Profile Photo
+            Box(
+                modifier = Modifier
+                    .size(120.dp)
+                    .clip(CircleShape)
+                    .background(Color.LightGray)
+                    .clickable { pickerLauncher.launch("image/*") },
+                contentAlignment = Alignment.Center
+            ) {
+                if (imageUrl.isNotEmpty()) {
+                    // In a real app we'd use Coil/Glide. Since we don't have it here,
+                    // we'll show a placeholder but simulate the URL storage.
+                    Icon(Icons.Default.Person, null, modifier = Modifier.size(60.dp), tint = Color.Gray)
+                } else {
+                    Icon(Icons.Default.Person, null, modifier = Modifier.size(60.dp), tint = Color.Gray)
+                }
+
                 Box(
                     modifier = Modifier
-                        .size(120.dp)
-                        .clip(CircleShape)
-                        .background(ColorSurface)
-                        .border(4.dp, ColorPrimary.copy(alpha = 0.1f), CircleShape)
-                        .clickable { pickerLauncher.launch("image/*") },
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.3f)),
                     contentAlignment = Alignment.Center
                 ) {
-                    if (imageUrl.isNotEmpty()) {
-                         // Placeholder since we don't have coil
-                        Icon(Icons.Default.Person, null, modifier = Modifier.size(60.dp), tint = ColorTextSecondary)
-                    } else {
-                        Icon(Icons.Default.Person, null, modifier = Modifier.size(60.dp), tint = ColorTextSecondary)
-                    }
-
                     if (isUploading) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(Color.Black.copy(alpha = 0.4f)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator(color = Color.White, strokeWidth = 2.dp)
-                        }
-                    }
-                }
-
-                // Edit Icon Badge
-                Surface(
-                    shape = CircleShape,
-                    color = ColorPrimary,
-                    border = androidx.compose.foundation.BorderStroke(2.dp, ColorSurface),
-                    modifier = Modifier.size(36.dp).clickable { pickerLauncher.launch("image/*") }
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                         Icon(Icons.Default.CameraAlt, contentDescription = "Edit", tint = Color.White, modifier = Modifier.size(18.dp))
+                        CircularProgressIndicator(color = Color.White)
+                    } else {
+                        Icon(Icons.Default.CameraAlt, "Change", tint = Color.White)
                     }
                 }
             }
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Form Fields
-            Card(
-                shape = RoundedCornerShape(CornerRadiusMedium),
-                colors = CardDefaults.cardColors(containerColor = ColorSurface),
-                border = androidx.compose.foundation.BorderStroke(1.dp, ColorDivider),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = "Personal Information",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = ColorTextSecondary,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
+            // Name Field
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text("Display Name") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
 
-                    OutlinedTextField(
-                        value = name,
-                        onValueChange = { name = it },
-                        label = { Text("Full Name") },
-                        modifier = Modifier.fillMaxWidth(),
-                        singleLine = true,
-                        shape = RoundedCornerShape(12.dp),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = ColorPrimary,
-                            unfocusedBorderColor = ColorDivider,
-                            focusedContainerColor = ColorBackground,
-                            unfocusedContainerColor = ColorBackground
-                        ),
-                        leadingIcon = {
-                             Icon(Icons.Default.Person, null, tint = ColorTextSecondary)
-                        }
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             // Save Button
             Button(
@@ -246,14 +184,10 @@ fun UserProfileScreen(
                         }
                     }
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .shadow(8.dp, RoundedCornerShape(50), spotColor = ColorPrimary.copy(alpha = 0.4f)),
-                colors = ButtonDefaults.buttonColors(containerColor = ColorPrimary),
-                shape = RoundedCornerShape(50)
+                modifier = Modifier.fillMaxWidth().height(50.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF004D40))
             ) {
-                Text("Save Changes", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text("Save Changes", fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
         }
     }

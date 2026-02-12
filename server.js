@@ -1,12 +1,13 @@
-// server.js
-require('dotenv').config(); // Load environment variables from .env file
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+console.log('[Env] Loading .env from:', path.join(__dirname, '.env'));
+console.log('[Env] MONGODB_URI exists:', !!process.env.MONGODB_URI);
 // Force update timestamp: 2026-01-10 (Sync Fix)d
 // Force update timestamp: 2026-01-10
 const https = require('https');
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
-const path = require('path');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const multer = require('multer');
@@ -52,7 +53,7 @@ function initFcmAuth() {
       console.log('[FCM v1] Initialized with environment variables');
     } else {
       // Fallback to local file
-      const serviceAccountPath = './firebase-service-account.json';
+      const serviceAccountPath = path.join(__dirname, 'firebase-service-account.json');
       if (fs.existsSync(serviceAccountPath)) {
         fcmAuth = new GoogleAuth({
           keyFile: serviceAccountPath,
@@ -71,24 +72,46 @@ function initFcmAuth() {
 // ==========================================
 // MOBILE APP FIREBASE INITIALIZATION
 // ==========================================
+
+// ==========================================
+// MOBILE APP FIREBASE INITIALIZATION
+// ==========================================
 let mobileTokenStore = new Map();
 let callApp = null;
 
 try {
-  const serviceAccountPath = path.join(__dirname, 'firebase-service-account.json');
+  // Option 1: Try to use the same Environment Variables as the main app (Preferred)
+  if (process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) {
+    const privateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
+    const serviceAccountParams = {
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: privateKey
+    };
 
-  if (!fs.existsSync(serviceAccountPath)) {
-    throw new Error(`Service account file not found at: ${serviceAccountPath}`);
+    callApp = admin.initializeApp({
+      credential: admin.credential.cert(serviceAccountParams)
+    }, 'callApp'); // Secondary App Name
+    console.log('✓ Call App: Firebase Admin SDK initialized (using ENV)');
+  }
+  // Option 2: Fallback to File
+  else {
+    const serviceAccountPath = path.join(__dirname, 'firebase-service-account.json');
+    if (fs.existsSync(serviceAccountPath)) {
+      const firebaseServiceAccount = require(serviceAccountPath);
+      callApp = admin.initializeApp({
+        credential: admin.credential.cert(firebaseServiceAccount)
+      }, 'callApp'); // Secondary App Name
+      console.log('✓ Call App: Firebase Admin SDK initialized (using FILE)');
+    } else {
+      console.warn('⚠️ Call App: Service account file missing and ENV vars not set. Call features may fail.');
+    }
   }
 
-  const firebaseServiceAccount = require(serviceAccountPath);
-  callApp = admin.initializeApp({
-    credential: admin.credential.cert(firebaseServiceAccount)
-  }, 'callApp'); // Secondary App Name
-  console.log('✓ Call App: Firebase Admin SDK initialized');
 } catch (error) {
   console.warn('✗ Call App: Failed to initialize Firebase Admin SDK (Mobile App)');
   console.warn('  Error:', error.message);
+  // Do NOT re-throw or crash. Just log it.
   global.callAppInitError = error.message;
 }
 
@@ -298,7 +321,12 @@ app.post('/upload', upload.single('file'), (req, res) => {
   // ... (keeping upload logic if valid) ...
   return res.json({ ok: true, url: req.file ? '/uploads/' + req.file.filename : '' });
 });
-const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/astrofive';
+const MONGO_URI = process.env.MONGODB_URI;
+if (!MONGO_URI) {
+  console.error('CRITICAL ERROR: MONGODB_URI is not defined in environment variables!');
+  console.log('Falling back to local development DB (not recommended for production)');
+}
+const ACTUAL_MONGO_URI = MONGO_URI || 'mongodb://localhost:27017/astrofive';
 
 // Helper function to check if MongoDB is connected
 const isMongoConnected = () => {
@@ -322,13 +350,13 @@ const safeDbOperation = async (operation, fallbackValue = null) => {
 // MongoDB Connection with retry logic
 const connectDB = async (retries = 5) => {
   try {
-    await mongoose.connect(MONGO_URI, {
+    await mongoose.connect(ACTUAL_MONGO_URI, {
       serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
       maxPoolSize: 10,
       minPoolSize: 2
     });
-    console.log('✅ MongoDB Connected to:', MONGO_URI.split('@').pop().split('?')[0]);
+    console.log('✅ MongoDB Connected');
     if (process.env.NODE_ENV !== 'test') {
       seedDatabase();
     }
@@ -2111,7 +2139,10 @@ io.on('connection', (socket) => {
   // --- Update Profile ---
   socket.on('update-profile', async (data, cb) => {
     const userId = socketToUser.get(socket.id);
-    if (!userId) return cb({ ok: false, error: 'Not logged in' });
+    if (!userId) {
+      if (typeof cb === 'function') cb({ ok: false, error: 'Not logged in' });
+      return;
+    }
 
     try {
       const user = await User.findOne({ userId });
@@ -2126,13 +2157,13 @@ io.on('connection', (socket) => {
         await user.save();
 
         if (user.role === 'astrologer') broadcastAstroUpdate();
-        cb({ ok: true, user });
+        if (typeof cb === 'function') cb({ ok: true, user });
       } else {
-        cb({ ok: false, error: 'User not found' });
+        if (typeof cb === 'function') cb({ ok: false, error: 'User not found' });
       }
     } catch (e) {
       console.error('Update Profile Error', e);
-      cb({ ok: false, error: 'Internal Error' });
+      if (typeof cb === 'function') cb({ ok: false, error: 'Internal Error' });
     }
   });
 
@@ -2142,15 +2173,22 @@ io.on('connection', (socket) => {
       const { toUserId, type, birthData } = data || {};
       const fromUserId = socketToUser.get(socket.id);
 
-      if (!fromUserId) return cb({ ok: false, error: 'Not registered' });
-      if (!toUserId || !type) return cb({ ok: false, error: 'Missing fields' });
+      if (!fromUserId) {
+        if (typeof cb === 'function') cb({ ok: false, error: 'Not registered' });
+        return;
+      }
+      if (!toUserId || !type) {
+        if (typeof cb === 'function') cb({ ok: false, error: 'Missing fields' });
+        return;
+      }
 
       // Get target user from DB
       const toUser = await User.findOne({ userId: toUserId });
       const fromUser = await User.findOne({ userId: fromUserId });
 
       if (!toUser) {
-        return cb({ ok: false, error: 'User not found' });
+        if (typeof cb === 'function') cb({ ok: false, error: 'User not found' });
+        return;
       }
 
       // Check if astrologer is available (MANUAL ONLY)
@@ -2257,7 +2295,7 @@ io.on('connection', (socket) => {
       }
 
       console.log(`Session request: ${sessionId} (${type})`);
-      cb({ ok: true, sessionId });
+      if (typeof cb === 'function') cb({ ok: true, sessionId });
 
       // --- MISSED CALL TIMEOUT (25s) ---
       setTimeout(async () => {
@@ -2272,10 +2310,10 @@ io.on('connection', (socket) => {
           activeSessions.delete(sessionId);
           await Session.updateOne({ sessionId }, { status: 'missed', endTime: Date.now() }).catch(() => { });
         }
-      }, 25000);
+      }, 250000);
     } catch (err) {
       console.error('request-session error', err);
-      cb({ ok: false, error: 'Internal error' });
+      if (typeof cb === 'function') cb({ ok: false, error: 'Internal error' });
     }
   });
 
@@ -2595,8 +2633,11 @@ io.on('connection', (socket) => {
       // Populate names (Mock style since we don't have populate setup easily, we'll fetch manually or send IDs)
       // Actually client can resolve names from its own list or we just send IDs + Time + Type
 
-      cb({ ok: true, sessions });
-    } catch (e) { console.error(e); cb({ ok: false }); }
+      if (typeof cb === 'function') cb({ ok: true, sessions });
+    } catch (e) {
+      console.error(e);
+      if (typeof cb === 'function') cb({ ok: false });
+    }
   });
 
   // --- message-status (from Android) - handles both delivered and read ---
@@ -3386,6 +3427,14 @@ app.post('/api/astrologer/service-toggle', async (req, res) => {
     const astros = await User.find({ role: 'astrologer' });
     io.emit('astrologer-update', astros);
 
+    // Emit lightweight status change for immediate UI update
+    io.emit('astro-status-change', {
+      userId,
+      service,
+      isEnabled: enabled,
+      isOnline: update.isOnline
+    });
+
     console.log(`[Service Toggle] ${userId}: ${service} = ${enabled}`);
     res.json({ ok: true });
   } catch (e) {
@@ -3644,7 +3693,7 @@ app.post('/api/payment/create', async (req, res) => {
         merchantTransactionId: merchantTransactionId,
         merchantUserId: cleanUserId,
         amount: amount * 100, // Amount in Paise
-        redirectUrl: "astro5://payment-success",
+        redirectUrl: "astroluna://payment-success",
         redirectMode: "GET", // Use GET for deep links
         callbackUrl: `https://astroluna.in/api/payment/callback?isApp=true&txnId=${merchantTransactionId}`,
         mobileNumber: userMobile,
@@ -3788,12 +3837,12 @@ app.post('/api/payment/callback', async (req, res) => {
       console.log('[CALLBACK ERROR] No payment data found in Body or Query');
 
       const userAgent = req.headers['user-agent'] || '';
-      const isAndroidApp = req.query.isApp === 'true' || userAgent.includes('Android') || userAgent.includes('Astro5App');
+      const isAndroidApp = req.query.isApp === 'true' || userAgent.includes('Android') || userAgent.includes('astrolunaApp');
 
       // AUTO-REDIRECT TO APP IF DETECTED (Even if isApp param is missing)
       if (isAndroidApp) {
-        const intentUrl = `intent://payment-failed?reason=no_response#Intent;scheme=astro5;package=com.astroluna.app;end`;
-        const customScheme = `astro5://payment-failed?reason=no_response`;
+        const intentUrl = `intent://payment-failed?reason=no_response#Intent;scheme=astroluna;package=com.astroluna.app;end`;
+        const customScheme = `astroluna://payment-failed?reason=no_response`;
 
         return res.send(`
           <html>
@@ -3899,8 +3948,8 @@ app.post('/api/payment/callback', async (req, res) => {
 // --- 3. Public Status Pages ---
 app.get('/payment-success', (req, res) => {
   const { amount, txnId } = req.query;
-  const intentUrl = `intent://payment-success?status=success&txnId=${txnId}#Intent;scheme=astro5;package=com.astroluna.app;end`;
-  const customSchemeUrl = `astro5://payment-success?status=success&txnId=${txnId}`;
+  const intentUrl = `intent://payment-success?status=success&txnId=${txnId}#Intent;scheme=astroluna;package=com.astroluna.app;end`;
+  const customSchemeUrl = `astroluna://payment-success?status=success&txnId=${txnId}`;
 
   res.send(`
     <!DOCTYPE html>
@@ -3929,7 +3978,7 @@ app.get('/payment-success', (req, res) => {
                // Immediate Deep Link fallback
                setTimeout(() => { window.location.href = "${customSchemeUrl}"; }, 100);
                // Backup force link
-               setTimeout(() => { window.location.href = "astro5://payment-success"; }, 500);
+               setTimeout(() => { window.location.href = "astroluna://payment-success"; }, 500);
              }
              openApp();
           </script>
@@ -3940,8 +3989,8 @@ app.get('/payment-success', (req, res) => {
 });
 
 app.get('/payment-failed', (req, res) => {
-  const intentUrl = `intent://payment-failed?status=failed#Intent;scheme=astro5;package=com.astroluna.app;end`;
-  const customSchemeUrl = `astro5://payment-failed?status=failed`;
+  const intentUrl = `intent://payment-failed?status=failed#Intent;scheme=astroluna;package=com.astroluna.app;end`;
+  const customSchemeUrl = `astroluna://payment-failed?status=failed`;
   res.send(`
     <!DOCTYPE html>
     <html>

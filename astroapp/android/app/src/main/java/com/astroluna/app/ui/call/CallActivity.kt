@@ -9,33 +9,28 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CallEnd
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.FiberManualRecord
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.MicOff
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.material.icons.filled.VideocamOff
-import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material.icons.filled.VolumeUp
-import androidx.compose.material.icons.rounded.DateRange
+import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.border
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,6 +40,8 @@ import androidx.core.content.ContextCompat
 import android.media.MediaRecorder
 import android.os.Build
 import java.io.File
+import androidx.compose.material.icons.filled.FiberManualRecord
+import androidx.compose.material.icons.filled.Stop
 import com.astroluna.app.R
 import com.astroluna.app.data.remote.SocketManager
 import com.astroluna.app.data.local.TokenManager
@@ -59,16 +56,6 @@ import com.astroluna.app.utils.CallState
 import org.json.JSONObject
 import org.webrtc.*
 import java.util.LinkedList
-
-// --- Visual Constants ---
-private val ColorPrimary = Color(0xFF673AB7) // Deep Purple
-private val ColorSecondary = Color(0xFF9575CD) // Lighter Purple
-private val ColorBackground = Color(0xFFF7F9FC)
-private val ColorSurface = Color(0xFFFFFFFF)
-private val ColorTextPrimary = Color(0xFF1A1C1E)
-private val ColorTextSecondary = Color(0xFF757575)
-private val ColorDestructive = Color(0xFFE53935)
-private val ColorSuccess = Color(0xFF43A047)
 
 class CallActivity : ComponentActivity() {
 
@@ -104,8 +91,6 @@ class CallActivity : ComponentActivity() {
     private var isMutedState by mutableStateOf(false)
     private var isVideoEnabledState by mutableStateOf(true) // For camera toggle
     private var isSpeakerOnState by mutableStateOf(false) // For audio toggle
-    private var isWebRTCConnected by mutableStateOf(false)
-    private var isSessionEnded by mutableStateOf(false)
     private var isEditingIntake by mutableStateOf(false) // Track when edit form is open
     private var remainingTime by mutableStateOf("") // Available time from wallet
     private var isRecordingState by mutableStateOf(false)
@@ -113,7 +98,6 @@ class CallActivity : ComponentActivity() {
     private var audioFile: File? = null
 
     private var isWebRTCInitialized = false
-    private var pendingCreateOffer = false
 
     // Proximity Sensor for Audio Calls
     private var proximityWakeLock: android.os.PowerManager.WakeLock? = null
@@ -176,8 +160,6 @@ class CallActivity : ComponentActivity() {
 
     private val iceServers = listOf(
         PeerConnection.IceServer.builder("stun:stun.l.google.com:19302").createIceServer(),
-        PeerConnection.IceServer.builder("stun:stun1.l.google.com:19302").createIceServer(),
-        PeerConnection.IceServer.builder("stun:stun2.l.google.com:19302").createIceServer(),
         PeerConnection.IceServer.builder("turn:turn.astroluna.in:3478?transport=udp")
             .setUsername("webrtcuser").setPassword("strongpassword123").createIceServer(),
         PeerConnection.IceServer.builder("turn:turn.astroluna.in:3478?transport=tcp")
@@ -199,8 +181,6 @@ class CallActivity : ComponentActivity() {
             timerHandler.postDelayed(this, 1000)
         }
     }
-
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -238,9 +218,8 @@ class CallActivity : ComponentActivity() {
         partnerName = intent.getStringExtra("partnerName") ?: partnerId
         sessionId = intent.getStringExtra("sessionId")
         isInitiator = intent.getBooleanExtra("isInitiator", false)
-        val rawType = (intent.getStringExtra("type") ?: intent.getStringExtra("callType") ?: "video").lowercase()
-        // Map 'call' and 'voice' to 'audio' for internal logic
-        callType = if (rawType == "audio" || rawType == "voice" || rawType == "call") "audio" else "video"
+        val rawType = intent.getStringExtra("type") ?: intent.getStringExtra("callType") ?: "video"
+        callType = if (rawType.lowercase() == "audio" || rawType.lowercase() == "voice") "audio" else "video"
 
         // Initial state sync
         isVideoEnabledState = (callType == "video")
@@ -318,9 +297,18 @@ class CallActivity : ComponentActivity() {
         if (checkPermissions()) {
             startCallLimit()
         } else {
+            val permissions = mutableListOf(
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.CAMERA
+            )
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
+            }
+
             ActivityCompat.requestPermissions(
                 this,
-                arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO),
+                permissions.toTypedArray(),
                 PERMISSION_REQ_CODE
             )
         }
@@ -570,15 +558,10 @@ class CallActivity : ComponentActivity() {
                     desc?.let {
                         peerConnection.setLocalDescription(object : SdpObserver {
                             override fun onSetSuccess() {
-                                val signalData = JSONObject().apply {
+                                sendSignal(JSONObject().apply {
                                     put("type", "offer")
                                     put("sdp", desc.description)
-                                }
-                                val payload = JSONObject().apply {
-                                    put("toUserId", partnerId)
-                                    put("signal", signalData)
-                                }
-                                sendSignal(payload)
+                                })
                                 Log.d(TAG, "ICE restart offer sent")
                             }
                             override fun onSetFailure(s: String?) { Log.e(TAG, "ICE restart setLocal fail: $s") }
@@ -597,9 +580,21 @@ class CallActivity : ComponentActivity() {
     }
 
     private fun checkPermissions(): Boolean {
-         val hasAudio = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
-        val hasCamera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-        return if (callType == "audio") hasAudio else (hasAudio && hasCamera)
+        val permissions = mutableListOf(
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA
+        )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
+        }
+
+        for (perm in permissions) {
+            if (ContextCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED) {
+                return false
+            }
+        }
+        return true
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -626,17 +621,9 @@ class CallActivity : ComponentActivity() {
     }
 
     private fun startCallLimit() {
-        // Initialize status
-        statusText = if (isInitiator) "Ringing..." else "Connecting..."
-
-
-
-        // Start WebRTC initialization
-        if (!initWebRTC()) {
-            Toast.makeText(this, "Camera/Microphone Error", Toast.LENGTH_LONG).show()
-            finish()
-            return
-        }
+        if (!initWebRTC()) return
+        startBackgroundService()
+        setupSocketListeners()
 
         val myUserId = session?.userId
         if (myUserId == null) {
@@ -646,16 +633,15 @@ class CallActivity : ComponentActivity() {
         }
 
         if (isInitiator) {
+            statusText = "Calling..."
+
             SocketManager.registerUser(myUserId) { success ->
                 if (success) {
                     runOnUiThread {
                         val connectPayload = JSONObject().apply {
                              put("sessionId", sessionId)
-                             put("role", "client")
                         }
                         SocketManager.getSocket()?.emit("session-connect", connectPayload)
-
-
                     }
                 }
             }
@@ -679,10 +665,6 @@ class CallActivity : ComponentActivity() {
                 }
             }
         }
-
-        startBackgroundService()
-        setupSocketListeners()
-        timerHandler.post(timerRunnable)
     }
 
     private fun initWebRTC(): Boolean {
@@ -761,7 +743,6 @@ class CallActivity : ComponentActivity() {
                     when (newState) {
                         PeerConnection.IceConnectionState.CONNECTED -> {
                             statusText = "" // Hide status
-                            isWebRTCConnected = true
                             // Auto-start recording for astrologers
                             val myRole = TokenManager(this@CallActivity).getUserSession()?.role
                             if (myRole == "astrologer" && !isRecordingState) {
@@ -791,7 +772,6 @@ class CallActivity : ComponentActivity() {
 
             override fun onIceCandidate(candidate: IceCandidate?) {
                 if (candidate != null) {
-                    Log.d(TAG, "onIceCandidate: ${candidate.sdp}")
                     val signalData = JSONObject().apply {
                          put("type", "candidate")
                          put("candidate", JSONObject().apply {
@@ -846,23 +826,10 @@ class CallActivity : ComponentActivity() {
 
         peerConnection = pc
 
-        localAudioTrack?.let {
-            it.setEnabled(true)
-            peerConnection.addTrack(it, listOf("mediaStream"))
-        }
-        localVideoTrack?.let {
-            it.setEnabled(true)
-            peerConnection.addTrack(it, listOf("mediaStream"))
-        }
+        localAudioTrack?.let { peerConnection.addTrack(it, listOf("mediaStream")) }
+        localVideoTrack?.let { peerConnection.addTrack(it, listOf("mediaStream")) }
 
         isWebRTCInitialized = true
-
-        // FIX RACE CONDITION: If billing started before we were ready, create the offer now
-        if (pendingCreateOffer) {
-            Log.d(TAG, "Executing pending createOffer now that WebRTC is initialized")
-            pendingCreateOffer = false
-            createOffer()
-        }
         return true
     }
 
@@ -894,29 +861,21 @@ class CallActivity : ComponentActivity() {
             } catch (e: Exception) { e.printStackTrace() }
         }
 
-        SocketManager.onBillingStarted { info ->
+        SocketManager.onBillingStarted { startTime ->
             runOnUiThread {
-                Log.d(TAG, "Billing started - initiator? $isInitiator, ready? $isWebRTCInitialized")
-                statusText = "Call Active"
+                statusText = "🔴 Billing Active"
                 isBillingActive = true
-
-
-                if (isInitiator) {
-                    if (isWebRTCInitialized) {
-                        createOffer()
-                    } else {
-                        Log.d(TAG, "WebRTC not initialized yet. Queuing offer creation.")
-                        pendingCreateOffer = true
-                    }
+                if (isInitiator && ::peerConnection.isInitialized) {
+                    createOffer()
                 }
                 androidx.core.os.HandlerCompat.postDelayed(android.os.Handler(android.os.Looper.getMainLooper()), {
-                   if(statusText == "Call Active") statusText = "" // Hide after valid
+                   if(statusText == "🔴 Billing Active") statusText = "" // Hide after valid
+                   isBillingActive = false // keep UI indicator small or different
                 }, null, 3000)
             }
         }
 
         SocketManager.onSessionEndedWithSummary { reason, deducted, earned, duration ->
-            isSessionEnded = true
             runOnUiThread {
                 timerHandler.removeCallbacks(timerRunnable)
                 val minutes = duration / 60
@@ -930,7 +889,7 @@ class CallActivity : ComponentActivity() {
                 }
 
                 androidx.appcompat.app.AlertDialog.Builder(this)
-                    .setTitle(if (reason == "insufficient_funds") "Low Balance" else "Call Summary")
+                    .setTitle(if (reason == "insufficient_funds") "⚠️ Low Balance" else "📞 Call Summary")
                     .setMessage(message)
                     .setPositiveButton("OK") { _, _ -> finish() }
                     .setCancelable(false)
@@ -963,41 +922,30 @@ class CallActivity : ComponentActivity() {
     }
 
     private fun handleSignal(data: JSONObject) {
-        Log.d(TAG, "Incoming signal: $data")
         val signal = data.optJSONObject("signal") ?: data
         var type = signal.optString("type")
         if (type.isEmpty() && signal.has("candidate")) type = "candidate"
-
-        Log.d(TAG, "Processing signal type: $type")
 
         when (type) {
             "offer" -> {
                 val descriptionStr = signal.optJSONObject("sdp")?.optString("sdp") ?: signal.optString("sdp")
                 if (descriptionStr.isNotEmpty() && ::peerConnection.isInitialized) {
-                    Log.d(TAG, "Handling Offer...")
                     peerConnection.setRemoteDescription(object : SimpleSdpObserver() {
                         override fun onSetSuccess() {
-                            Log.d(TAG, "Remote description set (Offer), creating answer")
                             createAnswer()
                             drainRemoteCandidates()
                         }
                     }, SessionDescription(SessionDescription.Type.OFFER, descriptionStr))
-                } else {
-                    Log.w(TAG, "Received empty offer or PC not init")
                 }
             }
             "answer" -> {
                 val descriptionStr = signal.optJSONObject("sdp")?.optString("sdp") ?: signal.optString("sdp")
                 if (descriptionStr.isNotEmpty() && ::peerConnection.isInitialized) {
-                    Log.d(TAG, "Handling Answer...")
                     peerConnection.setRemoteDescription(object : SimpleSdpObserver() {
                         override fun onSetSuccess() {
-                            Log.d(TAG, "Remote description set (Answer)")
                             drainRemoteCandidates()
                         }
                     }, SessionDescription(SessionDescription.Type.ANSWER, descriptionStr))
-                } else {
-                    Log.w(TAG, "Received empty answer or PC not init")
                 }
             }
             "candidate" -> {
@@ -1009,18 +957,11 @@ class CallActivity : ComponentActivity() {
                 if (sdp.isNotEmpty() && sdpMLineIndex != -1 && ::peerConnection.isInitialized) {
                     val candidate = IceCandidate(sdpMid, sdpMLineIndex, sdp)
                     if (peerConnection.remoteDescription == null) {
-                        Log.d(TAG, "Queuing remote candidate (waiting for remote description)")
                         pendingIceCandidates.add(candidate)
                     } else {
-                        Log.d(TAG, "Adding remote candidate immediately")
                         peerConnection.addIceCandidate(candidate)
                     }
-                } else {
-                    Log.w(TAG, "Invalid candidate data: sdp=$sdp, index=$sdpMLineIndex")
                 }
-            }
-            else -> {
-                Log.d(TAG, "Unknown signal type: $type")
             }
         }
     }
@@ -1035,7 +976,6 @@ class CallActivity : ComponentActivity() {
         peerConnection.createOffer(object : SimpleSdpObserver() {
             override fun onCreateSuccess(desc: SessionDescription?) {
                 if (!::peerConnection.isInitialized) return
-                Log.d(TAG, "Offer created, setting local description")
                 peerConnection.setLocalDescription(SimpleSdpObserver(), desc)
                 val signalData = JSONObject().apply {
                     put("type", "offer")
@@ -1058,8 +998,6 @@ class CallActivity : ComponentActivity() {
 
         peerConnection.createAnswer(object : SimpleSdpObserver() {
             override fun onCreateSuccess(desc: SessionDescription?) {
-                if (!::peerConnection.isInitialized) return
-                Log.d(TAG, "Answer created, setting local description")
                 peerConnection.setLocalDescription(SimpleSdpObserver(), desc)
                 val signalData = JSONObject().apply {
                     put("type", "answer")
@@ -1075,12 +1013,7 @@ class CallActivity : ComponentActivity() {
     }
 
     private fun sendSignal(payload: JSONObject) {
-        // Standardize: ensure sessionId and toUserId are at top level
         payload.put("sessionId", sessionId)
-        payload.put("toUserId", partnerId)
-
-        val type = payload.optJSONObject("signal")?.optString("type") ?: "unknown"
-        Log.d(TAG, "[Signal] Sent: type=$type, to=$partnerId")
         SocketManager.getSocket()?.emit("signal", payload)
     }
 
@@ -1156,18 +1089,10 @@ class CallActivity : ComponentActivity() {
 
 // openHelper for simplified observer
 open class SimpleSdpObserver : SdpObserver {
-    override fun onCreateSuccess(p0: SessionDescription?) {
-        Log.d("SimpleSdpObserver", "onCreateSuccess")
-    }
-    override fun onSetSuccess() {
-        Log.d("SimpleSdpObserver", "onSetSuccess")
-    }
-    override fun onCreateFailure(p0: String?) {
-        Log.e("SimpleSdpObserver", "onCreateFailure: $p0")
-    }
-    override fun onSetFailure(p0: String?) {
-        Log.e("SimpleSdpObserver", "onSetFailure: $p0")
-    }
+    override fun onCreateSuccess(p0: SessionDescription?) {}
+    override fun onSetSuccess() {}
+    override fun onCreateFailure(p0: String?) {}
+    override fun onSetFailure(p0: String?) {}
 }
 
 @Composable
@@ -1197,7 +1122,7 @@ fun CallScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(ColorTextPrimary) // Dark background for calls
+            .background(Color(0xFFF0F2F5)) // Light Gray/White base
     ) {
         // Remote View Layer (Full Screen)
         if (callType == "video" && isReady) {
@@ -1207,56 +1132,67 @@ fun CallScreen(
             )
         } else if (callType == "video" && !isReady) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator(color = ColorPrimary)
-                Text("Initializing Camera...", color = Color.White, modifier = Modifier.padding(top = 80.dp))
+                CircularProgressIndicator(color = Color(0xFF8E24AA))
+                Text("Initializing Camera...", color = Color.Gray, modifier = Modifier.padding(top = 80.dp))
             }
         } else {
             // Audio Call UI Placeholder
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                  Icon(
-                     imageVector = Icons.Default.Person,
+                     painter = painterResource(id = R.drawable.ic_person_placeholder),
                      contentDescription = "User",
-                     tint = ColorTextSecondary,
+                     tint = Color.Gray,
                      modifier = Modifier.size(120.dp)
                  )
             }
         }
 
-        // Top Info Overlay
-        Column(
+        // Top Info Bar Area
+        Box(
             modifier = Modifier
-                .align(Alignment.TopCenter)
                 .fillMaxWidth()
-                .background(Brush.verticalGradient(listOf(Color.Black.copy(alpha=0.6f), Color.Transparent)))
-                .padding(top = 40.dp, bottom = 20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(16.dp)
+                .padding(top = 24.dp)
+                .height(110.dp)
+                .shadow(8.dp, RoundedCornerShape(24.dp))
+                .background(Color.White, RoundedCornerShape(24.dp))
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 40.dp, start = 32.dp, end = 32.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = partnerName,
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.titleLarge
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = duration,
-                color = Color.White.copy(alpha=0.8f),
-                style = MaterialTheme.typography.bodyMedium
-            )
-            if (role == "astrologer" && remainingTime.isNotEmpty() && remainingTime != "00:00") {
-                  Text(
-                    text = "Time: $remainingTime",
-                    color = ColorDestructive,
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.Bold
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = partnerName,
+                    color = Color(0xFF2E7D32),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
                 )
-            }
-            if (statusText.isNotEmpty()) {
-                  Text(
-                    text = statusText,
-                    color = ColorSuccess,
-                    style = MaterialTheme.typography.labelSmall
+                Text(
+                    text = duration,
+                    color = Color.Gray,
+                    fontSize = 14.sp
                 )
+                if (role == "astrologer" && remainingTime.isNotEmpty() && remainingTime != "00:00") {
+                      Text(
+                        text = "Time: $remainingTime",
+                        color = Color.Red,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(top = 2.dp)
+                    )
+                }
+                if (statusText.isNotEmpty()) {
+                      Text(
+                        text = statusText,
+                        color = Color(0xFF4CAF50),
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
             }
         }
 
@@ -1264,12 +1200,11 @@ fun CallScreen(
         if (callType == "video") {
             Box(
                 modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(top = 100.dp, end = 16.dp)
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 16.dp, bottom = 150.dp)
                     .size(width = 100.dp, height = 140.dp)
                     .clip(RoundedCornerShape(16.dp))
-                    .border(2.dp, Color.White.copy(alpha=0.5f), RoundedCornerShape(16.dp))
-                    .shadow(4.dp)
+                    .border(2.dp, Color.White, RoundedCornerShape(16.dp))
                     .background(Color.DarkGray)
             ) {
                 if (isReady) {
@@ -1281,20 +1216,22 @@ fun CallScreen(
             }
         }
 
-        // Bottom Controls Container
+        // Bottom Controls Container (Grid)
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
+                .padding(16.dp)
                 .fillMaxWidth()
-                .background(Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(alpha=0.8f))))
-                .padding(bottom = 30.dp, top = 20.dp),
+                .shadow(16.dp, RoundedCornerShape(32.dp))
+                .background(Color.White, RoundedCornerShape(32.dp))
+                .padding(20.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Main Controls
+                // Media Row
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly,
@@ -1307,43 +1244,38 @@ fun CallScreen(
                     ControlBtnItem(onClick = onToggleSpeaker, icon = if (isSpeakerOn) Icons.Default.VolumeUp else Icons.Default.VolumeOff, label = "Speaker", active = isSpeakerOn)
                 }
 
-                // Secondary Actions & End Call
+                // Actions Row
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
+                    horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (role == "astrologer") {
-                        ControlBtnItem(onClick = onShowRasi, icon = Icons.Rounded.DateRange, label = "Chart", active = true, isMini = true)
-                         Spacer(modifier = Modifier.width(32.dp))
+                        ControlBtnItem(onClick = onShowRasi, icon = android.R.drawable.ic_menu_gallery, label = "Chart", active = true)
                     } else {
-                        // User can edit intake
-                         ControlBtnItem(onClick = onEditIntake, icon = Icons.Default.Edit, label = "Edit", active = false, isMini = true)
-                         Spacer(modifier = Modifier.width(32.dp))
+                        Spacer(modifier = Modifier.size(48.dp))
                     }
 
                     // End Call
                     IconButton(
                         onClick = onEndCall,
                         modifier = Modifier
-                            .size(72.dp)
+                            .size(64.dp)
                             .shadow(8.dp, CircleShape)
-                            .background(ColorDestructive, CircleShape)
+                            .background(Color(0xFFFF5252), CircleShape)
                     ) {
-                        Icon(Icons.Default.CallEnd, "End", tint = Color.White, modifier = Modifier.size(36.dp))
+                        Icon(Icons.Default.CallEnd, "End", tint = Color.White, modifier = Modifier.size(32.dp))
                     }
 
                     if (role == "astrologer") {
-                         Spacer(modifier = Modifier.width(32.dp))
                         ControlBtnItem(
                             onClick = onToggleRecording,
                             icon = if (isRecording) Icons.Default.Stop else Icons.Default.FiberManualRecord,
                             label = if (isRecording) "Stop" else "REC",
-                            active = isRecording,
-                            isMini = true
+                            active = isRecording
                         )
                     } else {
-                         Spacer(modifier = Modifier.width(80.dp)) // Balance spacing
+                        ControlBtnItem(onClick = onEditIntake, icon = Icons.Default.Edit, label = "Edit", active = false)
                     }
                 }
             }
@@ -1352,25 +1284,23 @@ fun CallScreen(
 }
 
 @Composable
-fun ControlBtnItem(onClick: () -> Unit, icon: ImageVector, label: String, active: Boolean, isMini: Boolean = false) {
-    val size = if(isMini) 40.dp else 56.dp
-    val iconSize = if(isMini) 20.dp else 24.dp
-
+fun ControlBtnItem(onClick: () -> Unit, icon: Any, label: String, active: Boolean) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        val bgColor = if (active && !isMini) Color.White else Color.White.copy(alpha=0.2f)
-        val tintColor = if (active && !isMini) ColorTextPrimary else Color.White
+        val bgColor = if (active) Color(0xFFE8F5E9) else Color(0xFFF5F5F5)
+        val tintColor = if (active) Color(0xFF4CAF50) else Color.Gray
 
         IconButton(
             onClick = onClick,
             modifier = Modifier
-                .size(size)
-                .clip(CircleShape)
-                .background(bgColor)
+                .size(48.dp)
+                .shadow(if (active) 2.dp else 4.dp, CircleShape)
+                .background(bgColor, CircleShape)
         ) {
-             Icon(icon, null, tint = tintColor, modifier = Modifier.size(iconSize))
+            when (icon) {
+                is ImageVector -> Icon(icon, null, tint = tintColor)
+                is Int -> Icon(painterResource(icon), null, tint = tintColor)
+            }
         }
-        if (!isMini) {
-            Text(text = label, style = MaterialTheme.typography.labelSmall, color = Color.White)
-        }
+        Text(text = label, fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.DarkGray)
     }
 }

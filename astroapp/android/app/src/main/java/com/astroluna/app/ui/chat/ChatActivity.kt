@@ -8,7 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,20 +17,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.DoneAll
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,31 +37,6 @@ import com.astroluna.app.ui.theme.CosmicAppTheme
 import com.astroluna.app.utils.SoundManager
 import org.json.JSONObject
 import java.util.UUID
-import coil.compose.AsyncImage
-import androidx.compose.material.icons.filled.CallEnd
-import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.foundation.lazy.LazyListScope
-
-// --- Visual Constants ---
-private val ColorPrimary = Color(0xFF673AB7) // Deep Purple
-private val ColorSecondary = Color(0xFF9575CD) // Lighter Purple
-private val ColorBackground = Color(0xFFF7F9FC)
-private val ColorSurface = Color(0xFFFFFFFF)
-private val ColorTextPrimary = Color(0xFF1A1C1E)
-private val ColorTextSecondary = Color(0xFF757575)
-private val ColorBubbleMe = ColorPrimary
-private val ColorBubbleOther = ColorSurface
-private val ColorTextMe = Color.White
-private val ColorTextOther = ColorTextPrimary
-private val ColorDivider = Color(0xFFEEEEEE)
-private val ColorStatusBlue = Color(0xFF2196F3)
-
-private fun formatTime(timestamp: Long): String {
-    if (timestamp == 0L) return ""
-    return java.text.SimpleDateFormat("hh:mm a", java.util.Locale.getDefault()).format(java.util.Date(timestamp))
-}
 
 data class ChatMessage(val id: String, val text: String, val isSent: Boolean, var status: String = "sent", val timestamp: Long = 0)
 
@@ -76,7 +44,6 @@ class ChatActivity : ComponentActivity() {
 
     private val viewModel: ChatViewModel by viewModels()
     private var toUserId: String? = null
-    private var toUserImage: String? = null
     private var sessionId: String? = null
     private var clientBirthData by mutableStateOf<JSONObject?>(null)
     private var sessionDuration by mutableStateOf("00:00")
@@ -125,8 +92,8 @@ class ChatActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Ensure socket is initialized and connected
-        SocketManager.init()
-        SocketManager.ensureConnection()
+        com.astroluna.app.data.remote.SocketManager.init()
+        com.astroluna.app.data.remote.SocketManager.ensureConnection()
         handleIntent(intent)
 
         // --- GLOBAL STATE FIX: Mark chat as active to prevent incoming calls during session ---
@@ -158,10 +125,8 @@ class ChatActivity : ComponentActivity() {
                              Toast.makeText(this, "Waiting for Client Data...", Toast.LENGTH_SHORT).show()
                         }
                     },
-                    isPartnerAstrologer = TokenManager(this).getUserSession()?.role == "client",
-                    amIAstrologer = TokenManager(this).getUserSession()?.role == "astrologer",
+                    isAstrologer = TokenManager(this).getUserSession()?.role == "astrologer",
                     toUserId = toUserId,
-                    toUserImage = toUserImage,
                     sessionId = sessionId,
                     remainingTime = remainingTime,
                     clientBirthData = clientBirthData
@@ -172,7 +137,7 @@ class ChatActivity : ComponentActivity() {
         timerHandler.post(timerRunnable)
 
         // Listen for client birth data updates during session
-        SocketManager.getSocket()?.on("client-birth-chart") { args ->
+        com.astroluna.app.data.remote.SocketManager.getSocket()?.on("client-birth-chart") { args ->
             if (args != null && args.isNotEmpty()) {
                 val data = args[0] as? JSONObject
                 val updatedData = data?.optJSONObject("birthData")
@@ -203,7 +168,6 @@ class ChatActivity : ComponentActivity() {
 
     private fun handleIntent(intent: Intent?) {
         toUserId = intent?.getStringExtra("toUserId")
-        toUserImage = intent?.getStringExtra("toUserImage")
         sessionId = intent?.getStringExtra("sessionId")
         val birthDataStr = intent?.getStringExtra("birthData")
         if (!birthDataStr.isNullOrEmpty()) {
@@ -216,11 +180,6 @@ class ChatActivity : ComponentActivity() {
             finish()
             return
         }
-
-        // Clear all notifications when opening chat
-        val notificationManager = getSystemService(android.content.Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
-        notificationManager.cancelAll()
-
         val isNewRequest = intent?.getBooleanExtra("isNewRequest", false) == true
         if (isNewRequest && sessionId != null && toUserId != null) {
             SoundManager.playAcceptSound()
@@ -246,17 +205,25 @@ class ChatActivity : ComponentActivity() {
                 .show()
         }
         viewModel.sessionEnded.observe(this) { ended ->
-            if (ended) {
-                // If summary hasn't arrived yet, wait briefly or fall back
-                if (viewModel.sessionSummary.value == null) {
-                    android.util.Log.d("ChatActivity", "Session ended received without summary. Waiting briefly...")
-                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-                        if (viewModel.sessionSummary.value == null) {
-                            Toast.makeText(this, "Chat Ended", Toast.LENGTH_SHORT).show()
-                            navigateToDashboard()
-                        }
-                    }, 1000)
+            if (ended && viewModel.sessionSummary.value == null) {
+                Toast.makeText(this, "Chat Ended by Partner", Toast.LENGTH_SHORT).show()
+
+                // Clear all notifications
+                val notificationManager = getSystemService(android.content.Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+                notificationManager.cancelAll()
+
+                // Navigate to appropriate dashboard
+                val userSession = TokenManager(this).getUserSession()
+                if (userSession?.role == "astrologer") {
+                    val intent = android.content.Intent(this, com.astroluna.app.ui.astro.AstrologerDashboardActivity::class.java)
+                    intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                } else {
+                    val intent = android.content.Intent(this, com.astroluna.app.MainActivity::class.java)
+                    intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
                 }
+                finish()
             }
         }
         viewModel.availableMinutes.observe(this) { mins ->
@@ -277,29 +244,26 @@ class ChatActivity : ComponentActivity() {
             val notificationManager = getSystemService(android.content.Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
             notificationManager.cancelAll()
 
-            // Fallback: If no event arrives from server within 3 seconds, just finish
+            // Delay to ensure socket emit completes, then navigate
             android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-                if (!isFinishing) {
-                    android.util.Log.w("ChatActivity", "Timeout waiting for session-ended. Forcing closure.")
-                    navigateToDashboard()
+                // Check if user is Astrologer
+                val userSession = TokenManager(this).getUserSession()
+                if (userSession?.role == "astrologer") {
+                    // Navigate to Astrologer Dashboard
+                    val intent = android.content.Intent(this, com.astroluna.app.ui.astro.AstrologerDashboardActivity::class.java)
+                    intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                } else {
+                    // Client - go to MainActivity
+                    val intent = android.content.Intent(this, com.astroluna.app.MainActivity::class.java)
+                    intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
                 }
-            }, 3000)
+                finish()
+            }, 500)
         } else {
              Toast.makeText(this, "Error: Session ID is null", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun navigateToDashboard() {
-        if (isFinishing) return
-        val userSession = TokenManager(this).getUserSession()
-        val intent = if (userSession?.role == "astrologer") {
-            android.content.Intent(this, com.astroluna.app.ui.astro.AstrologerDashboardActivity::class.java)
-        } else {
-            android.content.Intent(this, com.astroluna.app.MainActivity::class.java)
-        }
-        intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     override fun onResume() {
@@ -345,22 +309,6 @@ class ChatActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VerifiedBadge(modifier: Modifier = Modifier) {
-    Surface(
-        color = Color(0xFFFFD700), // Gold
-        shape = CircleShape,
-        modifier = modifier.size(14.dp)
-    ) {
-        Icon(
-            Icons.Default.Check,
-            contentDescription = "Verified",
-            tint = Color(0xFF1A1C1E),
-            modifier = Modifier.padding(2.dp)
-        )
-    }
-}
-
-@Composable
 fun ChatScreen(
     viewModel: ChatViewModel,
     sessionDuration: String,
@@ -369,10 +317,8 @@ fun ChatScreen(
     onEndChat: () -> Unit,
     onEditIntake: () -> Unit,
     onViewChart: () -> Unit,
-    isPartnerAstrologer: Boolean,
-    amIAstrologer: Boolean,
+    isAstrologer: Boolean,
     toUserId: String?,
-    toUserImage: String?,
     sessionId: String?,
     remainingTime: String,
     clientBirthData: JSONObject? = null
@@ -381,7 +327,13 @@ fun ChatScreen(
     val isTyping by viewModel.typingStatus.observeAsState(false)
     val listState = rememberLazyListState()
     var inputText by remember { mutableStateOf("") }
+
+    // Reply State
+    // Reply State
     var replyingTo by remember { mutableStateOf<ChatMessage?>(null) }
+
+    // History Visibility State
+    // Filter messages: Show all messages by default to ensure no data loss
     val displayedMessages = remember(messages) { messages }
 
     LaunchedEffect(displayedMessages.size) {
@@ -389,99 +341,34 @@ fun ChatScreen(
     }
 
     Scaffold(
-        containerColor = ColorBackground,
         topBar = {
-            Column(modifier = Modifier.background(ColorPrimary)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)
-                    }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        AsyncImage(
-                            model = toUserImage ?: R.drawable.ic_person_placeholder,
-                            contentDescription = null,
-                            modifier = Modifier.size(40.dp).clip(CircleShape).background(ColorDivider)
-                        )
-                        Spacer(Modifier.width(12.dp))
-                        Column {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(
-                                    title,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = Color.White,
-                                    fontWeight = FontWeight.SemiBold
-                                )
-                                if (isPartnerAstrologer) {
-                                    Spacer(Modifier.width(4.dp))
-                                    VerifiedBadge()
-                                }
-                            }
-                            Text("Online", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = 0.8f))
+            TopAppBar(
+                title = {
+                    Column {
+                        Text(title, fontWeight = FontWeight.Bold, fontSize = 16.sp, maxLines = 1)
+                        if (isAstrologer && remainingTime.isNotEmpty() && remainingTime != "00:00") {
+                             Text("Time: $remainingTime", fontSize = 12.sp, color = Color.Red, fontWeight = FontWeight.Bold)
+                        } else {
+                             Text("Online", fontSize = 12.sp, color = Color.White.copy(alpha=0.7f))
                         }
                     }
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    Surface(
-                        onClick = onEndChat,
-                        shape = RoundedCornerShape(50),
-                        color = Color.Red.copy(alpha = 0.2f),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, Color.Red)
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(Icons.Default.CallEnd, null, tint = Color.Red, modifier = Modifier.size(16.dp))
-                            Spacer(Modifier.width(4.dp))
-                            Text("End Chat", color = Color.Red, style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold))
-                        }
-                    }
-                }
-
-                // Stats Bar
-                Row(
-                    modifier = Modifier.fillMaxWidth().background(Color(0xFF000000).copy(alpha = 0.2f)).padding(horizontal = 16.dp, vertical = 6.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
-                        Icon(Icons.Default.AccessTime, null, tint = Color(0xFFFF9800), modifier = Modifier.size(14.dp))
-                        Spacer(Modifier.width(4.dp))
-                        Text(
-                            if (amIAstrologer && remainingTime.isNotEmpty()) "Rem: $remainingTime" else "Time: $sessionDuration",
-                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = Color(0xFFFF9800),
-                            maxLines = 1
-                        )
-                    }
-
-                    Text(
-                        "Rate: ₹20/min",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = Color.White.copy(alpha = 0.9f),
-                        modifier = Modifier.padding(horizontal = 8.dp),
-                        maxLines = 1
-                    )
-
-                    Text(
-                        "₹84 deducted",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = Color(0xFFFF9800),
-                        maxLines = 1,
-                        modifier = Modifier.weight(1f),
-                        textAlign = androidx.compose.ui.text.style.TextAlign.End
-                    )
-                }
-            }
+                },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Back", tint = Color.White) } },
+                actions = {
+                    Text(sessionDuration, color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.padding(end=12.dp))
+                    IconButton(onClick = onEditIntake) { Icon(Icons.Default.Edit, "Intake", tint = Color.White) }
+                    TextButton(onClick = onEndChat) { Text("End", color = Color.Red, fontWeight = FontWeight.Bold) }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF1B5E20),
+                    titleContentColor = Color.White
+                )
+            )
         },
         bottomBar = {
             ChatInputBar(
                 text = inputText,
                 replyingTo = replyingTo,
-                amIAstrologer = amIAstrologer,
                 onTextChange = {
                     inputText = it
                     if (toUserId != null) viewModel.sendTyping(toUserId)
@@ -489,27 +376,29 @@ fun ChatScreen(
                 onCancelReply = { replyingTo = null },
                 onSend = {
                     if (inputText.isNotBlank() && toUserId != null && sessionId != null) {
-                        val msgText = if (replyingTo != null) {
-                            val snippet = replyingTo!!.text.take(50).replace("\n", " ")
-                            "> Replying to: $snippet\n$inputText"
-                        } else inputText
+                         var finalText = inputText
+                         if (replyingTo != null) {
+                             // Prepend Reply Quote
+                             val snippet = replyingTo!!.text.take(50).replace("\n", " ")
+                             finalText = "> Replying to: $snippet\n$inputText"
+                         }
 
-                        val payload = JSONObject().apply {
+                         val payload = JSONObject().apply {
                             put("toUserId", toUserId)
                             put("sessionId", sessionId)
-                            put("messageId", java.util.UUID.randomUUID().toString())
+                            put("messageId", UUID.randomUUID().toString())
                             put("timestamp", System.currentTimeMillis())
-                            put("content", JSONObject().put("text", msgText))
-                        }
-                        viewModel.sendMessage(payload)
-                        SoundManager.playSentSound()
-                        inputText = ""
-                        replyingTo = null
-                        if (toUserId != null) viewModel.sendStopTyping(toUserId)
+                            put("content", JSONObject().put("text", finalText))
+                         }
+                         viewModel.sendMessage(payload)
+                         SoundManager.playSentSound()
+                         inputText = ""
+                         replyingTo = null
+                         viewModel.sendStopTyping(toUserId)
                     }
                 },
-                onViewChart = onViewChart,
-                onEditIntake = onEditIntake
+                onViewChart = if (isAstrologer) onViewChart else null,
+                clientBirthData = clientBirthData
             )
         }
     ) { padding ->
@@ -517,13 +406,13 @@ fun ChatScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .background(ColorBackground)
+                .background(Color(0xFFF5F5F5))
         ) {
 
             LazyColumn(
                 state = listState,
                 contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
 
@@ -531,124 +420,155 @@ fun ChatScreen(
                     item {
                         Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
                              Text(
-                                 text = "Start the consultation safely...",
-                                 color = ColorTextSecondary,
-                                 style = MaterialTheme.typography.bodyMedium
+                                 text = "No messages yet",
+                                 color = Color.Gray,
+                                 fontSize = 16.sp
                              )
                         }
                     }
                 }
 
                 items(displayedMessages) { msg ->
-                    ChatBubble(msg, amIAstrologer, toUserImage, onReply = { replyingTo = msg })
+                    ChatBubble(msg, isAstrologer, onReply = { replyingTo = msg })
                 }
                 if (isTyping) item { TypingBubble() }
-            }
-
-            // WATERMARK: Remaining Time for Astrologer (Big overlay if needed, or subtle)
-            if (amIAstrologer && remainingTime.isNotEmpty() && remainingTime != "00:00") {
-                 // Already detailed in TopBar, but can keep watermark if critical
             }
         }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, otherUserImage: String?, onReply: () -> Unit) {
+fun ChatBubble(msg: ChatMessage, amIAstrologer: Boolean, onReply: () -> Unit) {
     val isMe = msg.isSent
-    val textColor = if (isMe) ColorTextPrimary else Color.White
-    val shape = if (isMe) RoundedCornerShape(16.dp, 16.dp, 4.dp, 16.dp) else RoundedCornerShape(16.dp, 16.dp, 16.dp, 4.dp)
+    val isMsgFromAstrologer = if (isMe) amIAstrologer else !amIAstrologer
+
+    // Colors: Astrologer = Pink, Client = Violet
+    val bubbleColor = if (isMsgFromAstrologer) Color(0xFFFFD1DC) else Color(0xFFE1BEE7)
     val align = if (isMe) Alignment.End else Alignment.Start
 
-    Row(
-        modifier = Modifier.fillMaxWidth().combinedClickable(onClick = {}, onLongClick = onReply),
-        horizontalArrangement = if (isMe) Arrangement.End else Arrangement.Start,
-        verticalAlignment = Alignment.Bottom
-    ) {
-        if (!isMe) {
-            AsyncImage(
-                model = otherUserImage ?: R.drawable.ic_person_placeholder,
-                contentDescription = null,
-                modifier = Modifier.size(24.dp).clip(CircleShape).background(ColorDivider)
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-        }
-
-        Column(horizontalAlignment = align) {
-            val bubbleBrush = if (isMe) {
-                Brush.verticalGradient(listOf(Color.White, Color(0xFFF0F0F0)))
-            } else {
-                Brush.verticalGradient(listOf(ColorPrimary, Color(0xFF7E57C2))) // Purple gradient
+    // Swipe State
+    val dismissState = rememberSwipeToDismissBoxState(
+        confirmValueChange = {
+            if (it == SwipeToDismissBoxValue.StartToEnd) {
+                onReply()
+                return@rememberSwipeToDismissBoxState false // Snap back
             }
+            return@rememberSwipeToDismissBoxState false
+        }
+    )
 
-            Surface(
-                shape = shape,
-                shadowElevation = 1.dp,
-                modifier = Modifier.widthIn(max = 280.dp).background(bubbleBrush, shape)
-            ) {
-                Box(modifier = Modifier.background(bubbleBrush).padding(horizontal = 12.dp, vertical = 10.dp)) {
-                    if (msg.text.contains("> Replying to:")) {
-                        val parts = msg.text.split("\n", limit = 2)
-                        if (parts.size >= 1 && parts[0].startsWith("> Replying to:")) {
-                            val quoteText = parts[0].removePrefix("> Replying to: ").trim()
-                            val actualText = if (parts.size > 1) parts[1] else ""
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = align
+    ) {
+        SwipeToDismissBox(
+            state = dismissState,
+            backgroundContent = {
+                val color = Color.Transparent
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 20.dp),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    // Only show icon when swiping
+                    if (dismissState.dismissDirection == SwipeToDismissBoxValue.StartToEnd) {
+                         Icon(Icons.Default.Send, contentDescription = "Reply", tint = Color.Gray)
+                    }
+                }
+            },
+            content = {
+                 Surface(
+                    color = bubbleColor,
+                    shape = RoundedCornerShape(8.dp),
+                    shadowElevation = 1.dp,
+                    modifier = Modifier
+                        .widthIn(max = 280.dp)
+                        .combinedClickable(
+                            onClick = {},
+                            onLongClick = onReply
+                        )
+                ) {
+                    Column(modifier = Modifier.padding(8.dp)) {
 
-                            Column {
+                        var displayText = msg.text
+                        // Check if this is a reply message
+                        if (msg.text.contains("> Replying to:")) {
+                            // Robust splitting
+                            val parts = msg.text.split("\n", limit = 2)
+                            if (parts.size >= 1 && parts[0].startsWith("> Replying to:")) {
+                                val quoteText = parts[0].removePrefix("> Replying to: ").trim()
+                                if (parts.size > 1) displayText = parts[1] else displayText = ""
+
+                                // WhatsApp Style Quote Block
                                 Surface(
-                                    color = if(isMe) Color.Black.copy(alpha = 0.05f) else Color.White.copy(alpha = 0.15f),
-                                    shape = RoundedCornerShape(8.dp),
-                                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                                    color = Color.Black.copy(alpha = 0.05f), // Slightly dimmed inside bubble
+                                    shape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 6.dp)
                                 ) {
-                                   Row(modifier = Modifier.height(IntrinsicSize.Min)) {
-                                        Box(modifier = Modifier.fillMaxHeight().width(4.dp).background(if(isMe) ColorPrimary else Color.White))
-                                        Column(modifier = Modifier.padding(8.dp)) {
-                                            Text("Replying to", style = MaterialTheme.typography.labelSmall, color = if(isMe) ColorPrimary else Color.White.copy(alpha=0.9f))
-                                            Text(quoteText, style = MaterialTheme.typography.bodySmall, maxLines = 2, color = if(isMe) ColorTextSecondary else Color.White.copy(alpha=0.8f))
+                                    Row(modifier = Modifier.height(IntrinsicSize.Min)) {
+                                        // Accent Bar
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxHeight()
+                                                .width(4.dp)
+                                                .background(Color(0xFF6200EE))
+                                        )
+                                        // Quote Content
+                                        Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
+                                            Text(
+                                                text = "Replying to:",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = Color(0xFF6200EE),
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                            Text(
+                                                text = quoteText,
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = Color.Black.copy(alpha = 0.7f),
+                                                maxLines = 3
+                                            )
                                         }
-                                   }
+                                    }
                                 }
-                                Text(actualText, style = MaterialTheme.typography.bodyLarge, color = textColor)
                             }
-                        } else {
-                            Text(msg.text, style = MaterialTheme.typography.bodyLarge, color = textColor)
                         }
-                    } else {
-                        Text(msg.text, style = MaterialTheme.typography.bodyLarge, color = textColor)
+
+                        Text(displayText, fontSize = 16.sp, color = Color.Black)
+
+                        if (isMe) {
+                            Row(
+                                modifier = Modifier.align(Alignment.End).padding(top = 4.dp),
+                                 verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                val icon = when(msg.status) {
+                                    "read" -> Icons.Default.DoneAll
+                                    "delivered" -> Icons.Default.DoneAll
+                                    else -> Icons.Default.Check
+                                }
+                                val tint = Color(0xFF2196F3)
+
+                                Icon(icon, null, tint = tint, modifier = Modifier.size(16.dp))
+                            }
+                        }
                     }
                 }
             }
-            Text(
-                text = buildString {
-                    append(formatTime(msg.timestamp))
-                },
-                style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, color = ColorTextSecondary),
-                modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
-            )
-
-            if (isMe) {
-                Icon(
-                    imageVector = if (msg.status == "read") Icons.Default.DoneAll else if (msg.status == "delivered") Icons.Default.DoneAll else Icons.Default.Check,
-                    contentDescription = null,
-                    modifier = Modifier.size(12.dp).padding(start = 2.dp),
-                    tint = if (msg.status == "read") ColorStatusBlue else ColorTextSecondary
-                )
-            }
-        }
+        )
     }
 }
 
 @Composable
 fun TypingBubble() {
     Surface(
-        color = ColorSurface,
+        color = Color(0xFFE0E0E0),
         shape = RoundedCornerShape(16.dp),
-        shadowElevation = 1.dp,
         modifier = Modifier.padding(8.dp)
     ) {
-        Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text("Typing...", style = MaterialTheme.typography.bodySmall, color = ColorTextSecondary)
-        }
+        Text("Typing...", modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp), fontSize = 12.sp, fontStyle = androidx.compose.ui.text.font.FontStyle.Italic)
     }
 }
 
@@ -656,109 +576,72 @@ fun TypingBubble() {
 fun ChatInputBar(
     text: String,
     replyingTo: ChatMessage?,
-    amIAstrologer: Boolean,
     onTextChange: (String) -> Unit,
     onCancelReply: () -> Unit,
     onSend: () -> Unit,
-    onViewChart: () -> Unit,
-    onEditIntake: () -> Unit
+    onViewChart: (() -> Unit)?,
+    clientBirthData: JSONObject? = null
 ) {
-    val quickChips = listOf("My birth time is...", "When will I get promoted?", "Share my career details")
-
-    Column(modifier = Modifier.navigationBarsPadding().background(Color.White).shadow(4.dp).padding(vertical = 4.dp)) {
-        // Reply Preview
-        if (replyingTo != null) {
+    Surface(color = Color.White, shadowElevation = 8.dp) {
+        Column {
+            if (replyingTo != null) {
+                Row(
+                    Modifier.fillMaxWidth().background(Color(0xFFEEEEEE)).padding(8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                   Text("Replying to: ${replyingTo.text.take(30)}...", fontSize = 12.sp, color = Color.Gray)
+                   IconButton(onClick = onCancelReply, modifier = Modifier.size(24.dp)) {
+                       Icon(Icons.Default.Close, "Cancel", tint = Color.Gray)
+                   }
+                }
+            }
             Row(
-                modifier = Modifier.fillMaxWidth().background(Color.LightGray.copy(alpha = 0.2f)).padding(8.dp),
+                modifier = Modifier.fillMaxWidth().padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(modifier = Modifier.width(4.dp).height(40.dp).background(ColorPrimary))
-                Column(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
-                    Text("Replying to", style = MaterialTheme.typography.labelSmall, color = ColorPrimary)
-                    Text(replyingTo.text, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
-                }
-                IconButton(onClick = onCancelReply) {
-                    Icon(Icons.Default.Close, null, tint = Color.Gray)
-                }
-            }
-        }
-
-        // Quick Action Chips
-        if (!amIAstrologer) {
-            androidx.compose.foundation.lazy.LazyRow(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(quickChips) { chipText ->
-                    Surface(
-                        onClick = { onTextChange(chipText) },
-                        shape = RoundedCornerShape(50),
-                        color = Color.White,
-                        border = androidx.compose.foundation.BorderStroke(1.dp, ColorDivider)
-                    ) {
-                        Text(
-                            chipText,
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                            style = MaterialTheme.typography.labelMedium,
-                            color = ColorTextSecondary
-                        )
+                if (onViewChart != null) {
+                    val isReady = clientBirthData != null
+                    IconButton(onClick = onViewChart) {
+                        if (isReady) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_chart),
+                                contentDescription = "Chart",
+                                tint = Color(0xFF4CAF50) // Green when ready
+                            )
+                        } else {
+                            // Spin icon replacement - Use Refresh as a placeholder for "loading/pending"
+                            Icon(
+                                Icons.Default.Refresh,
+                                contentDescription = "Waiting for data",
+                                tint = Color.Gray
+                            )
+                        }
                     }
                 }
-            }
-        } else {
-             Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                 QuickActionChip("View Chart", onAction = onViewChart)
-                 QuickActionChip("Edit Intake", onAction = onEditIntake)
-             }
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            OutlinedTextField(
-                value = text,
-                onValueChange = onTextChange,
-                modifier = Modifier.weight(1f),
-                placeholder = { Text("Type your message...", color = Color.Gray) },
-                shape = RoundedCornerShape(24.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    focusedBorderColor = ColorPrimary.copy(alpha = 0.5f),
-                    unfocusedBorderColor = ColorDivider
-                ),
-                maxLines = 4
-            )
-
-            Spacer(Modifier.width(8.dp))
-
-            FloatingActionButton(
-                onClick = onSend,
-                containerColor = ColorPrimary,
-                contentColor = Color.White,
-                shape = CircleShape,
-                modifier = Modifier.size(48.dp)
-            ) {
-                Icon(Icons.Default.Send, "Send")
+                OutlinedTextField(
+                    value = text,
+                    onValueChange = onTextChange,
+                    modifier = Modifier.weight(1f).padding(horizontal = 8.dp),
+                    shape = RoundedCornerShape(24.dp),
+                    placeholder = { Text("Type a message") },
+                    colors = TextFieldDefaults.colors(
+                       focusedContainerColor = Color.White,
+                       unfocusedContainerColor = Color.White,
+                       focusedIndicatorColor = Color.Transparent,
+                       unfocusedIndicatorColor = Color.Transparent
+                    )
+                )
+                FloatingActionButton(
+                    onClick = onSend,
+                    containerColor = Color(0xFFC9A227),
+                    contentColor = Color.White,
+                    shape = CircleShape,
+                    modifier = Modifier.size(48.dp)
+                ) {
+                    Icon(Icons.Default.Send, "Send")
+                }
             }
         }
-    }
-}
-
-@Composable
-fun QuickActionChip(text: String, onAction: () -> Unit) {
-    Surface(
-        onClick = onAction,
-        shape = RoundedCornerShape(8.dp),
-        color = ColorPrimary.copy(alpha = 0.1f),
-        border = androidx.compose.foundation.BorderStroke(1.dp, ColorPrimary.copy(alpha = 0.3f))
-    ) {
-        Text(
-            text = text,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-            color = ColorPrimary
-        )
     }
 }

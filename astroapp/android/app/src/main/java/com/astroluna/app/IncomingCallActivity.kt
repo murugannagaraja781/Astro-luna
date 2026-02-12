@@ -33,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -44,7 +43,6 @@ import androidx.core.content.ContextCompat
 import com.astroluna.app.ui.theme.CosmicAppTheme
 import kotlinx.coroutines.delay
 import com.astroluna.app.data.remote.SocketManager
-import com.astroluna.app.data.local.TokenManager
 import com.astroluna.app.utils.CallState
 
 /**
@@ -61,16 +59,6 @@ class IncomingCallActivity : ComponentActivity() {
     private var vibrator: Vibrator? = null
     private val handler = Handler(Looper.getMainLooper())
     private var shouldStopServiceOnDestroy = true
-
-    private val cancelReceiver = object : android.content.BroadcastReceiver() {
-        override fun onReceive(context: android.content.Context?, intent: android.content.Intent?) {
-            val incomingCallId = intent?.getStringExtra("callId")
-            if (incomingCallId == callId || incomingCallId.isNullOrEmpty()) {
-                Log.d(TAG, "CANCEL_CALL broadcast received for session $callId")
-                onCallRejected()
-            }
-        }
-    }
 
     private var callerId: String = ""
     private var callerName: String = ""
@@ -109,46 +97,16 @@ class IncomingCallActivity : ComponentActivity() {
             return
         }
 
-        // DE-DUPLICATION: If we already received this call ID, don't start everything again
-        if (callId.isNotEmpty() && callId == CallState.lastReceivedCallId) {
-            Log.d(TAG, "Duplicate call intent for session $callId - ignoring setup")
-            // Just refresh content
-        } else {
-            CallState.lastReceivedCallId = callId
-            setupWindowFlags()
-            startCallForegroundService()
-            startRingtone()
-            startVibration()
-            handler.postDelayed(timeoutRunnable, CALL_TIMEOUT_MS)
-        }
+        setupWindowFlags()
 
-        // Register cancel receiver
-        val filter = android.content.IntentFilter("com.astroluna.app.CANCEL_CALL")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(cancelReceiver, filter, android.content.Context.RECEIVER_EXPORTED)
-        } else {
-            registerReceiver(cancelReceiver, filter)
-        }
+        startCallForegroundService()
+        startRingtone()
+        startVibration()
+        handler.postDelayed(timeoutRunnable, CALL_TIMEOUT_MS)
 
-        // --- AUTO ACCEPT LOGIC REMOVED ---
-        // Users must now manually press Accept
-        // startAutoAcceptTimer()
-
-        // Ensure socket is connecting and user is registered
+        // Ensure socket is connecting
         try {
             SocketManager.init()
-            val userId = TokenManager(this).getUserSession()?.userId
-            if (userId != null) {
-                SocketManager.registerUser(userId)
-            }
-
-            // Listen for session-ended to auto-dismiss if caller hangs up
-            SocketManager.onSessionEnded {
-                Log.d(TAG, "Session ended event received in IncomingCallActivity")
-                runOnUiThread {
-                    onCallRejected()
-                }
-            }
         } catch(e: Exception) { e.printStackTrace() }
 
         setContent {
@@ -281,7 +239,6 @@ class IncomingCallActivity : ComponentActivity() {
         Log.d(TAG, "Call accepted: $callId")
         stopRingtoneAndVibration()
         handler.removeCallbacks(timeoutRunnable)
-        clearAllCallNotifications()
 
         val intent: Intent
         if (callType == "chat") {
@@ -324,9 +281,6 @@ class IncomingCallActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        try {
-            unregisterReceiver(cancelReceiver)
-        } catch (e: Exception) { }
         stopRingtoneAndVibration()
         handler.removeCallbacks(timeoutRunnable)
 
@@ -335,8 +289,6 @@ class IncomingCallActivity : ComponentActivity() {
             stopService(Intent(this, CallForegroundService::class.java))
             clearAllCallNotifications()
         }
-
-        SocketManager.off("session-ended")
 
         Log.d(TAG, "IncomingCallActivity destroyed")
     }
@@ -373,44 +325,10 @@ fun IncomingCallScreen(
         )
     )
 
-    val backgroundGradient = Brush.verticalGradient(
-        colors = listOf(
-            Color(0xFF1A1C1E),
-            Color(0xFF2C1C4A), // Deep Purple
-            Color(0xFF121212)
-        )
-    )
-
     Surface(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        color = Color(0xFF121212) // Dark background
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(backgroundGradient)
-        ) {
-            // Subtle animated overlay
-            val transition = rememberInfiniteTransition()
-            val alpha by transition.animateFloat(
-                initialValue = 0.3f,
-                targetValue = 0.5f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(3000, easing = FastOutSlowInEasing),
-                    repeatMode = RepeatMode.Reverse
-                )
-            )
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Brush.radialGradient(
-                            colors = listOf(Color(0xFF673AB7).copy(alpha = alpha), Color.Transparent),
-                            radius = 2000f
-                        )
-                    )
-            )
-        }
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -441,14 +359,13 @@ fun IncomingCallScreen(
                 Surface(
                     shape = CircleShape,
                     color = Color.DarkGray,
-                    modifier = Modifier.size(140.dp),
-                    border = androidx.compose.foundation.BorderStroke(2.dp, Brush.linearGradient(listOf(Color(0xFFFFD700), Color(0xFFFF8C00)))) // Gold border
+                    modifier = Modifier.size(140.dp)
                 ) {
                     Icon(
                         Icons.Default.Person,
                         contentDescription = "Caller",
-                        tint = Color.White.copy(alpha = 0.7f),
-                        modifier = Modifier.padding(32.dp).fillMaxSize()
+                        tint = Color.Gray,
+                        modifier = Modifier.padding(24.dp).fillMaxSize()
                     )
                 }
             }

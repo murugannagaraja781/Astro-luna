@@ -23,9 +23,5 @@ data class AuthResponse(
     val phone: String?,
     val walletBalance: Double? = 0.0,
     val image: String?,
-    val skills: List<String>? = emptyList(),
-    val languages: List<String>? = emptyList(),
-    val price: Int? = 15,
-    val experience: Int? = 0,
     val error: String?
 )
